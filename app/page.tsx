@@ -605,10 +605,12 @@ export default function Home() {
         <section className="relative min-h-[90vh] flex flex-col md:flex-row items-center justify-between px-6 md:px-16 lg:px-24 py-20 gap-12 max-w-7xl mx-auto w-full">
           {/* Left/Center: Large Centered Logo & Visual */}
           <div className="flex-grow flex flex-col items-center text-center space-y-6">
-            <div className="w-24 h-24 bg-gold/10 border border-gold/30 rounded-full flex items-center justify-center text-gold shadow-lg shadow-gold/5">
-              <svg className="w-12 h-12" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v18m9-9H3M5.315 5.315l13.37 13.37m0-13.37l-13.37 13.37" />
-              </svg>
+            <div className="w-28 h-28 relative rounded-full overflow-hidden border border-gold/30 bg-white p-2 shadow-lg shadow-gold/5">
+              <img
+                src="/background.jpg"
+                alt="Ocopia Logo"
+                className="w-full h-full object-contain"
+              />
             </div>
             <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl tracking-[0.25em] text-white font-extralight uppercase select-none leading-none">
               Ocopia
