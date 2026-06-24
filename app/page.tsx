@@ -62,6 +62,8 @@ export default function Home() {
       const orderIdParam = params.get("orderId") || params.get("orderCode");
       
       if (statusParam && orderIdParam) {
+        // Có URL params → đến từ redirect của PayOS → xóa pending order trong sessionStorage
+        sessionStorage.removeItem("pendingPayOSOrder");
         const normalizedStatus = statusParam.toLowerCase();
 
         if (normalizedStatus === "success") {
@@ -92,6 +94,33 @@ export default function Home() {
         // Clean URL parameters
         const cleanUrl = window.location.pathname;
         window.history.replaceState({}, document.title, cleanUrl);
+      } else {
+        // Không có URL params → kiểm tra xem user có quay lại từ trang PayOS không
+        const pendingOrderStr = sessionStorage.getItem("pendingPayOSOrder");
+        if (pendingOrderStr) {
+          try {
+            const pendingOrder = JSON.parse(pendingOrderStr);
+            sessionStorage.removeItem("pendingPayOSOrder");
+            // User đã bấm nút back hoặc đóng tab → tự động hủy đơn
+            supabase
+              .from("orders")
+              .update({ status: "Cancelled" })
+              .eq("id", pendingOrder.orderId)
+              .then(({ error }) => {
+                if (error) {
+                  console.error("Lỗi khi hủy đơn do user quay lại:", error);
+                } else {
+                  console.log(`Đơn hàng #${pendingOrder.orderId} đã bị hủy do user quay lại trang.`);
+                }
+              });
+            setPaymentRedirectStatus({
+              status: "cancelled",
+              orderId: String(pendingOrder.orderId)
+            });
+          } catch {
+            sessionStorage.removeItem("pendingPayOSOrder");
+          }
+        }
       }
     }
   }, []);
@@ -182,6 +211,8 @@ export default function Home() {
         const checkoutData = await checkoutResponse.json();
 
         if (checkoutResponse.ok && checkoutData.checkoutUrl) {
+          // Lưu orderId vào sessionStorage trước khi redirect để phát hiện user bấm back
+          sessionStorage.setItem("pendingPayOSOrder", JSON.stringify({ orderId }));
           window.location.href = checkoutData.checkoutUrl;
         } else {
           throw new Error(checkoutData.error || "Không thể khởi tạo cổng thanh toán PayOS.");
