@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
 
     const paymentLink = await payOS.paymentRequests.create(paymentData);
 
-    return NextResponse.json({ checkoutUrl: paymentLink.checkoutUrl });
+    return NextResponse.json({ checkoutUrl: paymentLink.checkoutUrl, qrCode: paymentLink.qrCode });
   } catch (error: any) {
     console.error("Lỗi khi tạo link thanh toán PayOS:", error);
     return NextResponse.json(

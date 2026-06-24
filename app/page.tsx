@@ -47,6 +47,14 @@ export default function Home() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [createdOrderId, setCreatedOrderId] = useState<string>("");
 
+  // Banking QR + Countdown State
+  const [bankingQR, setBankingQR] = useState<{
+    qrCode: string;
+    orderId: number;
+    checkoutUrl: string;
+  } | null>(null);
+  const [qrCountdown, setQrCountdown] = useState(300);
+
   // PayOS Redirect Status State
   const [paymentRedirectStatus, setPaymentRedirectStatus] = useState<{
     status: "success" | "cancelled";
@@ -129,6 +137,34 @@ export default function Home() {
     return () => window.removeEventListener("pageshow", handlePageShow);
   }, []);
 
+  // Countdown timer for banking QR payment (5 minutes)
+  useEffect(() => {
+    if (!bankingQR) return;
+    setQrCountdown(300);
+    const capturedOrderId = bankingQR.orderId;
+    const timer = setInterval(() => {
+      setQrCountdown(prev => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          // Hết giờ → tự động hủy đơn
+          supabase
+            .from("orders")
+            .update({ status: "Cancelled" })
+            .eq("id", capturedOrderId)
+            .then(({ error }) => {
+              if (!error) console.log(`Đơn hàng #${capturedOrderId} hết hạn QR đã bị hủy.`);
+            });
+          setBankingQR(null);
+          setIsCheckoutOpen(false);
+          setPaymentRedirectStatus({ status: "cancelled", orderId: String(capturedOrderId) });
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bankingQR?.orderId]);
 
   useEffect(() => {
     async function fetchProducts() {
@@ -215,9 +251,12 @@ export default function Home() {
         const checkoutData = await checkoutResponse.json();
 
         if (checkoutResponse.ok && checkoutData.checkoutUrl) {
-          // Lưu orderId vào sessionStorage trước khi redirect để phát hiện user bấm back
-          sessionStorage.setItem("pendingPayOSOrder", JSON.stringify({ orderId }));
-          window.location.href = checkoutData.checkoutUrl;
+          // Hiển QR trực tiếp trên trang thay vì redirect sang PayOS
+          setBankingQR({
+            qrCode: checkoutData.qrCode || "",
+            orderId: Number(orderId),
+            checkoutUrl: checkoutData.checkoutUrl,
+          });
         } else {
           throw new Error(checkoutData.error || "Không thể khởi tạo cổng thanh toán PayOS.");
         }
@@ -292,7 +331,7 @@ export default function Home() {
           {/* Modal Header */}
           <div className="px-6 py-4 border-b border-white/5 flex items-center justify-between bg-dark-bg/40">
             <h3 className="font-serif text-lg tracking-widest text-gold-accent uppercase">
-              {isSuccess ? "ĐẶT HÀNG THÀNH CÔNG" : "THÔNG TIN THANH TOÁN"}
+              {bankingQR ? "QUÉT MÃ THANH TOÁN" : isSuccess ? "ĐẶT HÀNG THÀNH CÔNG" : "THÔNG TIN THANH TOÁN"}
             </h3>
             {!isSubmitting && (
               <button
@@ -308,7 +347,88 @@ export default function Home() {
 
           {/* Modal Body */}
           <div className="p-6 overflow-y-auto flex-grow space-y-6">
-            {isSuccess ? (
+            {bankingQR ? (
+              /* Banking QR + Countdown View */
+              <div className="text-center space-y-6 py-4">
+                {/* Countdown Timer */}
+                <div className="space-y-1">
+                  <p className="font-mono text-xs tracking-widest text-[#eaeaea]/40 uppercase">Thời gian còn lại</p>
+                  <div className={`font-serif text-5xl font-bold tabular-nums ${
+                    qrCountdown <= 60 ? "text-red-400" : qrCountdown <= 120 ? "text-amber-400" : "text-gold"
+                  }`}>
+                    {String(Math.floor(qrCountdown / 60)).padStart(2, "0")}:{String(qrCountdown % 60).padStart(2, "0")}
+                  </div>
+                  <p className="font-sans text-[10px] text-[#eaeaea]/40">
+                    {qrCountdown <= 60 ? "⚠️ Sắp hết hạn! Vui lòng quét ngay." : "Mã QR sẽ hết hiệu lực sau 5 phút."}
+                  </p>
+                </div>
+
+                {/* QR Code */}
+                <div className="relative w-52 h-52 mx-auto">
+                  <div className="absolute inset-0 bg-gradient-to-r from-gold/30 to-gold-accent/20 rounded-lg blur opacity-40"></div>
+                  <div className="relative bg-white rounded-lg p-3 border border-gold/20 shadow-xl">
+                    {bankingQR.qrCode ? (
+                      <img
+                        src={`https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(bankingQR.qrCode)}&size=200x200&color=0A0B0F&bgcolor=FFFFFF`}
+                        alt="Mã QR Thanh toán PayOS"
+                        className="w-full h-full object-contain"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-gray-400 text-xs">Đang tải mã QR...</div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Payment Info */}
+                <div className="glass-panel border border-white/5 rounded p-4 text-left space-y-2 bg-white/[0.02] text-xs">
+                  <div className="flex justify-between">
+                    <span className="text-[#eaeaea]/40">Mã đơn:</span>
+                    <span className="font-mono font-bold text-gold-accent">#{bankingQR.orderId}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-[#eaeaea]/40">Số tiền:</span>
+                    <span className="font-bold text-white">{activeProduct ? (activeProduct.price * quantity).toLocaleString("vi-VN") : ""} VNĐ</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-[#eaeaea]/40">Nội dung CK:</span>
+                    <span className="font-mono text-white">Thanh toan don {bankingQR.orderId}</span>
+                  </div>
+                </div>
+
+                <p className="font-sans text-[10px] text-[#eaeaea]/40 italic">
+                  * Hệ thống sẽ tự xác nhận sau khi giao dịch hoàn tất.
+                </p>
+
+                {/* Action Buttons */}
+                <div className="flex gap-3 pt-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      supabase.from("orders").update({ status: "Cancelled" }).eq("id", bankingQR.orderId)
+                        .then(() => {
+                          setBankingQR(null);
+                          setIsCheckoutOpen(false);
+                          setPaymentRedirectStatus({ status: "cancelled", orderId: String(bankingQR.orderId) });
+                        });
+                    }}
+                    className="flex-1 border border-white/15 hover:border-red-500/50 text-white/60 hover:text-red-400 font-serif text-xs tracking-widest py-3 px-4 rounded-sm transition-colors"
+                  >
+                    HỦY ĐƠN
+                  </button>
+                  <a
+                    href={bankingQR.checkoutUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 border border-gold/30 hover:border-gold text-gold/70 hover:text-gold font-serif text-xs tracking-widest py-3 px-4 rounded-sm transition-colors flex items-center justify-center gap-1"
+                  >
+                    MỞ PAYOS
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            ) : isSuccess ? (
               /* Success View */
               <div className="text-center space-y-6 py-6">
                 <div className="w-16 h-16 bg-gold/10 border border-gold/30 rounded-full flex items-center justify-center mx-auto text-gold animate-pulse">
