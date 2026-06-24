@@ -12,6 +12,11 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
 
+    // Check if this is a test or ping request from PayOS to verify Webhook URL active state
+    if (!body || !body.data || !body.signature) {
+      return NextResponse.json({ success: true, message: "Webhook test endpoint checked" });
+    }
+
     // Verify webhook signature using PayOS SDK
     const webhookData = await payOS.webhooks.verify(body);
 
