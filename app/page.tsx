@@ -67,6 +67,19 @@ export default function Home() {
             orderId: orderIdParam
           });
         } else if (statusParam === "cancelled") {
+          // Tự động cập nhật trạng thái đơn hàng thành Cancelled trong DB
+          supabase
+            .from("orders")
+            .update({ status: "Cancelled" })
+            .eq("id", orderIdParam)
+            .then(({ error }) => {
+              if (error) {
+                console.error("Lỗi khi cập nhật trạng thái hủy đơn:", error);
+              } else {
+                console.log(`Đơn hàng #${orderIdParam} đã được cập nhật thành Cancelled.`);
+              }
+            });
+
           setPaymentRedirectStatus({
             status: "cancelled",
             orderId: orderIdParam
@@ -171,6 +184,25 @@ export default function Home() {
           throw new Error(checkoutData.error || "Không thể khởi tạo cổng thanh toán PayOS.");
         }
       } else {
+        // COD: insert vào bảng completed_orders
+        const { error: completedError } = await supabase
+          .from("completed_orders")
+          .insert({
+            order_id: insertedOrder?.id,
+            customer_name: formData.customerName,
+            phone: formData.phone,
+            address: formData.address,
+            total_price: totalPrice,
+            payment_method: "COD",
+            status: "COD_CONFIRMED",
+          });
+
+        if (completedError) {
+          console.error("Lỗi khi lưu đơn COD vào completed_orders:", completedError);
+        } else {
+          console.log(`Đơn hàng COD #${insertedOrder?.id} đã được lưu vào completed_orders.`);
+        }
+
         setIsSuccess(true);
       }
     } catch (err: any) {

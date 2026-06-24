@@ -44,6 +44,28 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // Ghi nhận thông tin đơn hàng đã hoàn tất vào bảng completed_orders
+    if (data && data.length > 0) {
+      const order = data[0];
+      const { error: insertError } = await supabase
+        .from("completed_orders")
+        .insert({
+          order_id: order.id,
+          customer_name: order.customer_name,
+          phone: order.phone,
+          address: order.address,
+          total_price: order.total_price,
+          payment_method: order.payment_method,
+          status: "Paid",
+        });
+
+      if (insertError) {
+        console.error("Lỗi khi sao chép đơn hàng sang bảng completed_orders:", insertError);
+      } else {
+        console.log(`Đã lưu đơn hàng thành công #${orderId} vào bảng completed_orders.`);
+      }
+    }
+
     console.log(`Cập nhật đơn hàng ${orderId} thành công thành 'Paid'.`, data);
 
     return NextResponse.json({ success: true, message: "Webhook processed successfully" });

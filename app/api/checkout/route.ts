@@ -33,12 +33,15 @@ export async function POST(req: NextRequest) {
       .replace(/[^a-zA-Z0-9 -]/g, "")
       .slice(0, 25);
 
+    const expiredAt = Math.floor(Date.now() / 1000) + 300; // 5 minutes = 300 seconds
+
     const paymentData = {
       orderCode: orderCode,
       amount: totalPrice,
       description: cleanDesc,
       cancelUrl: `${origin}/?status=cancelled&orderId=${orderCode}`,
       returnUrl: `${origin}/?status=success&orderId=${orderCode}`,
+      expiredAt: expiredAt,
       items: [
         {
           name: productName.slice(0, 25),
