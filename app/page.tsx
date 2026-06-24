@@ -47,6 +47,40 @@ export default function Home() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [createdOrderId, setCreatedOrderId] = useState<string>("");
 
+  // PayOS Redirect Status State
+  const [paymentRedirectStatus, setPaymentRedirectStatus] = useState<{
+    status: "success" | "cancelled";
+    orderId: string;
+  } | null>(null);
+
+  // Handle PayOS redirect parameters on mount
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const statusParam = params.get("status");
+      const orderIdParam = params.get("orderId");
+      
+      if (statusParam && orderIdParam) {
+        if (statusParam === "success") {
+          setPaymentRedirectStatus({
+            status: "success",
+            orderId: orderIdParam
+          });
+        } else if (statusParam === "cancelled") {
+          setPaymentRedirectStatus({
+            status: "cancelled",
+            orderId: orderIdParam
+          });
+        }
+        
+        // Clean URL parameters
+        const cleanUrl = window.location.pathname;
+        window.history.replaceState({}, document.title, cleanUrl);
+      }
+    }
+  }, []);
+
+
   useEffect(() => {
     async function fetchProducts() {
       try {
@@ -95,6 +129,7 @@ export default function Home() {
     setIsSubmitting(true);
     try {
       const totalPrice = activeProduct.price * quantity;
+      const orderStatus = paymentMethod === "cod" ? "COD_CONFIRMED" : "Pending";
 
       const { data, error } = await supabase
         .from("orders")
@@ -104,7 +139,7 @@ export default function Home() {
           address: formData.address,
           total_price: totalPrice,
           payment_method: paymentMethod.toUpperCase(),
-          status: "Pending",
+          status: orderStatus,
         })
         .select();
 
@@ -113,7 +148,31 @@ export default function Home() {
       const insertedOrder = data?.[0];
       const orderId = insertedOrder?.id || insertedOrder?.order_id || "OCP-" + Math.floor(100000 + Math.random() * 900000);
       setCreatedOrderId(String(orderId));
-      setIsSuccess(true);
+
+      if (paymentMethod === "banking") {
+        const checkoutResponse = await fetch("/api/checkout", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            orderId: orderId,
+            totalPrice: totalPrice,
+            productName: activeProduct.name,
+            origin: window.location.origin,
+          }),
+        });
+
+        const checkoutData = await checkoutResponse.json();
+
+        if (checkoutResponse.ok && checkoutData.checkoutUrl) {
+          window.location.href = checkoutData.checkoutUrl;
+        } else {
+          throw new Error(checkoutData.error || "Không thể khởi tạo cổng thanh toán PayOS.");
+        }
+      } else {
+        setIsSuccess(true);
+      }
     } catch (err: any) {
       console.error(err);
       alert("Đã xảy ra lỗi khi đặt hàng: " + err.message);
@@ -453,6 +512,70 @@ export default function Home() {
     );
   };
 
+  const renderRedirectStatusModal = () => {
+    if (!paymentRedirectStatus) return null;
+
+    const isSuccess = paymentRedirectStatus.status === "success";
+
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        {/* Backdrop */}
+        <div
+          className="fixed inset-0 bg-black/85 backdrop-blur-md"
+          onClick={() => setPaymentRedirectStatus(null)}
+        ></div>
+
+        {/* Modal Container */}
+        <div className="relative w-full max-w-md glass-panel border border-white/10 rounded-md overflow-hidden z-10 p-8 text-center space-y-6">
+          {isSuccess ? (
+            <>
+              <div className="w-16 h-16 bg-gold/10 border border-gold/30 rounded-full flex items-center justify-center mx-auto text-gold animate-bounce">
+                <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <div className="space-y-2">
+                <h3 className="font-serif text-2xl text-white uppercase tracking-wider">THANH TOÁN THÀNH CÔNG</h3>
+                <p className="font-sans text-xs text-[#eaeaea]/60 leading-relaxed">
+                  Đơn hàng <span className="font-mono text-gold-accent font-bold">#{paymentRedirectStatus.orderId}</span> của quý khách đã thanh toán thành công qua VietQR.
+                </p>
+                <p className="font-sans text-xs text-[#eaeaea]/60 leading-relaxed">
+                  Ocopia Heritage sẽ tiến hành chuẩn bị sản phẩm và giao hàng trong thời gian sớm nhất.
+                </p>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="w-16 h-16 bg-red-500/10 border border-red-500/30 rounded-full flex items-center justify-center mx-auto text-red-400">
+                <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+              </div>
+              <div className="space-y-2">
+                <h3 className="font-serif text-2xl text-white uppercase tracking-wider">THANH TOÁN BỊ HỦY</h3>
+                <p className="font-sans text-xs text-[#eaeaea]/60 leading-relaxed">
+                  Giao dịch thanh toán cho đơn hàng <span className="font-mono text-gold-accent font-bold">#{paymentRedirectStatus.orderId}</span> đã bị hủy hoặc chưa hoàn thành.
+                </p>
+                <p className="font-sans text-xs text-[#eaeaea]/60 leading-relaxed">
+                  Nếu có sai sót, vui lòng thực hiện lại đơn hàng hoặc liên hệ bộ phận hỗ trợ Ocopia.
+                </p>
+              </div>
+            </>
+          )}
+
+          <div className="pt-2">
+            <button
+              onClick={() => setPaymentRedirectStatus(null)}
+              className="w-full font-serif text-xs tracking-widest bg-gold text-dark-bg font-semibold py-3 px-8 rounded-sm hover:bg-gold-light transition-colors"
+            >
+              ĐÓNG
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   if (activeDetailProduct) {
     const { hook, core } = parseStory(activeDetailProduct.story);
     const trustPoints = getProductTrustPoints(activeDetailProduct.id);
@@ -672,6 +795,9 @@ export default function Home() {
         {/* Checkout Modal */}
         {renderCheckoutModal()}
 
+        {/* PayOS Redirect Status Modal */}
+        {renderRedirectStatusModal()}
+
         {/* Footer */}
         <footer className="border-t border-white/5 py-12 px-6 md:px-12 bg-dark-bg/60 text-center">
           <span className="font-serif text-sm tracking-[0.2em] gold-gradient-text uppercase font-bold block mb-2">
@@ -823,6 +949,9 @@ export default function Home() {
 
       {/* Checkout Modal */}
       {renderCheckoutModal()}
+
+      {/* PayOS Redirect Status Modal */}
+      {renderRedirectStatusModal()}
 
       {/* Footer */}
       <footer id="about" className="border-t border-white/5 py-12 px-6 md:px-12 bg-dark-bg/60 text-center space-y-6">
