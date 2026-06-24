@@ -58,15 +58,18 @@ export default function Home() {
     if (typeof window !== "undefined") {
       const params = new URLSearchParams(window.location.search);
       const statusParam = params.get("status");
-      const orderIdParam = params.get("orderId");
+      // PayOS có thể trả về 'orderId' (custom) hoặc 'orderCode' (của PayOS)
+      const orderIdParam = params.get("orderId") || params.get("orderCode");
       
       if (statusParam && orderIdParam) {
-        if (statusParam === "success") {
+        const normalizedStatus = statusParam.toLowerCase();
+
+        if (normalizedStatus === "success") {
           setPaymentRedirectStatus({
             status: "success",
             orderId: orderIdParam
           });
-        } else if (statusParam === "cancelled") {
+        } else if (normalizedStatus === "cancelled" || normalizedStatus === "cancel") {
           // Tự động cập nhật trạng thái đơn hàng thành Cancelled trong DB
           supabase
             .from("orders")
