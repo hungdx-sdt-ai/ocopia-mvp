@@ -18,6 +18,20 @@ export default function Home() {
 
   // Detail Sub-page State
   const [activeDetailProduct, setActiveDetailProduct] = useState<Product | null>(null);
+  const [savedScrollPosition, setSavedScrollPosition] = useState(0);
+
+  const handleOpenDetail = (product: Product) => {
+    setSavedScrollPosition(window.scrollY);
+    setActiveDetailProduct(product);
+    window.scrollTo(0, 0);
+  };
+
+  const handleCloseDetail = () => {
+    setActiveDetailProduct(null);
+    setTimeout(() => {
+      window.scrollTo(0, savedScrollPosition);
+    }, 50);
+  };
 
   // Checkout State
   const [activeProduct, setActiveProduct] = useState<Product | null>(null);
@@ -243,7 +257,7 @@ export default function Home() {
                   <button
                     onClick={() => {
                       setIsCheckoutOpen(false);
-                      setActiveDetailProduct(null); // return to catalog on complete
+                      handleCloseDetail(); // return to catalog on complete
                     }}
                     className="w-full font-serif text-xs tracking-widest bg-gold text-dark-bg font-semibold py-3 px-8 rounded-sm hover:bg-gold-light transition-colors"
                   >
@@ -502,7 +516,7 @@ export default function Home() {
         {/* Header */}
         <header className="sticky top-0 z-40 w-full glass-panel border-b border-white/5 py-4 px-6 md:px-12 flex items-center justify-between">
           <button
-            onClick={() => setActiveDetailProduct(null)}
+            onClick={() => handleCloseDetail()}
             className="flex items-center gap-2 font-serif text-xs tracking-widest text-[#eaeaea]/85 hover:text-gold transition-colors uppercase"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -513,7 +527,7 @@ export default function Home() {
           
           <div
             className="font-serif text-xl tracking-[0.2em] gold-gradient-text uppercase font-bold select-none cursor-pointer"
-            onClick={() => setActiveDetailProduct(null)}
+            onClick={() => handleCloseDetail()}
           >
             Ocopia
           </div>
@@ -640,7 +654,7 @@ export default function Home() {
             {/* Double action layout */}
             <div className="pt-6 flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
               <button
-                onClick={() => setActiveDetailProduct(null)}
+                onClick={() => handleCloseDetail()}
                 className="font-serif text-xs tracking-widest border border-white/15 text-[#eaeaea]/80 hover:border-gold hover:text-gold transition-all duration-300 font-semibold py-4 px-8 rounded-sm uppercase"
               >
                 QUAY LẠI CỬA HÀNG
@@ -794,7 +808,7 @@ export default function Home() {
                     </h3>
                     <div className="w-12 h-[1px] bg-gold/30 mx-auto"></div>
                     <button
-                      onClick={() => setActiveDetailProduct(product)}
+                      onClick={() => handleOpenDetail(product)}
                       className="font-serif text-xs tracking-[0.2em] border border-gold/40 text-gold hover:bg-gold hover:text-dark-bg transition-all duration-300 font-semibold py-3.5 px-10 rounded-sm uppercase cursor-pointer"
                     >
                       XEM THÊM
