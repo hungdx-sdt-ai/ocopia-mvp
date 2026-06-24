@@ -442,6 +442,56 @@ export default function Home() {
   if (activeDetailProduct) {
     const { hook, core } = parseStory(activeDetailProduct.story);
     const trustPoints = getProductTrustPoints(activeDetailProduct.id);
+    
+    // Ingredients Data
+    const ingredients = activeDetailProduct.id === 1 ? [
+      {
+        name: "Nếp Hương Bầu",
+        desc: "Gạo nếp dẻo thơm hảo hạng ngâm đãi sạch, xay nhuyễn và tráng khuôn mỏng tráng chín bằng hơi nước, sấy giòn xốp.",
+        img: "/g_nep_huong.jpg"
+      },
+      {
+        name: "Đường Mía Điện Bàn",
+        desc: "Mật mía Điện Bàn nguyên chất thắng chín dẻo quánh tơ óng vàng như tơ tằm, chất keo ngọt kết dính hạt bánh.",
+        img: "/g_duong_mia.jpg"
+      },
+      {
+        name: "Mè Mẩy Rang Củi",
+        desc: "Lớp mè hảo hạng đãi sạch vỏ ngoài, rang thủ công trên bếp củi thơm lừng, tạo lớp áo giòn rụm béo ngậy.",
+        img: "/g_me_rang.jpg"
+      },
+      {
+        name: "Gừng Sẻ Cay Nồng",
+        desc: "Gừng ré bản địa tươi giòn thái mỏng cay nồng ấm áp, hòa vị ngọt bùi đẩy hương vị lên chuẩn mực trọn vẹn.",
+        img: "/g_sot_me.jpg"
+      }
+    ] : [
+      {
+        name: "Mực Khô Hảo Hạng",
+        desc: "Mực ống tươi xanh đánh bắt từ biển khơi miền Trung, làm sạch và phơi nắng giòn dai, giữ nguyên vị ngọt mặn tự nhiên đặc trưng.",
+        img: "/g_muc_kho.jpg"
+      },
+      {
+        name: "Me Chín Tự Nhiên",
+        desc: "Lọc tách hạt từ những quả me chín nguyên chất, đun kẹo liu riu thắng đường mật để tạo nước xốt chua ngọt sánh bóng hoàn mỹ.",
+        img: "/g_me_chin.jpg"
+      },
+      {
+        name: "Ớt & Tỏi Bản Địa",
+        desc: "Ớt sừng chỉ thiên cay nồng giòn giã quyện cùng những củ tỏi thơm nồng, tạo vị cay tê đậm đà đánh thức mọi giác quan.",
+        img: "/g_ot_toi.jpg"
+      }
+    ];
+
+    const lifestyle = activeDetailProduct.id === 1 ? {
+      title: "Thưởng thức đượm tình quê",
+      desc: "Không gì sánh bằng đĩa bánh khô mè Cẩm Lệ rắc mè thơm rụm ăn cùng chén trà xanh ấm nồng những chiều yên ả. Vị chát thanh dịu của trà ôm trọn lấy cái ngọt bùi béo ngậy của mật mía đường và gừng cay, mở ra một không gian hoài niệm xưa cũ bên dòng sông quê ấm áp nghĩa tình.",
+      img: "/g_banh_me_tea.jpg"
+    } : {
+      title: "Nhâm nhi cùng tri kỷ",
+      desc: "Mực quyện xốt, xốt bám mực, đỏ au, bóng bẩy. Không cần sơn hào hải vị, một hộp mực rim me nhâm nhi cùng bạn bè những chiều tan tầm là đủ để gói gọn cả nhịp sống sôi động của phố biển Đà Nẵng.",
+      img: "/g_muc_rim_lifestyle.jpg"
+    };
 
     return (
       <div className="relative min-h-screen flex flex-col overflow-x-hidden font-sans">
@@ -476,81 +526,133 @@ export default function Home() {
           </button>
         </header>
 
-        {/* Detail Content */}
-        <main className="flex-grow z-10 max-w-7xl mx-auto px-6 md:px-12 py-20 w-full flex items-center justify-center">
-          <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-center w-full">
-            {/* Left: Product Image */}
-            <div className="w-full lg:w-1/2 relative group">
+        {/* Detail Content (Vertical scrolling layout like Lady Triệu) */}
+        <main className="flex-grow z-10 w-full">
+          {/* Part 1: Product Hero Section */}
+          <section className="max-w-4xl mx-auto px-6 py-20 text-center space-y-8">
+            <span className="font-mono text-xs tracking-[0.3em] text-gold uppercase bg-gold/5 border border-gold/10 px-4 py-1.5 rounded-full inline-block">
+              {activeDetailProduct.id === 1 ? "OCOP 4 SAO ĐÀ NẴNG" : "OCOP 3 SAO ĐÀ NẴNG"}
+            </span>
+            <h1 className="font-serif text-4xl md:text-6xl lg:text-7xl text-white font-light uppercase tracking-wider leading-tight">
+              {activeDetailProduct.name}
+            </h1>
+            
+            {/* Center Aligned Product Packaging Image */}
+            <div className="max-w-md mx-auto relative group py-4">
               <div className="absolute -inset-1 bg-gradient-to-r from-gold/30 to-gold-accent/10 rounded-lg blur opacity-25"></div>
-              <div className="relative aspect-[4/3] rounded-lg overflow-hidden glass-panel border border-white/10 shadow-2xl">
+              <div className="relative aspect-[3/4] rounded-lg overflow-hidden glass-panel border border-white/10 shadow-2xl">
                 <img
                   src={activeDetailProduct.image_url}
                   alt={activeDetailProduct.name}
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute top-4 left-4 bg-dark-bg/85 backdrop-blur-md border border-gold/30 px-3 py-1 rounded-sm text-[10px] font-mono tracking-widest text-gold-accent">
-                  {activeDetailProduct.id === 1 ? "OCOP 4 SAO" : "OCOP 3 SAO"}
-                </div>
               </div>
             </div>
 
-            {/* Right: Text Details */}
-            <div className="w-full lg:w-1/2 space-y-6 text-left">
-              <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl text-white font-light uppercase tracking-wider">
-                {activeDetailProduct.name}
-              </h1>
-
-              {/* Price */}
-              <div className="space-y-1">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-[#eaeaea]/40">Đơn giá</span>
-                <p className="font-serif text-3xl text-gold-light font-medium">
-                  {activeDetailProduct.price.toLocaleString("vi-VN")} VNĐ
-                </p>
-              </div>
-
-              <div className="w-full h-[1px] bg-white/5"></div>
-
-              {/* Hook */}
-              <p className="font-serif italic text-base md:text-lg text-gold-light/95 leading-relaxed border-l-2 border-gold/40 pl-4">
+            {/* Slogan Hook */}
+            <div className="max-w-2xl mx-auto space-y-4">
+              <p className="font-serif italic text-lg md:text-xl text-gold-light/95 leading-relaxed pl-4 border-l-2 border-gold/40 max-w-xl mx-auto">
                 {hook}
               </p>
-
-              {/* Story */}
               <p className="font-sans text-sm text-[#eaeaea]/70 leading-relaxed font-light">
                 {core}
               </p>
-
-              {/* Trust factors */}
-              <div className="space-y-3 pt-2">
-                {trustPoints.map((point, index) => (
-                  <div key={index} className="flex items-start gap-3">
-                    <span className="text-gold shrink-0 mt-0.5">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                    </span>
-                    <span className="font-sans text-xs text-[#eaeaea]/80 font-light">{point}</span>
-                  </div>
-                ))}
+              <div className="pt-2">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-[#eaeaea]/40 block mb-1">Đơn giá sản phẩm</span>
+                <span className="font-serif text-3xl text-gold font-bold">
+                  {activeDetailProduct.price.toLocaleString("vi-VN")} VNĐ
+                </span>
               </div>
-
-              {/* Action Buttons */}
-              <div className="pt-6 border-t border-white/5 flex gap-4">
-                <button
-                  onClick={() => setActiveDetailProduct(null)}
-                  className="font-serif text-xs tracking-widest border border-white/20 text-[#eaeaea]/80 hover:border-gold hover:text-gold transition-all duration-300 font-semibold py-4 px-6 rounded-sm uppercase"
-                >
-                  Quay lại trang chủ
-                </button>
+              <div className="pt-4">
                 <button
                   onClick={() => openCheckout(activeDetailProduct)}
-                  className="font-serif text-xs tracking-widest bg-gold text-dark-bg hover:bg-gold-light transition-all duration-300 font-semibold py-4 px-10 rounded-sm uppercase flex-grow text-center"
+                  className="font-serif text-xs tracking-widest bg-gold text-dark-bg hover:bg-gold-light transition-all duration-300 font-semibold py-4 px-12 rounded-sm uppercase shadow-lg shadow-gold/5"
                 >
-                  MUA NGAY
+                  ĐẶT MUA NGAY
                 </button>
               </div>
             </div>
-          </div>
+          </section>
+
+          {/* Part 2: Ingredients Section (Middle) */}
+          <section className="bg-dark-surface/40 border-y border-white/5 py-24 px-6 md:px-12 w-full">
+            <div className="max-w-6xl mx-auto space-y-16">
+              <div className="text-center space-y-3">
+                <span className="font-mono text-xs tracking-[0.3em] text-gold uppercase">TINH HOA NGUYÊN LIỆU</span>
+                <h2 className="font-serif text-3xl md:text-4xl text-white font-light uppercase tracking-widest">
+                  Thành phần bản địa
+                </h2>
+                <div className="w-12 h-[1px] bg-gold/30 mx-auto"></div>
+              </div>
+
+              {/* Grid of separated ingredients */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {ingredients.map((ing, index) => (
+                  <div
+                    key={index}
+                    className="glass-panel border border-white/5 rounded-md p-6 flex flex-col space-y-4 hover:border-gold/25 transition-colors duration-300 bg-white/[0.01]"
+                  >
+                    {/* Illustration image */}
+                    <div className="aspect-[4/3] w-full rounded overflow-hidden border border-white/5 relative bg-dark-bg/60">
+                      <img
+                        src={ing.img}
+                        alt={ing.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <h4 className="font-serif text-lg font-medium text-gold-accent tracking-wide uppercase">
+                        {ing.name}
+                      </h4>
+                      <p className="font-sans text-xs text-[#eaeaea]/60 leading-relaxed font-light">
+                        {ing.desc}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Part 3: Lifestyle / In-Use Section (Bottom) */}
+          <section className="w-full py-24 px-6 md:px-12 max-w-5xl mx-auto text-center space-y-12">
+            <div className="space-y-3">
+              <span className="font-mono text-xs tracking-[0.3em] text-gold uppercase">TRẢI NGHIỆM THƯỞNG THỨC</span>
+              <h2 className="font-serif text-3xl md:text-4xl text-white font-light uppercase tracking-widest">
+                {lifestyle.title}
+              </h2>
+              <div className="w-12 h-[1px] bg-gold/30 mx-auto"></div>
+            </div>
+
+            {/* Large full-width image depicting usage */}
+            <div className="relative group rounded-lg overflow-hidden border border-white/10 shadow-2xl glass-panel aspect-[21/9] w-full">
+              <img
+                src={lifestyle.img}
+                alt={lifestyle.title}
+                className="w-full h-full object-cover transform group-hover:scale-101 transition-transform duration-700"
+              />
+            </div>
+
+            <p className="max-w-2xl mx-auto font-sans text-sm text-[#eaeaea]/70 leading-relaxed font-light italic">
+              "{lifestyle.desc}"
+            </p>
+
+            {/* Double action layout */}
+            <div className="pt-6 flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
+              <button
+                onClick={() => setActiveDetailProduct(null)}
+                className="font-serif text-xs tracking-widest border border-white/15 text-[#eaeaea]/80 hover:border-gold hover:text-gold transition-all duration-300 font-semibold py-4 px-8 rounded-sm uppercase"
+              >
+                QUAY LẠI CỬA HÀNG
+              </button>
+              <button
+                onClick={() => openCheckout(activeDetailProduct)}
+                className="font-serif text-xs tracking-widest bg-gold text-dark-bg hover:bg-gold-light transition-all duration-300 font-semibold py-4 px-10 rounded-sm uppercase flex-grow"
+              >
+                ĐẶT MUA NGAY
+              </button>
+            </div>
+          </section>
         </main>
 
         {/* Checkout Modal */}
@@ -616,8 +718,8 @@ export default function Home() {
               Ocopia
             </h1>
             <div className="w-24 h-[1px] bg-gold/40"></div>
-            <p className="font-serif italic text-base md:text-lg text-gold-accent tracking-widest">
-              TINH HOA NÔNG SẢN VIỆT
+            <p className="font-serif italic text-sm md:text-base text-gold-accent tracking-widest uppercase">
+              Khi truyền thông lên tiếng cho truyền thống
             </p>
           </div>
 
@@ -636,13 +738,13 @@ export default function Home() {
                 </h3>
               </div>
               
-              <p className="font-sans text-xs text-[#eaeaea]/60 leading-relaxed font-light italic">
-                "Không gian dành riêng cho câu chuyện hành trình khởi nghiệp đầy cảm hứng của dự án Ocopia. Câu chuyện đưa các nông sản đặc sản vùng miền vươn lên chuẩn mực chất lượng mới sẽ sớm được cập nhật tại đây..."
+              <p className="font-sans text-xs text-[#eaeaea]/70 leading-relaxed font-light">
+                Ocopia mang khát vọng đánh thức những câu chuyện đang lặng thầm nằm sau mỗi sản vật quê hương. Qua việc ứng dụng công nghệ và nghệ thuật kể chuyện, chúng tôi khao khát được đưa hương vị, con người và bản sắc Việt Nam vượt khỏi ranh giới địa phương, để mỗi sản phẩm không chỉ được tìm thấy, mà còn được thấu hiểu, trân trọng và lan tỏa.
               </p>
               
               <div className="border-t border-white/5 pt-4 flex items-center justify-between">
-                <span className="text-[9px] font-mono text-gold-accent/40 uppercase tracking-widest">Đang cập nhật</span>
-                <div className="w-2 h-2 rounded-full bg-gold/40 animate-pulse"></div>
+                <span className="text-[9px] font-mono text-gold-accent/40 uppercase tracking-widest">Đồng hành cùng OCOP</span>
+                <div className="w-2 h-2 rounded-full bg-gold/60 animate-pulse"></div>
               </div>
             </div>
           </div>
