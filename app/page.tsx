@@ -53,76 +53,80 @@ export default function Home() {
     orderId: string;
   } | null>(null);
 
-  // Handle PayOS redirect parameters on mount
+  // Handle PayOS redirect parameters on mount + back button detection via pageshow
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const params = new URLSearchParams(window.location.search);
-      const statusParam = params.get("status");
-      // PayOS có thể trả về 'orderId' (custom) hoặc 'orderCode' (của PayOS)
-      const orderIdParam = params.get("orderId") || params.get("orderCode");
-      
-      if (statusParam && orderIdParam) {
-        // Có URL params → đến từ redirect của PayOS → xóa pending order trong sessionStorage
+    if (typeof window === "undefined") return;
+
+    // Hàm xử lý hủy đơn khi user quay lại mà không hoàn tất thanh toán
+    const cancelPendingOrder = () => {
+      const pendingOrderStr = sessionStorage.getItem("pendingPayOSOrder");
+      if (!pendingOrderStr) return;
+      try {
+        const pendingOrder = JSON.parse(pendingOrderStr);
         sessionStorage.removeItem("pendingPayOSOrder");
-        const normalizedStatus = statusParam.toLowerCase();
-
-        if (normalizedStatus === "success") {
-          setPaymentRedirectStatus({
-            status: "success",
-            orderId: orderIdParam
+        supabase
+          .from("orders")
+          .update({ status: "Cancelled" })
+          .eq("id", pendingOrder.orderId)
+          .then(({ error }) => {
+            if (error) {
+              console.error("Lỗi khi hủy đơn do user quay lại:", error);
+            } else {
+              console.log(`Đơn hàng #${pendingOrder.orderId} đã bị hủy do user quay lại trang.`);
+            }
           });
-        } else if (normalizedStatus === "cancelled" || normalizedStatus === "cancel") {
-          // Tự động cập nhật trạng thái đơn hàng thành Cancelled trong DB
-          supabase
-            .from("orders")
-            .update({ status: "Cancelled" })
-            .eq("id", orderIdParam)
-            .then(({ error }) => {
-              if (error) {
-                console.error("Lỗi khi cập nhật trạng thái hủy đơn:", error);
-              } else {
-                console.log(`Đơn hàng #${orderIdParam} đã được cập nhật thành Cancelled.`);
-              }
-            });
-
-          setPaymentRedirectStatus({
-            status: "cancelled",
-            orderId: orderIdParam
-          });
-        }
-        
-        // Clean URL parameters
-        const cleanUrl = window.location.pathname;
-        window.history.replaceState({}, document.title, cleanUrl);
-      } else {
-        // Không có URL params → kiểm tra xem user có quay lại từ trang PayOS không
-        const pendingOrderStr = sessionStorage.getItem("pendingPayOSOrder");
-        if (pendingOrderStr) {
-          try {
-            const pendingOrder = JSON.parse(pendingOrderStr);
-            sessionStorage.removeItem("pendingPayOSOrder");
-            // User đã bấm nút back hoặc đóng tab → tự động hủy đơn
-            supabase
-              .from("orders")
-              .update({ status: "Cancelled" })
-              .eq("id", pendingOrder.orderId)
-              .then(({ error }) => {
-                if (error) {
-                  console.error("Lỗi khi hủy đơn do user quay lại:", error);
-                } else {
-                  console.log(`Đơn hàng #${pendingOrder.orderId} đã bị hủy do user quay lại trang.`);
-                }
-              });
-            setPaymentRedirectStatus({
-              status: "cancelled",
-              orderId: String(pendingOrder.orderId)
-            });
-          } catch {
-            sessionStorage.removeItem("pendingPayOSOrder");
-          }
-        }
+        setPaymentRedirectStatus({
+          status: "cancelled",
+          orderId: String(pendingOrder.orderId)
+        });
+      } catch {
+        sessionStorage.removeItem("pendingPayOSOrder");
       }
+    };
+
+    // Xử lý URL params từ PayOS redirect (success / cancelled)
+    const params = new URLSearchParams(window.location.search);
+    const statusParam = params.get("status");
+    // PayOS có thể trả về 'orderId' (custom) hoặc 'orderCode' (của PayOS)
+    const orderIdParam = params.get("orderId") || params.get("orderCode");
+    
+    if (statusParam && orderIdParam) {
+      // Có URL params → đến từ redirect của PayOS → xóa pending order trong sessionStorage
+      sessionStorage.removeItem("pendingPayOSOrder");
+      const normalizedStatus = statusParam.toLowerCase();
+
+      if (normalizedStatus === "success") {
+        setPaymentRedirectStatus({ status: "success", orderId: orderIdParam });
+      } else if (normalizedStatus === "cancelled" || normalizedStatus === "cancel") {
+        supabase
+          .from("orders")
+          .update({ status: "Cancelled" })
+          .eq("id", orderIdParam)
+          .then(({ error }) => {
+            if (error) {
+              console.error("Lỗi khi cập nhật trạng thái hủy đơn:", error);
+            } else {
+              console.log(`Đơn hàng #${orderIdParam} đã được cập nhật thành Cancelled.`);
+            }
+          });
+        setPaymentRedirectStatus({ status: "cancelled", orderId: orderIdParam });
+      }
+      
+      const cleanUrl = window.location.pathname;
+      window.history.replaceState({}, document.title, cleanUrl);
     }
+
+    // Lắng nghe sự kiện 'pageshow' để phát hiện bfcache restore (bấm nút Back trình duyệt)
+    // useEffect không chạy lại khi bfcache restore, nhưng 'pageshow' luôn kích hoạt
+    const handlePageShow = (e: PageTransitionEvent) => {
+      // e.persisted = true nghĩa là trang được khôi phục từ bfcache (bấm Back)
+      if (e.persisted) {
+        cancelPendingOrder();
+      }
+    };
+
+    window.addEventListener("pageshow", handlePageShow);
+    return () => window.removeEventListener("pageshow", handlePageShow);
   }, []);
 
 
