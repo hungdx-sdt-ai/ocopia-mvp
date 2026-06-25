@@ -1,0 +1,279 @@
+{
+  "vi": {
+    "navProducts": "SẢN PHẨM",
+    "navStory": "CÂU CHUYỆN",
+    "navCta": "SẢN PHẨM",
+    "buyNow": "Mua ngay",
+    "backBtn": "Quay lại",
+    "heroTagline": "Khi truyền thông lên tiếng cho truyền thống",
+    "heroStoryLabel": "HERITAGE STORY",
+    "heroStoryTitle": "Câu Chuyện Khởi Nghiệp",
+    "heroStoryDesc": "Ocopia mang khát vọng đánh thức những câu chuyện đang lặng thầm nằm sau mỗi sản vật quê hương. Qua việc ứng dụng công nghệ và nghệ thuật kể chuyện, chúng tôi khao khát được đưa hương vị, con người và bản sắc Việt Nam vượt khỏi ranh giới địa phương, để mỗi sản phẩm không chỉ được tìm thấy, mà còn được thấu hiểu, trân trọng và lan tỏa.",
+    "heroStoryFooter": "Đồng hành cùng OCOP",
+    "catalogLabel": "DANH MỤC SẢN PHẨM",
+    "catalogTitle": "Sản Phẩm Di Sản",
+    "viewMore": "XEM THÊM",
+    "footerCopyright": "(c) 2026 Ocopia. Bản quyền thuộc về đội ngũ phát triển dự án Ocopia. Chương trình liên kết phát triển nông sản Việt bền vững.",
+    "unitPrice": "Đơn giá sản phẩm",
+    "buyNowBtn": "ĐẶT MUA NGAY",
+    "ingredientsLabel": "TINH HOA NGUYÊN LIỆU",
+    "ingredientsTitle": "Thành phần bản địa",
+    "experienceLabel": "TRẠI NGHIỆM THƯỞNG THỨC",
+    "backToStore": "QUAY LẠI CỬA HÀNG",
+    "ocop4": "OCOP 4 SAO ĐÀ NẴNG",
+    "ocop3": "OCOP 3 SAO ĐÀ NẴNG",
+    "checkoutTitle": "THÔNG TIN THANH TOÁN",
+    "checkoutSuccess": "ĐẶT HÀNG THÀNH CÔNG",
+    "qrTitle": "QUÉT MÃ THANH TOÁN",
+    "labelName": "Họ và tên",
+    "labelPhone": "Số điện thoại",
+    "labelAddress": "Địa chỉ nhận hàng",
+    "placeholderName": "Nhập đầy đủ họ và tên",
+    "placeholderPhone": "Nhập số điện thoại nhận hàng",
+    "placeholderAddress": "Nhập chi tiết địa chỉ giao hàng",
+    "paymentMethod": "Phương thức thanh toán",
+    "codTitle": "Thanh toán COD",
+    "codDesc": "Thanh toán bằng tiền mặt khi nhận hàng.",
+    "bankingTitle": "Chuyển khoản (VietQR)",
+    "bankingDesc": "Quét mã VietQR thanh toán nhanh 24/7.",
+    "cancelBtn": "HỦY BỎ",
+    "confirmBtn": "XÁC NHẬN ĐẶT HÀNG",
+    "processingBtn": "ĐANG XỬ LÝ...",
+    "quantity": "Số lượng:",
+    "subtotal": "Tổng tiền",
+    "thankYou": "Cảm ơn bạn đã đặt hàng!",
+    "orderRecorded": "Đơn hàng của bạn đã được hệ thống ghi nhận thành công.",
+    "labelOrderId": "Mã đơn hàng:",
+    "labelCustomer": "Khách hàng:",
+    "labelPhoneReceipt": "Số điện thoại:",
+    "labelDeliveryAddr": "Địa chỉ giao:",
+    "labelProduct": "Sản phẩm:",
+    "labelTotal": "Tổng cộng:",
+    "doneBtn": "HOÀN THÀNH",
+    "qrTimeRemaining": "Thời gian còn lại",
+    "qrExpiring": "⚠️ Sắp hết hạn! Vui lòng quét ngay.",
+    "qrExpiry": "Mã QR sẽ hết hiệu lực sau 5 phút.",
+    "qrLabelOrderId": "Mã đơn:",
+    "qrLabelAmount": "Số tiền:",
+    "qrLabelContent": "Nội dung CK:",
+    "qrAutoConfirm": "* Hệ thống sẽ tự xác nhận sau khi giao dịch hoàn tất.",
+    "qrCancelBtn": "HỦY ĐƠN",
+    "qrOpenPayos": "MỞ PAYOS",
+    "paymentSuccessTitle": "THANH TOÁN THÀNH CÔNG",
+    "paymentCancelledTitle": "THANH TOÁN BỊ HỦY",
+    "closeBtn": "ĐÓNG",
+    "fillAllFields": "Vui lòng điền đầy đủ thông tin.",
+    "orderError": "Đã xảy ra lỗi khi đặt hàng: ",
+    "vietqrTitle": "QUÉT MÃ VIETQR ĐỂ THANH TOÁN",
+    "vietqrBank": "Ngân hàng:",
+    "vietqrAccount": "Số tài khoản:",
+    "vietqrHolder": "Chủ tài khoản:",
+    "vietqrDesc": "Nội dung chuyển khoản:",
+    "vietqrSystemAuto": "* Hệ thống sẽ tự động chuyển đổi trạng thái khi giao dịch hoàn tất.",
+    "redirectSuccessDesc1": "Đơn hàng",
+    "redirectSuccessDesc2": "của quý khách đã thanh toán thành công qua VietQR.",
+    "redirectSuccessDesc3": "Ocopia Heritage sẽ tiến hành chuẩn bị sản phẩm và giao hàng trong thời gian sớm nhất.",
+    "redirectCancelledDesc1": "Giao dịch thanh toán cho đơn hàng",
+    "redirectCancelledDesc2": "đã bị hủy hoặc chưa hoàn thành.",
+    "redirectCancelledDesc3": "Nếu có sai sót, vui lòng thực hiện lại đơn hàng hoặc liên hệ bộ phận hỗ trợ Ocopia.",
+    "products": {
+      "1": {
+        "name": "Bánh Khô Mè Cẩm Lệ",
+        "story": "Không phải ngẫu nhiên mà Bánh khô mè Cẩm Lệ từng là thức quà quý dâng lên bậc vương giả. Nằm ép mình bên bờ sông Cẩm Lệ êm đềm, những nghệ nhân làng nghề vẫn ngày đêm giữ lửa mẻ nướng, tráng từng lớp nếp thơm, phủ lên lớp áo mè vàng óng ánh như tơ. Người thợ già trong làng thường bảo: \"Làm bánh khô mè là đang tu tâm\". Để ra được một chiếc bánh xốp giòn, vỡ tan trong miệng, hạt nếp phải được rang trên cát mịn lấy từ dòng sông quê, tắm qua lớp đường mía ngọt thanh và áo một lớp mè rang củi thơm lừng. Bẻ một miếng bánh, nhấp một ngụm trà xanh, bạn không chỉ nếm được vị ngọt bùi, mà còn nghe thấy cả tiếng thời gian đọng lại trong từng lớp nếp nướng.",
+        "ingredients": [
+          {
+            "name": "Nếp Hương Bầu",
+            "desc": "Gạo nếp dẻo thơm hảo hạng ngâm đãi sạch, xay nhuyễn và tráng khuôn mỏng tráng chín bằng hơi nước, sấy giòn xốp."
+          },
+          {
+            "name": "Đường Mía Điện Bàn",
+            "desc": "Mật mía Điện Bàn nguyên chất thắng chín dẻo quánh tơ óng vàng như tơ tằm, chất keo ngọt kết dính hạt bánh."
+          },
+          {
+            "name": "Mè Mẩy Rang Củi",
+            "desc": "Lớp mè hảo hạng đãi sạch vỏ ngoài, rang thủ công trên bếp củi thơm lừng, tạo lớp áo giòn rụm béo ngậy."
+          },
+          {
+            "name": "Gừng Sẻ Cay Nồng",
+            "desc": "Gừng ré bản địa tươi giòn thái mỏng cay nồng ấm áp, hòa vị ngọt bùi đẩy hương vị lên chuẩn mực trọn vẹn."
+          }
+        ],
+        "lifestyle": {
+          "title": "Thưởng thức đượm tình quê",
+          "desc": "Không gì sánh bằng đĩa bánh khô mè Cẩm Lệ rắc mè thơm rụm ăn cùng chén trà xanh ấm nồng những chiều yên ả. Vị chát thanh dịu của trà ôm trọn lấy cái ngọt bùi béo ngậy của mật mía đường và gừng cay, mở ra một không gian hoài niệm xưa cũ bên dòng sông quê ấm áp nghĩa tình."
+        },
+        "trustPoints": [
+          "100% nguyên liệu thuần nông: Nếp Hương, Mè mẩy, Gừng sẻ tươi",
+          "Quy trình 7 bước thủ công truyền thống ròng rã suốt 3 ngày",
+          "Đạt chuẩn OCOP 4 Sao Đà Nẵng, không chất bảo quản"
+        ]
+      },
+      "2": {
+        "name": "Mực Rim Me Đà Nẵng",
+        "story": "Vị mặn mòi của nắng gió miền Trung, hòa quyện cùng lớp xốt me chua ngọt sánh mịn, điểm xuyết chút ớt xào cay tê... Chỉ cần mở nắp hộp, hương thơm lừng lẫy đã đủ sức đánh gục mọi tín đồ sành ăn nhất. Những mẻ mực lá tươi rói vừa cập bến cảng Thọ Quang lúc hừng đông được các dì, các mẹ chọn lọc kỹ càng, đem phơi đúng \"một nắng\" gắt để giữ trọn độ dai giòn, ngọt thịt. Linh hồn của món ăn nằm ở chảo xốt me kẹo lại trên bếp lửa liu riu suốt 4 giờ đồng hồ. Mực quyện xốt, xốt bám mực, đỏ au, bóng bẩy. Không cần sơn hào hải vị, một hộp mực rim me nhâm nhi cùng bạn bè những chiều tan tầm là đủ để gói gọn cả nhịp sống sôi động của phố biển Đà Nẵng.",
+        "ingredients": [
+          {
+            "name": "Mực Khô Hảo Hạng",
+            "desc": "Mực ống tươi xanh đánh bắt từ biển khơi miền Trung, làm sạch và phơi nắng giòn dai, giữ nguyên vị ngọt mặn tự nhiên đặc trưng."
+          },
+          {
+            "name": "Me Chín Tự Nhiên",
+            "desc": "Lọc tách hạt từ những quả me chín nguyên chất, đun kẹo liu riu thắng đường mật để tạo nước xốt chua ngọt sánh bóng hoàn mỹ."
+          },
+          {
+            "name": "Ớt & Tỏi Bản Địa",
+            "desc": "Ớt sừng chỉ thiên cay nồng giòn giã quyện cùng những củ tỏi thơm nồng, tạo vị cay tê đậm đà đánh thức mọi giác quan."
+          }
+        ],
+        "lifestyle": {
+          "title": "Nhâm nhi cùng tri kỷ",
+          "desc": "Mực quyện xốt, xốt bám mực, đỏ au, bóng bẩy. Không cần sơn hào hải vị, một hộp mực rim me nhâm nhi cùng bạn bè những chiều tan tầm là đủ để gói gọn cả nhịp sống sôi động của phố biển Đà Nẵng."
+        },
+        "trustPoints": [
+          "Mực ống tươi 100% đánh bắt tự nhiên tại vùng biển Đà Nẵng",
+          "Xốt me gia truyền màu tự nhiên, tuyệt đối không chất bảo quản",
+          "Đóng lon PET nắp nhôm xé màng seal hiện đại, đảm bảo vệ sinh"
+        ]
+      }
+    }
+  },
+  "en": {
+    "navProducts": "PRODUCTS",
+    "navStory": "OUR STORY",
+    "navCta": "SHOP NOW",
+    "buyNow": "Buy now",
+    "backBtn": "Back",
+    "heroTagline": "When storytelling speaks for tradition",
+    "heroStoryLabel": "HERITAGE STORY",
+    "heroStoryTitle": "Our Origin Story",
+    "heroStoryDesc": "Ocopia is driven by the ambition to awaken the silent stories behind every local specialty. Through technology and the art of storytelling, we strive to bring the flavors, people, and identity of Vietnam beyond regional boundaries – so that each product is not merely found, but deeply understood, cherished, and shared.",
+    "heroStoryFooter": "Partnering with OCOP",
+    "catalogLabel": "PRODUCT CATALOG",
+    "catalogTitle": "Heritage Products",
+    "viewMore": "VIEW DETAILS",
+    "footerCopyright": "(c) 2026 Ocopia. All rights reserved by the Ocopia development team. A sustainable Vietnamese agricultural heritage program.",
+    "unitPrice": "Unit price",
+    "buyNowBtn": "ORDER NOW",
+    "ingredientsLabel": "PREMIUM INGREDIENTS",
+    "ingredientsTitle": "Local Ingredients",
+    "experienceLabel": "TASTING EXPERIENCE",
+    "backToStore": "BACK TO STORE",
+    "ocop4": "OCOP 4-STAR DA NANG",
+    "ocop3": "OCOP 3-STAR DA NANG",
+    "checkoutTitle": "PAYMENT DETAILS",
+    "checkoutSuccess": "ORDER PLACED",
+    "qrTitle": "SCAN TO PAY",
+    "labelName": "Full name",
+    "labelPhone": "Phone number",
+    "labelAddress": "Delivery address",
+    "placeholderName": "Enter your full name",
+    "placeholderPhone": "Enter your contact number",
+    "placeholderAddress": "Enter your detailed delivery address",
+    "paymentMethod": "Payment method",
+    "codTitle": "Cash on Delivery",
+    "codDesc": "Pay in cash when your order arrives.",
+    "bankingTitle": "Bank Transfer (VietQR)",
+    "bankingDesc": "Scan VietQR code for instant payment 24/7.",
+    "cancelBtn": "CANCEL",
+    "confirmBtn": "PLACE ORDER",
+    "processingBtn": "PROCESSING...",
+    "quantity": "Quantity:",
+    "subtotal": "Total",
+    "thankYou": "Thank you for your order!",
+    "orderRecorded": "Your order has been successfully recorded.",
+    "labelOrderId": "Order ID:",
+    "labelCustomer": "Customer:",
+    "labelPhoneReceipt": "Phone:",
+    "labelDeliveryAddr": "Delivery address:",
+    "labelProduct": "Product:",
+    "labelTotal": "Total:",
+    "doneBtn": "DONE",
+    "qrTimeRemaining": "Time Remaining",
+    "qrExpiring": "⚠️ Expiring soon! Please scan now.",
+    "qrExpiry": "QR code expires in 5 minutes.",
+    "qrLabelOrderId": "Order ID:",
+    "qrLabelAmount": "Amount:",
+    "qrLabelContent": "Transfer note:",
+    "qrAutoConfirm": "* System will auto-confirm once payment is complete.",
+    "qrCancelBtn": "CANCEL ORDER",
+    "qrOpenPayos": "OPEN PAYOS",
+    "paymentSuccessTitle": "PAYMENT SUCCESSFUL",
+    "paymentCancelledTitle": "PAYMENT CANCELLED",
+    "closeBtn": "CLOSE",
+    "fillAllFields": "Please fill in all required fields.",
+    "orderError": "An error occurred while placing your order: ",
+    "vietqrTitle": "SCAN VIETQR CODE TO PAY",
+    "vietqrBank": "Bank:",
+    "vietqrAccount": "Account Number:",
+    "vietqrHolder": "Account Holder:",
+    "vietqrDesc": "Transfer content:",
+    "vietqrSystemAuto": "* System will automatically update status once payment is complete.",
+    "redirectSuccessDesc1": "Your order",
+    "redirectSuccessDesc2": "has been paid successfully via VietQR.",
+    "redirectSuccessDesc3": "Ocopia Heritage will proceed with preparing your product and deliver it as soon as possible.",
+    "redirectCancelledDesc1": "Payment transaction for order",
+    "redirectCancelledDesc2": "has been cancelled or incomplete.",
+    "redirectCancelledDesc3": "If this is a mistake, please place your order again or contact Ocopia support.",
+    "products": {
+      "1": {
+        "name": "Cam Le Sesame Dry Cake",
+        "story": "It is no coincidence that Cam Le sesame dry cake was once a precious gift presented to royalty. Snuggled along the peaceful Cam Le River, the village artisans still keep the hearth fires burning day and night, steaming thin sheets of fragrant sticky rice and coating them with sesame seeds that glisten like gold silk. The village elders often say: 'Making sesame dry cake is a practice of the mind.' To produce a cake that is crispy, melting in your mouth, the sticky rice must be toasted on fine sand from the hometown river, bathed in sweet cane sugar syrup, and wrapped in a layer of sesame seeds roasted over wood fires. Breaking a piece of cake and taking a sip of hot green tea, you do not just taste the rich sweetness, but also hear the sound of time resting in each layer of toasted rice.",
+        "ingredients": [
+          {
+            "name": "Huong Bau Sticky Rice",
+            "desc": "Premium fragrant sticky rice washed clean, ground and steamed in thin molds, then dried to a crispy, airy texture."
+          },
+          {
+            "name": "Dien Ban Cane Sugar",
+            "desc": "Pure Dien Ban sugarcane juice boiled down to a golden syrup like silk, acting as the sweet glue to bind the cake."
+          },
+          {
+            "name": "Firewood-roasted Sesame",
+            "desc": "Premium sesame seeds peeled, washed, and hand-roasted over firewood, forming a nutty, crispy outer coat."
+          },
+          {
+            "name": "Zesty Native Ginger",
+            "desc": "Fresh local ginger finely sliced, bringing a warm spicy notes that elevate the rich sweet flavors to perfection."
+          }
+        ],
+        "lifestyle": {
+          "title": "Savor the Warmth of Hometown",
+          "desc": "Nothing compares to a plate of Cam Le sesame dry cakes paired with a cup of hot green tea on a quiet afternoon. The gentle bitterness of the tea embraces the rich, sweet flavor of cane sugar and warm ginger, opening a nostalgic space of old memories by the warm, sentimental hometown river."
+        },
+        "trustPoints": [
+          "100% local agricultural ingredients: Huong sticky rice, plump sesame, fresh ginger",
+          "Traditional 7-step handmade process spanning over 3 days",
+          "Da Nang 4-Star OCOP standard, no artificial preservatives"
+        ]
+      },
+      "2": {
+        "name": "Da Nang Squid with Tamarind Sauce",
+        "story": "The savory flavor of Central Vietnam's sun and wind, blended with a sweet and sour tamarind sauce, dotted with spicy chili paste... Just opening the lid, the aroma is enough to captivate the most discerning foodies. Fresh squid caught at Tho Quang port at dawn is carefully selected by local mothers, dried in the hot sun to maintain its chewiness and natural sweetness. The soul of the dish lies in the tamarind sauce simmered over a low fire for 4 hours. The squid is perfectly coated, glossy and reddish-brown. No need for delicacies, a jar of squid rimmed with tamarind to share with friends after work is enough to encapsulate the vibrant coastal life of Da Nang.",
+        "ingredients": [
+          {
+            "name": "Premium Dried Squid",
+            "desc": "100% natural wild-caught squid from the waters of Da Nang, cleaned and sun-dried to keep its natural sweet-savory flavor."
+          },
+          {
+            "name": "Natural Ripe Tamarind",
+            "desc": "Seeds removed from fresh ripe tamarind, slow-cooked with sugar syrup to create a shiny, perfect sweet and sour sauce."
+          },
+          {
+            "name": "Native Chili & Garlic",
+            "desc": "Spicy bird's eye chili crushed with fragrant local garlic, creating a bold, pungent flavor that awakens all senses."
+          }
+        ],
+        "lifestyle": {
+          "title": "A Shared Delight with Friends",
+          "desc": "Squid coated in rich sauce, reddish and glossy. No need for luxury dishes, a jar of squid rimmed with tamarind to share with friends after work is enough to capture the vibrant coastal life of Da Nang.",
+          "img": "/g_muc_rim_lifestyle.jpg"
+        },
+        "trustPoints": [
+          "100% natural wild-caught squid from the coastal waters of Da Nang",
+          "Heritage family recipe tamarind sauce, absolutely no preservatives",
+          "Modern PET can packaging with aluminum tear seal, ensuring hygiene"
+        ]
+      }
+    }
+  }
+}

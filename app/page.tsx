@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import { translations } from "@/lib/translations";
 
 interface Product {
   id: number;
@@ -15,6 +16,47 @@ export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const [lang, setLang] = useState<"vi" | "en">("vi");
+  const [isDark, setIsDark] = useState<boolean>(true);
+
+  // Load language and theme preference from localStorage on mount
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const savedLang = localStorage.getItem("lang") as "vi" | "en";
+      if (savedLang) setLang(savedLang);
+
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme === "light") {
+        setIsDark(false);
+        document.documentElement.classList.add("light");
+      } else {
+        setIsDark(true);
+        document.documentElement.classList.remove("light");
+      }
+    }
+  }, []);
+
+  const toggleLang = () => {
+    const nextLang = lang === "vi" ? "en" : "vi";
+    setLang(nextLang);
+    localStorage.setItem("lang", nextLang);
+  };
+
+  const toggleTheme = () => {
+    const nextDark = !isDark;
+    setIsDark(nextDark);
+    if (nextDark) {
+      document.documentElement.classList.remove("light");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.add("light");
+      localStorage.setItem("theme", "light");
+    }
+  };
+
+  const t = translations[lang] as any;
+
 
   // Detail Sub-page State
   const [activeDetailProduct, setActiveDetailProduct] = useState<Product | null>(null);
@@ -207,7 +249,7 @@ export default function Home() {
     if (!activeProduct) return;
 
     if (!formData.customerName.trim() || !formData.phone.trim() || !formData.address.trim()) {
-      alert("Vui lòng điền đầy đủ thông tin.");
+      alert(t.fillAllFields);
       return;
     }
 
@@ -284,7 +326,7 @@ export default function Home() {
       }
     } catch (err: any) {
       console.error(err);
-      alert("Đã xảy ra lỗi khi đặt hàng: " + err.message);
+      alert(t.orderError + err.message);
     } finally {
       setIsSubmitting(false);
     }
@@ -331,7 +373,7 @@ export default function Home() {
           {/* Modal Header */}
           <div className="px-6 py-4 border-b border-white/5 flex items-center justify-between bg-dark-bg/40">
             <h3 className="font-serif text-lg tracking-widest text-gold-accent uppercase">
-              {bankingQR ? "QUÉT MÃ THANH TOÁN" : isSuccess ? "ĐẶT HÀNG THÀNH CÔNG" : "THÔNG TIN THANH TOÁN"}
+              {bankingQR ? t.qrTitle : isSuccess ? t.checkoutSuccess : t.checkoutTitle}
             </h3>
             {!isSubmitting && (
               <button
@@ -352,14 +394,14 @@ export default function Home() {
               <div className="text-center space-y-6 py-4">
                 {/* Countdown Timer */}
                 <div className="space-y-1">
-                  <p className="font-mono text-xs tracking-widest text-[#eaeaea]/40 uppercase">Thời gian còn lại</p>
+                  <p className="font-mono text-xs tracking-widest text-[#eaeaea]/40 uppercase">{t.qrTimeRemaining}</p>
                   <div className={`font-serif text-5xl font-bold tabular-nums ${
                     qrCountdown <= 60 ? "text-red-400" : qrCountdown <= 120 ? "text-amber-400" : "text-gold"
                   }`}>
                     {String(Math.floor(qrCountdown / 60)).padStart(2, "0")}:{String(qrCountdown % 60).padStart(2, "0")}
                   </div>
                   <p className="font-sans text-[10px] text-[#eaeaea]/40">
-                    {qrCountdown <= 60 ? "⚠️ Sắp hết hạn! Vui lòng quét ngay." : "Mã QR sẽ hết hiệu lực sau 5 phút."}
+                    {qrCountdown <= 60 ? t.qrExpiring : t.qrExpiry}
                   </p>
                 </div>
 
@@ -382,21 +424,21 @@ export default function Home() {
                 {/* Payment Info */}
                 <div className="glass-panel border border-white/5 rounded p-4 text-left space-y-2 bg-white/[0.02] text-xs">
                   <div className="flex justify-between">
-                    <span className="text-[#eaeaea]/40">Mã đơn:</span>
+                    <span className="text-[#eaeaea]/40">{t.qrLabelOrderId}</span>
                     <span className="font-mono font-bold text-gold-accent">#{bankingQR.orderId}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-[#eaeaea]/40">Số tiền:</span>
+                    <span className="text-[#eaeaea]/40">{t.qrLabelAmount}</span>
                     <span className="font-bold text-white">{activeProduct ? (activeProduct.price * quantity).toLocaleString("vi-VN") : ""} VNĐ</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-[#eaeaea]/40">Nội dung CK:</span>
+                    <span className="text-[#eaeaea]/40">{t.qrLabelContent}</span>
                     <span className="font-mono text-white">Thanh toan don {bankingQR.orderId}</span>
                   </div>
                 </div>
 
                 <p className="font-sans text-[10px] text-[#eaeaea]/40 italic">
-                  * Hệ thống sẽ tự xác nhận sau khi giao dịch hoàn tất.
+                  {t.qrAutoConfirm}
                 </p>
 
                 {/* Action Buttons */}
@@ -413,7 +455,7 @@ export default function Home() {
                     }}
                     className="flex-1 border border-white/15 hover:border-red-500/50 text-white/60 hover:text-red-400 font-serif text-xs tracking-widest py-3 px-4 rounded-sm transition-colors"
                   >
-                    HỦY ĐƠN
+                    {t.qrCancelBtn}
                   </button>
                   <a
                     href={bankingQR.checkoutUrl}
@@ -421,7 +463,7 @@ export default function Home() {
                     rel="noopener noreferrer"
                     className="flex-1 border border-gold/30 hover:border-gold text-gold/70 hover:text-gold font-serif text-xs tracking-widest py-3 px-4 rounded-sm transition-colors flex items-center justify-center gap-1"
                   >
-                    MỞ PAYOS
+                    {t.qrOpenPayos}
                     <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                     </svg>
@@ -437,40 +479,40 @@ export default function Home() {
                   </svg>
                 </div>
                 <div className="space-y-2">
-                  <h4 className="font-serif text-2xl text-white">Cảm ơn bạn đã đặt hàng!</h4>
+                  <h4 className="font-serif text-2xl text-white">{t.thankYou}</h4>
                   <p className="font-sans text-xs text-[#eaeaea]/60">
-                    Đơn hàng của bạn đã được hệ thống ghi nhận thành công.
+                    {t.orderRecorded}
                   </p>
                 </div>
 
                 {/* Order Details Receipt */}
                 <div className="glass-panel border border-white/5 rounded p-4 text-left space-y-3 bg-white/[0.02]">
                   <div className="flex justify-between border-b border-white/5 pb-2">
-                    <span className="text-xs text-[#eaeaea]/50">Mã đơn hàng:</span>
+                    <span className="text-xs text-[#eaeaea]/50">{t.labelOrderId}</span>
                     <span className="text-xs font-mono font-bold text-gold-accent">{createdOrderId}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-xs text-[#eaeaea]/50">Khách hàng:</span>
+                    <span className="text-xs text-[#eaeaea]/50">{t.labelCustomer}</span>
                     <span className="text-xs font-medium text-white">{formData.customerName}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-xs text-[#eaeaea]/50">Số điện thoại:</span>
+                    <span className="text-xs text-[#eaeaea]/50">{t.labelPhoneReceipt}</span>
                     <span className="text-xs font-medium text-white">{formData.phone}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-xs text-[#eaeaea]/50">Địa chỉ giao:</span>
+                    <span className="text-xs text-[#eaeaea]/50">{t.labelDeliveryAddr}</span>
                     <span className="text-xs font-medium text-white text-right max-w-[70%] truncate">
                       {formData.address}
                     </span>
                   </div>
                   <div className="flex justify-between border-t border-white/5 pt-2">
-                    <span className="text-xs text-[#eaeaea]/50">Sản phẩm:</span>
+                    <span className="text-xs text-[#eaeaea]/50">{t.labelProduct}</span>
                     <span className="text-xs font-medium text-white">
-                      {activeProduct.name} (x{quantity})
+                      {(t.products[String(activeProduct.id)]?.name || activeProduct.name)} (x{quantity})
                     </span>
                   </div>
                   <div className="flex justify-between border-t border-white/5 pt-2">
-                    <span className="text-sm font-bold text-gold-light">Tổng cộng:</span>
+                    <span className="text-sm font-bold text-gold-light">{t.labelTotal}</span>
                     <span className="text-sm font-bold text-gold-light font-serif">
                       {(activeProduct.price * quantity).toLocaleString("vi-VN")} VNĐ
                     </span>
@@ -481,7 +523,7 @@ export default function Home() {
                 {paymentMethod === "banking" && (
                   <div className="glass-panel border border-gold/20 rounded p-5 space-y-4 bg-gold/[0.02] text-center">
                     <span className="text-xs font-mono tracking-widest text-gold block">
-                      QUÉT MÃ VIETQR ĐỂ THANH TOÁN
+                      {t.vietqrTitle}
                     </span>
                     <div className="relative w-48 h-48 mx-auto border border-white/10 rounded overflow-hidden bg-white p-2">
                       <img
@@ -491,13 +533,13 @@ export default function Home() {
                       />
                     </div>
                     <div className="text-left space-y-2 text-xs text-[#eaeaea]/70 max-w-sm mx-auto">
-                      <p className="flex justify-between"><span className="text-[#eaeaea]/40">Ngân hàng:</span> <span className="font-semibold text-white">MB Bank</span></p>
-                      <p className="flex justify-between"><span className="text-[#eaeaea]/40">Số tài khoản:</span> <span className="font-semibold text-white">123456789</span></p>
-                      <p className="flex justify-between"><span className="text-[#eaeaea]/40">Chủ tài khoản:</span> <span className="font-semibold text-white">OCOPIA HERITAGE</span></p>
-                      <p className="flex justify-between"><span className="text-[#eaeaea]/40">Nội dung chuyển khoản:</span> <span className="font-mono font-bold text-gold-accent">{createdOrderId}</span></p>
+                      <p className="flex justify-between"><span className="text-[#eaeaea]/40">{t.vietqrBank}</span> <span className="font-semibold text-white">MB Bank</span></p>
+                      <p className="flex justify-between"><span className="text-[#eaeaea]/40">{t.vietqrAccount}</span> <span className="font-semibold text-white">123456789</span></p>
+                      <p className="flex justify-between"><span className="text-[#eaeaea]/40">{t.vietqrHolder}</span> <span className="font-semibold text-white">OCOPIA HERITAGE</span></p>
+                      <p className="flex justify-between"><span className="text-[#eaeaea]/40">{t.vietqrDesc}</span> <span className="font-mono font-bold text-gold-accent">{createdOrderId}</span></p>
                     </div>
                     <p className="text-[10px] text-gold-accent/50 italic max-w-sm mx-auto">
-                      * Hệ thống sẽ tự động chuyển đổi trạng thái khi giao dịch hoàn tất.
+                      {t.vietqrSystemAuto}
                     </p>
                   </div>
                 )}
@@ -510,7 +552,7 @@ export default function Home() {
                     }}
                     className="w-full font-serif text-xs tracking-widest bg-gold text-dark-bg font-semibold py-3 px-8 rounded-sm hover:bg-gold-light transition-colors"
                   >
-                    HOÀN THÀNH
+                    {t.doneBtn}
                   </button>
                 </div>
               </div>
@@ -526,13 +568,13 @@ export default function Home() {
                   />
                   <div className="flex-grow flex flex-col justify-between">
                     <div>
-                      <h4 className="font-serif text-base text-white">{activeProduct.name}</h4>
+                      <h4 className="font-serif text-base text-white">{(t.products[String(activeProduct.id)]?.name || activeProduct.name)}</h4>
                       <p className="text-xs text-gold-accent font-serif mt-0.5">
                         {activeProduct.price.toLocaleString("vi-VN")} VNĐ
                       </p>
                     </div>
                     <div className="flex items-center gap-3">
-                      <span className="text-xs text-[#eaeaea]/40">Số lượng:</span>
+                      <span className="text-xs text-[#eaeaea]/40">{t.quantity}</span>
                       <div className="flex items-center gap-1.5">
                         <button
                           type="button"
@@ -553,7 +595,7 @@ export default function Home() {
                     </div>
                   </div>
                   <div className="text-right flex flex-col justify-end">
-                    <span className="text-[10px] text-[#eaeaea]/40 block uppercase">Tổng tiền</span>
+                    <span className="text-[10px] text-[#eaeaea]/40 block uppercase">{t.subtotal}</span>
                     <span className="font-serif text-lg text-gold font-bold">
                       {(activeProduct.price * quantity).toLocaleString("vi-VN")} VNĐ
                     </span>
@@ -564,7 +606,7 @@ export default function Home() {
                 <div className="space-y-4">
                   <div className="space-y-1">
                     <label className="text-xs uppercase tracking-widest text-[#eaeaea]/50 font-mono">
-                      Họ và tên <span className="text-gold">*</span>
+                      {t.labelName} <span className="text-gold">*</span>
                     </label>
                     <input
                       type="text"
@@ -574,13 +616,13 @@ export default function Home() {
                       required
                       disabled={isSubmitting}
                       className="w-full bg-[#14151a]/80 border border-white/10 focus:border-gold focus:outline-none rounded-sm px-4 py-2.5 text-sm text-white font-sans transition-colors placeholder:text-white/20"
-                      placeholder="Nhập đầy đủ họ và tên"
+                      placeholder={t.placeholderName}
                     />
                   </div>
 
                   <div className="space-y-1">
                     <label className="text-xs uppercase tracking-widest text-[#eaeaea]/50 font-mono">
-                      Số điện thoại <span className="text-gold">*</span>
+                      {t.labelPhone} <span className="text-gold">*</span>
                     </label>
                     <input
                       type="tel"
@@ -590,13 +632,13 @@ export default function Home() {
                       required
                       disabled={isSubmitting}
                       className="w-full bg-[#14151a]/80 border border-white/10 focus:border-gold focus:outline-none rounded-sm px-4 py-2.5 text-sm text-white font-sans transition-colors placeholder:text-white/20"
-                      placeholder="Nhập số điện thoại nhận hàng"
+                      placeholder={t.placeholderPhone}
                     />
                   </div>
 
                   <div className="space-y-1">
                     <label className="text-xs uppercase tracking-widest text-[#eaeaea]/50 font-mono">
-                      Địa chỉ nhận hàng <span className="text-gold">*</span>
+                      {t.labelAddress} <span className="text-gold">*</span>
                     </label>
                     <textarea
                       name="address"
@@ -606,7 +648,7 @@ export default function Home() {
                       rows={3}
                       disabled={isSubmitting}
                       className="w-full bg-[#14151a]/80 border border-white/10 focus:border-gold focus:outline-none rounded-sm px-4 py-2.5 text-sm text-white font-sans transition-colors placeholder:text-white/20"
-                      placeholder="Nhập chi tiết địa chỉ giao hàng"
+                      placeholder={t.placeholderAddress}
                     />
                   </div>
                 </div>
@@ -614,7 +656,7 @@ export default function Home() {
                 {/* Payment Method Selector */}
                 <div className="space-y-2">
                   <label className="text-xs uppercase tracking-widest text-[#eaeaea]/50 font-mono block">
-                    Phương thức thanh toán
+                    {t.paymentMethod}
                   </label>
                   <div className="grid grid-cols-2 gap-4">
                     {/* COD Box */}
@@ -635,10 +677,10 @@ export default function Home() {
                         disabled={isSubmitting}
                       />
                       <span className="text-xs font-serif font-bold text-white uppercase tracking-wider">
-                        Thanh toán COD
+                        {t.codTitle}
                       </span>
                       <span className="text-[10px] text-[#eaeaea]/55 mt-1">
-                        Thanh toán bằng tiền mặt khi nhận hàng.
+                        {t.codDesc}
                       </span>
                     </label>
 
@@ -660,10 +702,10 @@ export default function Home() {
                         disabled={isSubmitting}
                       />
                       <span className="text-xs font-serif font-bold text-white uppercase tracking-wider">
-                        Chuyển khoản (VietQR)
+                        {t.bankingTitle}
                       </span>
                       <span className="text-[10px] text-[#eaeaea]/55 mt-1">
-                        Quét mã VietQR thanh toán nhanh 24/7.
+                        {t.bankingDesc}
                       </span>
                     </label>
                   </div>
@@ -677,7 +719,7 @@ export default function Home() {
                     disabled={isSubmitting}
                     className="w-1/3 border border-white/15 hover:border-white/30 text-white font-serif text-xs tracking-widest py-3.5 px-6 rounded-sm transition-colors"
                   >
-                    HỦY BỎ
+                    {t.cancelBtn}
                   </button>
                   <button
                     type="submit"
@@ -687,10 +729,10 @@ export default function Home() {
                     {isSubmitting ? (
                       <>
                         <div className="animate-spin rounded-full h-4 w-4 border-2 border-dark-bg border-t-transparent"></div>
-                        ĐANG XỬ LÝ...
+                        {t.processingBtn}
                       </>
                     ) : (
-                      "XÁC NHẬN ĐẶT HÀNG"
+                      t.confirmBtn
                     )}
                   </button>
                 </div>
@@ -725,12 +767,12 @@ export default function Home() {
                 </svg>
               </div>
               <div className="space-y-2">
-                <h3 className="font-serif text-2xl text-white uppercase tracking-wider">THANH TOÁN THÀNH CÔNG</h3>
+                <h3 className="font-serif text-2xl text-white uppercase tracking-wider">{t.paymentSuccessTitle}</h3>
                 <p className="font-sans text-xs text-[#eaeaea]/60 leading-relaxed">
-                  Đơn hàng <span className="font-mono text-gold-accent font-bold">#{paymentRedirectStatus.orderId}</span> của quý khách đã thanh toán thành công qua VietQR.
+                  {t.redirectSuccessDesc1} <span className="font-mono text-gold-accent font-bold">#{paymentRedirectStatus.orderId}</span> {t.redirectSuccessDesc2}
                 </p>
                 <p className="font-sans text-xs text-[#eaeaea]/60 leading-relaxed">
-                  Ocopia Heritage sẽ tiến hành chuẩn bị sản phẩm và giao hàng trong thời gian sớm nhất.
+                  {t.redirectSuccessDesc3}
                 </p>
               </div>
             </>
@@ -742,12 +784,12 @@ export default function Home() {
                 </svg>
               </div>
               <div className="space-y-2">
-                <h3 className="font-serif text-2xl text-white uppercase tracking-wider">THANH TOÁN BỊ HỦY</h3>
+                <h3 className="font-serif text-2xl text-white uppercase tracking-wider">{t.paymentCancelledTitle}</h3>
                 <p className="font-sans text-xs text-[#eaeaea]/60 leading-relaxed">
-                  Giao dịch thanh toán cho đơn hàng <span className="font-mono text-gold-accent font-bold">#{paymentRedirectStatus.orderId}</span> đã bị hủy hoặc chưa hoàn thành.
+                  {t.redirectCancelledDesc1} <span className="font-mono text-gold-accent font-bold">#{paymentRedirectStatus.orderId}</span> {t.redirectCancelledDesc2}
                 </p>
                 <p className="font-sans text-xs text-[#eaeaea]/60 leading-relaxed">
-                  Nếu có sai sót, vui lòng thực hiện lại đơn hàng hoặc liên hệ bộ phận hỗ trợ Ocopia.
+                  {t.redirectCancelledDesc3}
                 </p>
               </div>
             </>
@@ -758,7 +800,7 @@ export default function Home() {
               onClick={() => setPaymentRedirectStatus(null)}
               className="w-full font-serif text-xs tracking-widest bg-gold text-dark-bg font-semibold py-3 px-8 rounded-sm hover:bg-gold-light transition-colors"
             >
-              ĐÓNG
+              {t.closeBtn}
             </button>
           </div>
         </div>
@@ -767,56 +809,58 @@ export default function Home() {
   };
 
   if (activeDetailProduct) {
-    const { hook, core } = parseStory(activeDetailProduct.story);
-    const trustPoints = getProductTrustPoints(activeDetailProduct.id);
-    
+    const localizedProduct = t.products[String(activeDetailProduct.id)];
+    const productStory = localizedProduct?.story || activeDetailProduct.story;
+    const { hook, core } = parseStory(productStory);
+    const trustPoints = localizedProduct?.trustPoints || getProductTrustPoints(activeDetailProduct.id);
+
     // Ingredients Data
     const ingredients = activeDetailProduct.id === 1 ? [
       {
-        name: "Nếp Hương Bầu",
-        desc: "Gạo nếp dẻo thơm hảo hạng ngâm đãi sạch, xay nhuyễn và tráng khuôn mỏng tráng chín bằng hơi nước, sấy giòn xốp.",
+        name: localizedProduct?.ingredients?.[0]?.name || "Nếp Hương Bầu",
+        desc: localizedProduct?.ingredients?.[0]?.desc || "",
         img: "/g_nep_huong.jpg"
       },
       {
-        name: "Đường Mía Điện Bàn",
-        desc: "Mật mía Điện Bàn nguyên chất thắng chín dẻo quánh tơ óng vàng như tơ tằm, chất keo ngọt kết dính hạt bánh.",
+        name: localizedProduct?.ingredients?.[1]?.name || "Đường Mía Điện Bàn",
+        desc: localizedProduct?.ingredients?.[1]?.desc || "",
         img: "/g_duong_mia.jpg"
       },
       {
-        name: "Mè Mẩy Rang Củi",
-        desc: "Lớp mè hảo hạng đãi sạch vỏ ngoài, rang thủ công trên bếp củi thơm lừng, tạo lớp áo giòn rụm béo ngậy.",
+        name: localizedProduct?.ingredients?.[2]?.name || "Mè Mẩy Rang Củi",
+        desc: localizedProduct?.ingredients?.[2]?.desc || "",
         img: "/g_me_rang.jpg"
       },
       {
-        name: "Gừng Sẻ Cay Nồng",
-        desc: "Gừng ré bản địa tươi giòn thái mỏng cay nồng ấm áp, hòa vị ngọt bùi đẩy hương vị lên chuẩn mực trọn vẹn.",
+        name: localizedProduct?.ingredients?.[3]?.name || "Gừng Sẻ Cay Nồng",
+        desc: localizedProduct?.ingredients?.[3]?.desc || "",
         img: "/g_sot_me.jpg"
       }
     ] : [
       {
-        name: "Mực Khô Hảo Hạng",
-        desc: "Mực ống tươi xanh đánh bắt từ biển khơi miền Trung, làm sạch và phơi nắng giòn dai, giữ nguyên vị ngọt mặn tự nhiên đặc trưng.",
+        name: localizedProduct?.ingredients?.[0]?.name || "Mực Khô Hảo Hạng",
+        desc: localizedProduct?.ingredients?.[0]?.desc || "",
         img: "/g_muc_kho.jpg"
       },
       {
-        name: "Me Chín Tự Nhiên",
-        desc: "Lọc tách hạt từ những quả me chín nguyên chất, đun kẹo liu riu thắng đường mật để tạo nước xốt chua ngọt sánh bóng hoàn mỹ.",
+        name: localizedProduct?.ingredients?.[1]?.name || "Me Chín Tự Nhiên",
+        desc: localizedProduct?.ingredients?.[1]?.desc || "",
         img: "/g_me_chin.jpg"
       },
       {
-        name: "Ớt & Tỏi Bản Địa",
-        desc: "Ớt sừng chỉ thiên cay nồng giòn giã quyện cùng những củ tỏi thơm nồng, tạo vị cay tê đậm đà đánh thức mọi giác quan.",
+        name: localizedProduct?.ingredients?.[2]?.name || "Ớt & Tỏi Bản Địa",
+        desc: localizedProduct?.ingredients?.[2]?.desc || "",
         img: "/g_ot_toi.jpg"
       }
     ];
 
     const lifestyle = activeDetailProduct.id === 1 ? {
-      title: "Thưởng thức đượm tình quê",
-      desc: "Không gì sánh bằng đĩa bánh khô mè Cẩm Lệ rắc mè thơm rụm ăn cùng chén trà xanh ấm nồng những chiều yên ả. Vị chát thanh dịu của trà ôm trọn lấy cái ngọt bùi béo ngậy của mật mía đường và gừng cay, mở ra một không gian hoài niệm xưa cũ bên dòng sông quê ấm áp nghĩa tình.",
+      title: localizedProduct?.lifestyle?.title || "Thưởng thức đượm tình quê",
+      desc: localizedProduct?.lifestyle?.desc || "",
       img: "/g_banh_me_tea.jpg"
     } : {
-      title: "Nhâm nhi cùng tri kỷ",
-      desc: "Mực quyện xốt, xốt bám mực, đỏ au, bóng bẩy. Không cần sơn hào hải vị, một hộp mực rim me nhâm nhi cùng bạn bè những chiều tan tầm là đủ để gói gọn cả nhịp sống sôi động của phố biển Đà Nẵng.",
+      title: localizedProduct?.lifestyle?.title || "Nhâm nhi cùng tri kỷ",
+      desc: localizedProduct?.lifestyle?.desc || "",
       img: "/g_muc_rim_lifestyle.jpg"
     };
 
@@ -835,7 +879,7 @@ export default function Home() {
             <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
-            Quay lại
+            {t.backBtn}
           </button>
           
           <div
@@ -845,12 +889,40 @@ export default function Home() {
             Ocopia
           </div>
 
-          <button
-            onClick={() => openCheckout(activeDetailProduct)}
-            className="font-serif text-xs tracking-widest bg-gold text-dark-bg hover:bg-gold-light transition-all duration-300 font-semibold py-2 px-6 rounded-sm uppercase"
-          >
-            Mua ngay
-          </button>
+          <div className="flex items-center gap-4">
+            {/* Theme Toggle */}
+            <button
+              onClick={toggleTheme}
+              className="text-gold hover:text-gold-light transition-colors p-1"
+              aria-label="Toggle theme"
+            >
+              {isDark ? (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+                </svg>
+              ) : (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+              )}
+            </button>
+
+            {/* Language Toggle */}
+            <button
+              onClick={toggleLang}
+              className="font-serif text-xs font-bold tracking-widest text-[#eaeaea]/85 hover:text-gold transition-colors border border-white/10 hover:border-gold/50 rounded px-2 py-1"
+              aria-label="Toggle language"
+            >
+              {lang === "vi" ? "EN" : "VI"}
+            </button>
+
+            <button
+              onClick={() => openCheckout(activeDetailProduct)}
+              className="font-serif text-xs tracking-widest bg-gold text-dark-bg hover:bg-gold-light transition-all duration-300 font-semibold py-2 px-6 rounded-sm uppercase"
+            >
+              {t.buyNow}
+            </button>
+          </div>
         </header>
 
         {/* Detail Content (Vertical scrolling layout like Lady Triệu) */}
@@ -858,10 +930,10 @@ export default function Home() {
           {/* Part 1: Product Hero Section */}
           <section className="max-w-4xl mx-auto px-6 py-20 text-center space-y-8">
             <span className="font-mono text-xs tracking-[0.3em] text-gold uppercase bg-gold/5 border border-gold/10 px-4 py-1.5 rounded-full inline-block">
-              {activeDetailProduct.id === 1 ? "OCOP 4 SAO ĐÀ NẴNG" : "OCOP 3 SAO ĐÀ NẴNG"}
+              {activeDetailProduct.id === 1 ? t.ocop4 : t.ocop3}
             </span>
             <h1 className="font-serif text-4xl md:text-6xl lg:text-7xl text-white font-light uppercase tracking-wider leading-tight">
-              {activeDetailProduct.name}
+              {localizedProduct?.name || activeDetailProduct.name}
             </h1>
             
             {/* Center Aligned Product Packaging Image */}
@@ -885,7 +957,7 @@ export default function Home() {
                 {core}
               </p>
               <div className="pt-2">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-[#eaeaea]/40 block mb-1">Đơn giá sản phẩm</span>
+                <span className="text-[10px] font-mono uppercase tracking-widest text-[#eaeaea]/40 block mb-1">{t.unitPrice}</span>
                 <span className="font-serif text-3xl text-gold font-bold">
                   {activeDetailProduct.price.toLocaleString("vi-VN")} VNĐ
                 </span>
@@ -895,7 +967,7 @@ export default function Home() {
                   onClick={() => openCheckout(activeDetailProduct)}
                   className="font-serif text-xs tracking-widest bg-gold text-dark-bg hover:bg-gold-light transition-all duration-300 font-semibold py-4 px-12 rounded-sm uppercase shadow-lg shadow-gold/5"
                 >
-                  ĐẶT MUA NGAY
+                  {t.buyNowBtn}
                 </button>
               </div>
             </div>
@@ -905,9 +977,9 @@ export default function Home() {
           <section className="bg-dark-surface/40 border-y border-white/5 py-24 px-6 md:px-12 w-full">
             <div className="max-w-6xl mx-auto space-y-16">
               <div className="text-center space-y-3">
-                <span className="font-mono text-xs tracking-[0.3em] text-gold uppercase">TINH HOA NGUYÊN LIỆU</span>
+                <span className="font-mono text-xs tracking-[0.3em] text-gold uppercase">{t.ingredientsLabel}</span>
                 <h2 className="font-serif text-3xl md:text-4xl text-white font-light uppercase tracking-widest">
-                  Thành phần bản địa
+                  {t.ingredientsTitle}
                 </h2>
                 <div className="w-12 h-[1px] bg-gold/30 mx-auto"></div>
               </div>
@@ -944,7 +1016,7 @@ export default function Home() {
           {/* Part 3: Lifestyle / In-Use Section (Bottom) */}
           <section className="w-full py-24 px-6 md:px-12 max-w-5xl mx-auto text-center space-y-12">
             <div className="space-y-3">
-              <span className="font-mono text-xs tracking-[0.3em] text-gold uppercase">TRẢI NGHIỆM THƯỞNG THỨC</span>
+              <span className="font-mono text-xs tracking-[0.3em] text-gold uppercase">{t.experienceLabel}</span>
               <h2 className="font-serif text-3xl md:text-4xl text-white font-light uppercase tracking-widest">
                 {lifestyle.title}
               </h2>
@@ -970,13 +1042,13 @@ export default function Home() {
                 onClick={() => handleCloseDetail()}
                 className="font-serif text-xs tracking-widest border border-white/15 text-[#eaeaea]/80 hover:border-gold hover:text-gold transition-all duration-300 font-semibold py-4 px-8 rounded-sm uppercase"
               >
-                QUAY LẠI CỬA HÀNG
+                {t.backToStore}
               </button>
               <button
                 onClick={() => openCheckout(activeDetailProduct)}
                 className="font-serif text-xs tracking-widest bg-gold text-dark-bg hover:bg-gold-light transition-all duration-300 font-semibold py-4 px-10 rounded-sm uppercase flex-grow"
               >
-                ĐẶT MUA NGAY
+                {t.buyNowBtn}
               </button>
             </div>
           </section>
@@ -994,7 +1066,7 @@ export default function Home() {
             OCOPIA HERITAGE
           </span>
           <p className="font-sans text-[10px] text-[#eaeaea]/40">
-            © 2026 Ocopia. Chương trình đặc sản vùng miền di sản Việt Nam.
+            {t.footerCopyright}
           </p>
         </footer>
       </div>
@@ -1018,15 +1090,41 @@ export default function Home() {
           </span>
         </div>
         <nav className="hidden md:flex items-center gap-8 font-serif text-sm tracking-widest text-[#eaeaea]/80">
-          <a href="#showroom" className="hover:text-gold transition-colors">SẢN PHẨM</a>
-          <a href="#about" className="hover:text-gold transition-colors">CÂU CHUYỆN</a>
+          <a href="#showroom" className="hover:text-gold transition-colors">{t.navProducts}</a>
+          <a href="#about" className="hover:text-gold transition-colors">{t.navStory}</a>
         </nav>
-        <div>
+        <div className="flex items-center gap-4">
+          {/* Theme Toggle */}
+          <button
+            onClick={toggleTheme}
+            className="text-gold hover:text-gold-light transition-colors p-1"
+            aria-label="Toggle theme"
+          >
+            {isDark ? (
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+              </svg>
+            ) : (
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+              </svg>
+            )}
+          </button>
+
+          {/* Language Toggle */}
+          <button
+            onClick={toggleLang}
+            className="font-serif text-xs font-bold tracking-widest text-[#eaeaea]/85 hover:text-gold transition-colors border border-white/10 hover:border-gold/50 rounded px-2 py-1"
+            aria-label="Toggle language"
+          >
+            {lang === "vi" ? "EN" : "VI"}
+          </button>
+
           <a
             href="#showroom"
             className="font-serif text-xs tracking-widest border border-gold/50 text-gold hover:bg-gold hover:text-dark-bg transition-all duration-300 py-2 px-5 rounded-sm"
           >
-            SẢN PHẨM
+            {t.navCta}
           </a>
         </div>
       </header>
@@ -1049,7 +1147,7 @@ export default function Home() {
             </h1>
             <div className="w-24 h-[1px] bg-gold/40"></div>
             <p className="font-serif italic text-sm md:text-base text-gold-accent tracking-widest uppercase">
-              Khi truyền thông lên tiếng cho truyền thống
+              {t.heroTagline}
             </p>
           </div>
 
@@ -1061,19 +1159,19 @@ export default function Home() {
               
               <div className="space-y-2">
                 <span className="text-[10px] font-mono tracking-[0.3em] text-gold uppercase block">
-                  HERITAGE STORY
+                  {t.heroStoryLabel}
                 </span>
                 <h3 className="font-serif text-2xl text-white font-light tracking-wider">
-                  Câu Chuyện Khởi Nghiệp
+                  {t.heroStoryTitle}
                 </h3>
               </div>
               
               <p className="font-sans text-xs text-[#eaeaea]/70 leading-relaxed font-light">
-                Ocopia mang khát vọng đánh thức những câu chuyện đang lặng thầm nằm sau mỗi sản vật quê hương. Qua việc ứng dụng công nghệ và nghệ thuật kể chuyện, chúng tôi khao khát được đưa hương vị, con người và bản sắc Việt Nam vượt khỏi ranh giới địa phương, để mỗi sản phẩm không chỉ được tìm thấy, mà còn được thấu hiểu, trân trọng và lan tỏa.
+                {t.heroStoryDesc}
               </p>
               
               <div className="border-t border-white/5 pt-4 flex items-center justify-between">
-                <span className="text-[9px] font-mono text-gold-accent/40 uppercase tracking-widest">Đồng hành cùng OCOP</span>
+                <span className="text-[9px] font-mono text-gold-accent/40 uppercase tracking-widest">{t.heroStoryFooter}</span>
                 <div className="w-2 h-2 rounded-full bg-gold/60 animate-pulse"></div>
               </div>
             </div>
@@ -1083,9 +1181,9 @@ export default function Home() {
         {/* Product Showroom Stage */}
         <section id="showroom" className="max-w-4xl mx-auto px-6 py-24 space-y-36">
           <div className="text-center space-y-4 max-w-2xl mx-auto">
-            <span className="font-mono text-xs tracking-[0.3em] text-gold uppercase">DANH MỤC SẢN PHẨM</span>
+            <span className="font-mono text-xs tracking-[0.3em] text-gold uppercase">{t.catalogLabel}</span>
             <h2 className="font-serif text-3xl md:text-5xl font-light text-white uppercase tracking-wider">
-              Sản Phẩm Di Sản
+              {t.catalogTitle}
             </h2>
             <div className="w-16 h-[1px] bg-gold/40 mx-auto"></div>
           </div>
@@ -1120,14 +1218,14 @@ export default function Home() {
                   {/* Product title and Xem thêm button */}
                   <div className="space-y-4">
                     <h3 className="font-serif text-3xl md:text-4xl text-white font-light uppercase tracking-widest">
-                      {product.name}
+                      {t.products[String(product.id)]?.name || product.name}
                     </h3>
                     <div className="w-12 h-[1px] bg-gold/30 mx-auto"></div>
                     <button
                       onClick={() => handleOpenDetail(product)}
                       className="font-serif text-xs tracking-[0.2em] border border-gold/40 text-gold hover:bg-gold hover:text-dark-bg transition-all duration-300 font-semibold py-3.5 px-10 rounded-sm uppercase cursor-pointer"
                     >
-                      XEM THÊM
+                      {t.viewMore}
                     </button>
                   </div>
                 </div>
@@ -1150,7 +1248,7 @@ export default function Home() {
             OCOPIA HERITAGE
           </span>
           <p className="font-sans text-xs text-[#eaeaea]/55 leading-relaxed font-light">
-            © 2026 Ocopia. Bản quyền thuộc về đội ngũ phát triển dự án Ocopia. Chương trình liên kết phát triển nông sản Việt bền vững.
+            {t.footerCopyright}
           </p>
         </div>
       </footer>

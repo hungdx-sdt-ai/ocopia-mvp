@@ -57,3 +57,139 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+/* Light Mode Overrides */
+html.light {
+  --background: #fdfbf7;
+  --foreground: #1c1917;
+}
+
+html.light body {
+  background-image: linear-gradient(
+      to bottom,
+      rgba(253, 251, 247, 0.96),
+      rgba(253, 251, 247, 0.94)
+    ),
+    url('/background.jpg');
+  color: var(--foreground);
+}
+
+html.light .glass-panel {
+  background: rgba(255, 255, 255, 0.8) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+html.light .text-white {
+  color: #1c1917 !important;
+}
+
+html.light .text-white\/60 {
+  color: rgba(28, 25, 23, 0.6) !important;
+}
+
+html.light .text-white\/50 {
+  color: rgba(28, 25, 23, 0.5) !important;
+}
+
+html.light .text-white\/80 {
+  color: rgba(28, 25, 23, 0.8) !important;
+}
+
+html.light .text-\[\#eaeaea\]\/40 {
+  color: rgba(28, 25, 23, 0.45) !important;
+}
+
+html.light .text-\[\#eaeaea\]\/50 {
+  color: rgba(28, 25, 23, 0.55) !important;
+}
+
+html.light .text-\[\#eaeaea\]\/55 {
+  color: rgba(28, 25, 23, 0.6) !important;
+}
+
+html.light .text-\[\#eaeaea\]\/60 {
+  color: rgba(28, 25, 23, 0.65) !important;
+}
+
+html.light .text-\[\#eaeaea\]\/70 {
+  color: rgba(28, 25, 23, 0.75) !important;
+}
+
+html.light .text-\[\#eaeaea\]\/80 {
+  color: rgba(28, 25, 23, 0.85) !important;
+}
+
+html.light .text-\[\#eaeaea\]\/85 {
+  color: rgba(28, 25, 23, 0.9) !important;
+}
+
+html.light .bg-dark-surface\/40 {
+  background-color: rgba(245, 242, 235, 0.5) !important;
+}
+
+html.light .bg-dark-bg\/60 {
+  background-color: rgba(245, 242, 235, 0.7) !important;
+}
+
+html.light .bg-white\/\[0\.01\] {
+  background-color: rgba(0, 0, 0, 0.02) !important;
+}
+
+html.light .bg-white\/\[0\.02\] {
+  background-color: rgba(0, 0, 0, 0.03) !important;
+}
+
+html.light .bg-white\/\[0\.05\] {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+html.light .bg-gold\/5 {
+  background-color: rgba(212, 175, 55, 0.08) !important;
+}
+
+html.light .bg-gold\/10 {
+  background-color: rgba(212, 175, 55, 0.12) !important;
+}
+
+html.light .bg-\[\#14151a\]\/80 {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  color: #1c1917 !important;
+}
+
+html.light .bg-\[\#14151a\]\/40 {
+  background-color: rgba(255, 255, 255, 0.6) !important;
+}
+
+html.light input, html.light textarea {
+  color: #1c1917 !important;
+  border-color: rgba(0, 0, 0, 0.15) !important;
+}
+
+html.light input::placeholder, html.light textarea::placeholder {
+  color: rgba(0, 0, 0, 0.35) !important;
+}
+
+html.light .border-white\/5 {
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+html.light .border-white\/10 {
+  border-color: rgba(0, 0, 0, 0.12) !important;
+}
+
+html.light .border-white\/15 {
+  border-color: rgba(0, 0, 0, 0.18) !important;
+}
+
+html.light .text-gold-light {
+  color: var(--color-gold-dark) !important;
+}
+
+html.light .text-gold-light\/95 {
+  color: var(--color-gold-dark) !important;
+}
+
+html.light .bg-black\/85 {
+  background-color: rgba(255, 255, 255, 0.75) !important;
+}
+
