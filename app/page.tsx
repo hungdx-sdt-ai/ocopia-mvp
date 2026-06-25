@@ -437,7 +437,7 @@ export default function Home() {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-[#eaeaea]/40">{t.vietqrHolder}</span>
-                    <span className="font-bold text-white">OCOPIA HERITAGE</span>
+                    <span className="font-bold text-white">DANG XUAN HUNG</span>
                   </div>
                 </div>
 
@@ -531,7 +531,7 @@ export default function Home() {
                     </span>
                     <div className="relative w-48 h-48 mx-auto border border-white/10 rounded overflow-hidden bg-white p-2">
                       <img
-                        src={`https://img.vietqr.io/image/MB-123456789-compact2.png?amount=${activeProduct.price * quantity}&addInfo=${createdOrderId}&accountName=OCOPIA%20HERITAGE`}
+                        src={`https://img.vietqr.io/image/MB-123456789-compact2.png?amount=${activeProduct.price * quantity}&addInfo=${createdOrderId}&accountName=DANG%20XUAN%20HUNG`}
                         alt="VietQR Payment Code"
                         className="w-full h-full object-contain"
                       />
@@ -539,7 +539,7 @@ export default function Home() {
                     <div className="text-left space-y-2 text-xs text-[#eaeaea]/70 max-w-sm mx-auto">
                       <p className="flex justify-between"><span className="text-[#eaeaea]/40">{t.vietqrBank}</span> <span className="font-semibold text-white">MB Bank</span></p>
                       <p className="flex justify-between"><span className="text-[#eaeaea]/40">{t.vietqrAccount}</span> <span className="font-semibold text-white">123456789</span></p>
-                      <p className="flex justify-between"><span className="text-[#eaeaea]/40">{t.vietqrHolder}</span> <span className="font-semibold text-white">OCOPIA HERITAGE</span></p>
+                      <p className="flex justify-between"><span className="text-[#eaeaea]/40">{t.vietqrHolder}</span> <span className="font-semibold text-white">DANG XUAN HUNG</span></p>
                       <p className="flex justify-between"><span className="text-[#eaeaea]/40">{t.vietqrDesc}</span> <span className="font-mono font-bold text-gold-accent">{createdOrderId}</span></p>
                     </div>
                     <p className="text-[10px] text-gold-accent/50 italic max-w-sm mx-auto">
