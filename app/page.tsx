@@ -1139,11 +1139,11 @@ export default function Home() {
         <section className="relative min-h-[90vh] flex flex-col md:flex-row items-center justify-between px-6 md:px-16 lg:px-24 py-20 gap-12 max-w-7xl mx-auto w-full">
           {/* Left/Center: Large Centered Logo & Visual */}
           <div className="flex-grow flex flex-col items-center text-center space-y-6">
-            <div className="w-28 h-28 relative rounded-full overflow-hidden border border-gold/30 bg-white p-2 shadow-lg shadow-gold/5">
+            <div className="w-28 h-28 relative rounded-full overflow-hidden shadow-lg shadow-gold/5">
               <img
                 src="/background.jpg"
                 alt="Ocopia Logo"
-                className="w-full h-full object-contain"
+                className="w-full h-full object-cover"
               />
             </div>
             <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl tracking-[0.25em] text-white font-extralight uppercase select-none leading-none">
