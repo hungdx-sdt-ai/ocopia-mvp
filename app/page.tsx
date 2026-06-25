@@ -435,6 +435,10 @@ export default function Home() {
                     <span className="text-[#eaeaea]/40">{t.qrLabelContent}</span>
                     <span className="font-mono text-white">Thanh toan don {bankingQR.orderId}</span>
                   </div>
+                  <div className="flex justify-between">
+                    <span className="text-[#eaeaea]/40">{t.vietqrHolder}</span>
+                    <span className="font-bold text-white">OCOPIA HERITAGE</span>
+                  </div>
                 </div>
 
                 <p className="font-sans text-[10px] text-[#eaeaea]/40 italic">
