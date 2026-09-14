@@ -208,6 +208,24 @@ export default function Home() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bankingQR?.orderId]);
 
+  // Static fallback products - hiển thị khi DB rỗng hoặc offline
+  const STATIC_PRODUCTS: Product[] = [
+    {
+      id: 1,
+      name: "Bánh Khô Mè Cẩm Lệ",
+      price: 75000,
+      image_url: "/kho_me.jpg",
+      story: `Không phải ngẫu nhiên mà Bánh khô mè Cẩm Lệ từng là thức quà quý dâng lên bậc vương giả. Nằm ép mình bên bờ sông Cẩm Lệ êm đềm, những nghệ nhân làng nghề vẫn ngày đêm giữ lửa mẻ nướng, tráng từng lớp nếp thơm, phủ lên lớp áo mè vàng óng ánh như tơ. Người thợ già trong làng thường bảo: "Làm bánh khô mè là đang tu tâm". Để ra được một chiếc bánh xốp giòn, vỡ tan trong miệng, hạt nếp phải được rang trên cát mịn lấy từ dòng sông quê, tắm qua lớp đường mía ngọt thanh và áo một lớp mè rang củi thơm lừng. Bẻ một miếng bánh, nhấp một ngụm trà xanh, bạn không chỉ nếm được vị ngọt bùi, mà còn nghe thấy cả tiếng thời gian đọng lại trong từng lớp nếp nướng.`,
+    },
+    {
+      id: 2,
+      name: "Mực Rim Me Đà Nẵng",
+      price: 85000,
+      image_url: "/muc_rim.jpg",
+      story: `Vị mặn mòi của nắng gió miền Trung, hòa quyện cùng lớp xốt me chua ngọt sánh mịn, điểm xuyết chút ớt xào cay tê... Chỉ cần mở nắp hộp, hương thơm lừng lẫy đã đủ sức đánh gục mọi tín đồ sành ăn nhất. Những mẻ mực lá tươi rói vừa cập bến cảng Thọ Quang lúc hừng đông được các dì, các mẹ chọn lọc kỹ càng, đem phơi đúng "một nắng" gắt để giữ trọn độ dai giòn, ngọt thịt. Linh hồn của món ăn nằm ở chảo xốt me kẹo lại trên bếp lửa liu riu suốt 4 giờ đồng hồ. Mực quyện xốt, xốt bám mực, đỏ au, bóng bẩy. Không cần sơn hào hải vị, một hộp mực rim me nhâm nhi cùng bạn bè những chiều tan tầm là đủ để gói gọn cả nhịp sống sôi động của phố biển Đà Nẵng.`,
+    },
+  ];
+
   useEffect(() => {
     async function fetchProducts() {
       try {
@@ -217,16 +235,23 @@ export default function Home() {
           .order("id", { ascending: true });
 
         if (error) throw error;
-        setProducts(data || []);
+        // Nếu DB rỗng (bị pause/restore), dùng static data làm fallback
+        if (!data || data.length === 0) {
+          setProducts(STATIC_PRODUCTS);
+        } else {
+          setProducts(data);
+        }
       } catch (err: any) {
         console.error(err);
-        setError(err.message || "Không thể tải dữ liệu sản phẩm.");
+        // Lỗi kết nối → vẫn hiển thị sản phẩm từ static data
+        setProducts(STATIC_PRODUCTS);
       } finally {
         setLoading(false);
       }
     }
 
     fetchProducts();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const openCheckout = (product: Product) => {
