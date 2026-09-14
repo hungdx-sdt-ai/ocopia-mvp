@@ -26,19 +26,28 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Clean description to only contain alphanumeric characters and spaces, max 25 chars.
+    // Tạo PayOS orderCode độc nhất từ timestamp + random để tránh trùng lặp
+    // khi Supabase bị reset auto-increment sau khi pause/restore
+    const randomSuffix = Math.floor(Math.random() * 1000);
+    const payosOrderCode = Number(
+      `${Math.floor(Date.now() / 1000)}${String(randomSuffix).padStart(3, "0")}`
+        .slice(-9) // Giữ trong phạm vi số nguyên an toàn
+    );
+
+    // Clean description: chỉ giữ ký tự alphanumeric và space, tối đa 25 ký tự
     const cleanDesc = `Thanh toan don ${orderCode}`
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
       .replace(/[^a-zA-Z0-9 -]/g, "")
       .slice(0, 25);
 
-    const expiredAt = Math.floor(Date.now() / 1000) + 300; // 5 minutes = 300 seconds
+    const expiredAt = Math.floor(Date.now() / 1000) + 300; // 5 phút
 
     const paymentData = {
-      orderCode: orderCode,
+      orderCode: payosOrderCode,
       amount: totalPrice,
       description: cleanDesc,
+      // Truyền orderId (DB id) qua URL để webhook/return có thể cập nhật đúng record
       cancelUrl: `${origin}/?status=cancelled&orderId=${orderCode}`,
       returnUrl: `${origin}/?status=success&orderId=${orderCode}`,
       expiredAt: expiredAt,
@@ -53,7 +62,11 @@ export async function POST(req: NextRequest) {
 
     const paymentLink = await payOS.paymentRequests.create(paymentData);
 
-    return NextResponse.json({ checkoutUrl: paymentLink.checkoutUrl, qrCode: paymentLink.qrCode });
+    return NextResponse.json({
+      checkoutUrl: paymentLink.checkoutUrl,
+      qrCode: paymentLink.qrCode,
+      payosOrderCode: payosOrderCode,
+    });
   } catch (error: any) {
     console.error("Lỗi khi tạo link thanh toán PayOS:", error);
     return NextResponse.json(
