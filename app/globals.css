@@ -84,43 +84,47 @@ html.light .text-white {
 }
 
 html.light .text-white\/60 {
-  color: rgba(28, 25, 23, 0.6) !important;
+  color: #44403c !important;
 }
 
 html.light .text-white\/50 {
-  color: rgba(28, 25, 23, 0.5) !important;
+  color: #57534e !important;
 }
 
 html.light .text-white\/80 {
-  color: rgba(28, 25, 23, 0.8) !important;
+  color: #1c1917 !important;
 }
 
 html.light .text-\[\#eaeaea\]\/40 {
-  color: rgba(28, 25, 23, 0.45) !important;
+  color: #57534e !important;
 }
 
 html.light .text-\[\#eaeaea\]\/50 {
-  color: rgba(28, 25, 23, 0.55) !important;
+  color: #44403c !important;
 }
 
 html.light .text-\[\#eaeaea\]\/55 {
-  color: rgba(28, 25, 23, 0.6) !important;
+  color: #44403c !important;
 }
 
 html.light .text-\[\#eaeaea\]\/60 {
-  color: rgba(28, 25, 23, 0.65) !important;
+  color: #292524 !important;
 }
 
 html.light .text-\[\#eaeaea\]\/70 {
-  color: rgba(28, 25, 23, 0.75) !important;
+  color: #1c1917 !important;
 }
 
 html.light .text-\[\#eaeaea\]\/80 {
-  color: rgba(28, 25, 23, 0.85) !important;
+  color: #1c1917 !important;
 }
 
 html.light .text-\[\#eaeaea\]\/85 {
-  color: rgba(28, 25, 23, 0.9) !important;
+  color: #1c1917 !important;
+}
+
+html.light .font-light {
+  font-weight: 400 !important;
 }
 
 html.light .bg-dark-surface\/40 {
@@ -144,11 +148,11 @@ html.light .bg-white\/\[0\.05\] {
 }
 
 html.light .bg-gold\/5 {
-  background-color: rgba(212, 175, 55, 0.08) !important;
+  background-color: rgba(180, 83, 9, 0.08) !important;
 }
 
 html.light .bg-gold\/10 {
-  background-color: rgba(212, 175, 55, 0.12) !important;
+  background-color: rgba(180, 83, 9, 0.12) !important;
 }
 
 html.light .bg-\[\#14151a\]\/80 {
@@ -181,12 +185,49 @@ html.light .border-white\/15 {
   border-color: rgba(0, 0, 0, 0.18) !important;
 }
 
-html.light .text-gold-light {
-  color: var(--color-gold-dark) !important;
+/* Light mode quote & gold typography - deep rich amber/bronze for crystal-clear readability */
+html.light .text-gold-light,
+html.light .text-gold-light\/95 {
+  color: #78350f !important;
+  font-weight: 500 !important;
 }
 
-html.light .text-gold-light\/95 {
-  color: var(--color-gold-dark) !important;
+html.light .text-gold {
+  color: #854d0e !important;
+}
+
+html.light .text-gold-accent {
+  color: #78350f !important;
+}
+
+html.light .text-gold-accent\/50 {
+  color: rgba(120, 53, 15, 0.75) !important;
+}
+
+html.light .text-gold-accent\/40 {
+  color: rgba(120, 53, 15, 0.65) !important;
+}
+
+html.light .border-gold\/40 {
+  border-color: #b45309 !important;
+}
+
+html.light .border-gold\/30 {
+  border-color: rgba(180, 83, 9, 0.45) !important;
+}
+
+html.light .border-gold\/20 {
+  border-color: rgba(180, 83, 9, 0.3) !important;
+}
+
+html.light .border-gold\/10 {
+  border-color: rgba(180, 83, 9, 0.2) !important;
+}
+
+html.light .gold-gradient-text {
+  background: linear-gradient(135deg, #78350f 0%, #b45309 50%, #92400e 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
 }
 
 html.light .bg-black\/85 {
