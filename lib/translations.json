@@ -1,7 +1,15 @@
 {
   "vi": {
+    "topBarText": "SIÊU ƯU ĐÃI NÔNG SẢN VIỆT - MIỄN PHÍ VẬN CHUYỂN TOÀN QUỐC CHO ĐƠN TỪ 200.000Đ",
+    "topBarAction": "Xem ưu đãi →",
     "navProducts": "SẢN PHẨM",
     "navStory": "CÂU CHUYỆN",
+    "navOcop": "ĐẶC SẢN OCOP",
+    "navContact": "LIÊN HỆ",
+    "navLogin": "Đăng nhập",
+    "searchPlaceholder": "Tìm đặc sản...",
+    "heroCta": "Khám phá ngay >>>",
+    "cartLabel": "Giỏ hàng",
     "navCta": "SẢN PHẨM",
     "buyNow": "Mua ngay",
     "backBtn": "Quay lại",
@@ -138,8 +146,16 @@
     }
   },
   "en": {
+    "topBarText": "VIETNAMESE HERITAGE SPECIALTIES - FREE NATIONWIDE SHIPPING FOR ORDERS OVER 200,000 VND",
+    "topBarAction": "View offers →",
     "navProducts": "PRODUCTS",
     "navStory": "OUR STORY",
+    "navOcop": "OCOP SPECIALTIES",
+    "navContact": "CONTACT",
+    "navLogin": "Sign In",
+    "searchPlaceholder": "Search specialties...",
+    "heroCta": "Explore Now >>>",
+    "cartLabel": "Cart",
     "navCta": "SHOP NOW",
     "buyNow": "Buy now",
     "backBtn": "Back",

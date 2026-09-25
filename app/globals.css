@@ -123,6 +123,10 @@ html.light .text-\[\#eaeaea\]\/85 {
   color: #1c1917 !important;
 }
 
+html.light .text-\[\#eaeaea\]\/90 {
+  color: #1c1917 !important;
+}
+
 html.light .font-light {
   font-weight: 400 !important;
 }
@@ -232,5 +236,16 @@ html.light .gold-gradient-text {
 
 html.light .bg-black\/85 {
   background-color: rgba(255, 255, 255, 0.75) !important;
+}
+
+html.light .bg-\[\#18140c\] {
+  background-color: #f7efe1 !important;
+  color: #78350f !important;
+  border-color: rgba(180, 83, 9, 0.25) !important;
+}
+
+html.light .bg-dark-surface\/80 {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  color: #1c1917 !important;
 }
 

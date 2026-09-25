@@ -103,6 +103,18 @@ export default function Home() {
     orderId: string;
   } | null>(null);
 
+  // Hero Slider & Navbar State (Langfarm Style)
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev === 0 ? 1 : 0));
+    }, 6000);
+    return () => clearInterval(timer);
+  }, []);
+
   // Handle PayOS redirect parameters on mount + back button detection via pageshow
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -1108,21 +1120,133 @@ export default function Home() {
       <div className="absolute top-[20%] left-[-10%] w-[600px] h-[600px] bg-gold/5 rounded-full blur-[150px] pointer-events-none"></div>
       <div className="absolute bottom-[30%] right-[-10%] w-[600px] h-[600px] bg-gold-accent/5 rounded-full blur-[150px] pointer-events-none"></div>
 
-      {/* Header */}
-      <header className="sticky top-0 z-40 w-full glass-panel border-b border-white/5 py-4 px-6 md:px-12 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <span className="font-serif text-2xl font-bold tracking-[0.2em] gold-gradient-text uppercase">
-            Ocopia
-          </span>
-          <span className="text-[10px] uppercase font-mono tracking-widest bg-gold/10 text-gold-accent border border-gold/20 px-2 py-0.5 rounded">
-            Heritage
-          </span>
+      {/* Top Announcement Bar (Langfarm style with Ocopia colors) */}
+      <aside className="w-full bg-[#18140c] text-gold-light/95 border-b border-gold/20 py-2 px-4 text-xs font-sans tracking-wide">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
+          <div className="hidden md:flex items-center gap-2 text-gold-accent text-[11px] font-mono uppercase tracking-wider">
+            <span className="w-2 h-2 rounded-full bg-gold animate-pulse"></span>
+            <span>Ocopia Heritage Marketplace</span>
+          </div>
+          <div className="flex-1 text-center font-medium truncate flex items-center justify-center gap-2">
+            <span>{t.topBarText || "SIÊU ƯU ĐÃI NÔNG SẢN VIỆT - MIỄN PHÍ VẬN CHUYỂN TOÀN QUỐC CHO ĐƠN TỪ 200.000Đ"}</span>
+            <a
+              href="#showroom"
+              className="inline-flex items-center text-gold hover:text-gold-light font-serif font-bold text-xs underline underline-offset-2 ml-1"
+            >
+              {t.topBarAction || "Xem ưu đãi →"}
+            </a>
+          </div>
+          <div className="hidden lg:flex items-center gap-4 text-[11px] font-mono text-[#eaeaea]/60">
+            <span>Hotline: 0988.xxx.xxx</span>
+          </div>
         </div>
-        <nav className="hidden md:flex items-center gap-8 font-serif text-sm tracking-widest text-[#eaeaea]/80">
-          <a href="#showroom" className="hover:text-gold transition-colors">{t.navProducts}</a>
-          <a href="#about" className="hover:text-gold transition-colors">{t.navStory}</a>
+      </aside>
+
+      {/* Header (Langfarm Layout with Ocopia Palette & Fonts) */}
+      <header className="sticky top-0 z-40 w-full glass-panel border-b border-white/5 py-3 px-4 md:px-10 flex items-center justify-between gap-4">
+        {/* Left: Brand Logo */}
+        <a href="#" className="flex items-center gap-3 group shrink-0">
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full overflow-hidden border border-gold/40 shadow-sm p-0.5 bg-dark-bg/60 group-hover:border-gold transition-colors">
+            <img
+              src="/background.jpg"
+              alt="Ocopia Logo"
+              className="w-full h-full object-cover rounded-full"
+            />
+          </div>
+          <div className="flex flex-col">
+            <div className="flex items-center gap-2">
+              <span className="font-serif text-xl sm:text-2xl font-bold tracking-[0.2em] gold-gradient-text uppercase leading-none">
+                Ocopia
+              </span>
+              <span className="text-[9px] uppercase font-mono tracking-widest bg-gold/10 text-gold-accent border border-gold/20 px-1.5 py-0.5 rounded hidden sm:inline-block">
+                Heritage
+              </span>
+            </div>
+            <span className="text-[9px] font-sans text-[#eaeaea]/50 tracking-wider hidden md:block">
+              {lang === "vi" ? "Đặc sản OCOP Việt Nam" : "Vietnamese OCOP Heritage"}
+            </span>
+          </div>
+        </a>
+
+        {/* Center: Navigation Links */}
+        <nav className="hidden lg:flex items-center gap-8 font-serif text-xs tracking-[0.18em] text-[#eaeaea]/85 uppercase">
+          <a href="#showroom" className="hover:text-gold transition-colors font-medium">
+            {t.navProducts || "SẢN PHẨM"}
+          </a>
+          <a href="#story" className="hover:text-gold transition-colors font-medium">
+            {t.navStory || "CÂU CHUYỆN"}
+          </a>
+          <a href="#showroom" className="hover:text-gold transition-colors font-medium">
+            {t.navOcop || "ĐẶC SẢN OCOP"}
+          </a>
+          <a href="#about" className="hover:text-gold transition-colors font-medium">
+            {t.navContact || "LIÊN HỆ"}
+          </a>
         </nav>
-        <div className="flex items-center gap-4">
+
+        {/* Right: Actions (Search, Login Pill, Cart, Theme & Lang) */}
+        <div className="flex items-center gap-2.5 sm:gap-3.5">
+          {/* Search Toggle / Box */}
+          <div className="relative">
+            {isSearchOpen ? (
+              <div className="flex items-center gap-1 bg-dark-surface/80 border border-gold/40 rounded-full px-3 py-1.5 shadow-lg">
+                <input
+                  type="text"
+                  placeholder={t.searchPlaceholder || "Tìm đặc sản..."}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="bg-transparent text-xs text-white placeholder:text-[#eaeaea]/40 focus:outline-none w-28 sm:w-40 font-sans"
+                  autoFocus
+                />
+                <button
+                  onClick={() => setIsSearchOpen(false)}
+                  className="text-xs text-[#eaeaea]/50 hover:text-gold"
+                >
+                  ✕
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => setIsSearchOpen(true)}
+                className="p-2 text-[#eaeaea]/70 hover:text-gold transition-colors rounded-full hover:bg-gold/5 cursor-pointer"
+                aria-label="Search"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35m1.85-5.15a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </button>
+            )}
+          </div>
+
+          {/* Login Pill Button (Langfarm style with Ocopia palette) */}
+          <a
+            href="#showroom"
+            className="hidden sm:flex items-center gap-2 border border-gold/30 hover:border-gold bg-gold/5 hover:bg-gold/10 text-gold-accent hover:text-gold font-serif text-xs tracking-wider py-1.5 px-3.5 rounded-full transition-all duration-300"
+          >
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+            <span>{t.navLogin || "Đăng nhập"}</span>
+          </a>
+
+          {/* Cart Icon with Counter Badge */}
+          <button
+            onClick={() => {
+              if (products.length > 0) openCheckout(products[0]);
+            }}
+            className="relative p-2 text-gold hover:text-gold-light transition-colors rounded-full hover:bg-gold/5 cursor-pointer"
+            aria-label="Shopping Cart"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+            </svg>
+            <span className="absolute top-0.5 right-0.5 bg-gold text-dark-bg text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center font-mono shadow-sm">
+              0
+            </span>
+          </button>
+
+          <div className="h-4 w-[1px] bg-white/10 hidden sm:block"></div>
+
           {/* Theme Toggle */}
           <button
             onClick={toggleTheme}
@@ -1130,11 +1254,11 @@ export default function Home() {
             aria-label="Toggle theme"
           >
             {isDark ? (
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
               </svg>
             ) : (
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
               </svg>
             )}
@@ -1143,65 +1267,197 @@ export default function Home() {
           {/* Language Toggle */}
           <button
             onClick={toggleLang}
-            className="font-serif text-xs font-bold tracking-widest text-[#eaeaea]/85 hover:text-gold transition-colors border border-white/10 hover:border-gold/50 rounded px-2 py-1"
+            className="font-serif text-[11px] font-bold tracking-widest text-[#eaeaea]/85 hover:text-gold transition-colors border border-white/10 hover:border-gold/50 rounded px-2 py-0.5"
             aria-label="Toggle language"
           >
             {lang === "vi" ? "EN" : "VI"}
           </button>
-
-          <a
-            href="#showroom"
-            className="font-serif text-xs tracking-widest border border-gold/50 text-gold hover:bg-gold hover:text-dark-bg transition-all duration-300 py-2 px-5 rounded-sm"
-          >
-            {t.navCta}
-          </a>
         </div>
       </header>
 
       {/* Main Content */}
       <main className="flex-grow z-10">
-        {/* Hero Section */}
-        <section className="relative min-h-[90vh] flex flex-col md:flex-row items-center justify-between px-6 md:px-16 lg:px-24 py-20 gap-12 max-w-7xl mx-auto w-full">
-          {/* Left/Center: Large Centered Logo & Visual */}
-          <div className="flex-grow flex flex-col items-center text-center space-y-6">
-            <div className="w-28 h-28 relative rounded-full overflow-hidden shadow-lg shadow-gold/5">
-              <img
-                src="/background.jpg"
-                alt="Ocopia Logo"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl tracking-[0.25em] text-white font-extralight uppercase select-none leading-none">
-              Ocopia
-            </h1>
-            <div className="w-24 h-[1px] bg-gold/40"></div>
-            <p className="font-serif italic text-sm md:text-base text-gold-accent tracking-widest uppercase">
-              {t.heroTagline}
-            </p>
-          </div>
+        {/* Hero Banner Carousel (Langfarm Layout with Ocopia Typography & Colors) */}
+        {(() => {
+          const heroSlides = [
+            {
+              productId: 1,
+              tag: lang === "vi" ? "OCOP 4 SAO ĐÀ NẴNG" : "OCOP 4-STAR DA NANG",
+              titleMain: lang === "vi" ? "Bánh khô mè" : "Cam Le Crispy",
+              titleAccent: lang === "vi" ? "đặc sản Ocopia" : "Ocopia Sesame",
+              subtitle: lang === "vi" 
+                ? "Giòn tan từng miếng, vẹn nguyên phong vị đất trời Đà thành" 
+                : "Crispy in every bite, pure Vietnamese natural heritage",
+              desc: lang === "vi"
+                ? "Hạt nếp thơm Bầu rang cát mịn, đượm sốt mía ngọt thanh và áo lớp mè rang củi thơm lừng dâng vua triều Nguyễn."
+                : "Crispy roasted sticky rice, golden sugar cane glaze, and fragrant wood-roasted sesame seeds.",
+              imgMain: "/kho_me.jpg",
+              imgSub: "/g_banh_me_tea.jpg",
+              price: "75.000 VNĐ",
+            },
+            {
+              productId: 2,
+              tag: lang === "vi" ? "OCOP 3 SAO ĐÀ NẴNG" : "OCOP 3-STAR DA NANG",
+              titleMain: lang === "vi" ? "Mực rim me" : "Tamarind Glazed",
+              titleAccent: lang === "vi" ? "đặc sản Ocopia" : "Ocopia Squid",
+              subtitle: lang === "vi" 
+                ? "Đậm đà cay ngọt, trọn vẹn hương vị biển khơi miền Trung" 
+                : "Rich, sweet, and spicy - the authentic flavor of the Central Sea",
+              desc: lang === "vi"
+                ? "Mực khô hảo hạng hòa quyện cùng sốt me tươi chín mọng, tỏi ớt thơm nồng đượm đà vị mặn mòi xứ biển."
+                : "Sun-cured squid simmered with local ripe tamarind glaze and native aromatic chili.",
+              imgMain: "/muc_rim.jpg",
+              imgSub: "/g_muc_rim_lifestyle.jpg",
+              price: "85.000 VNĐ",
+            },
+          ];
 
-          {/* Right: Reserved Box for Startup Story */}
-          <div className="w-full md:w-[420px] shrink-0 text-left">
-            <div className="glass-panel border border-gold/25 rounded-md p-8 relative overflow-hidden space-y-6 shadow-2xl bg-dark-surface/40">
-              {/* Top accent highlight */}
-              <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-gold/50 via-gold-accent to-gold/50"></div>
-              
-              <div className="space-y-2">
-                <span className="text-[10px] font-mono tracking-[0.3em] text-gold uppercase block">
-                  {t.heroStoryLabel}
-                </span>
-                <h3 className="font-serif text-2xl text-white font-light tracking-wider">
+          const activeSlide = heroSlides[currentSlide] || heroSlides[0];
+
+          return (
+            <section className="relative px-4 sm:px-6 md:px-12 lg:px-16 pt-6 pb-10 max-w-7xl mx-auto w-full">
+              <div className="relative rounded-2xl md:rounded-3xl overflow-hidden glass-panel border border-gold/25 shadow-2xl p-6 sm:p-10 md:p-14 lg:p-16 transition-all duration-700">
+                {/* Background ambient lighting */}
+                <div className="absolute -top-24 -right-24 w-96 h-96 bg-gold/15 rounded-full blur-[100px] pointer-events-none"></div>
+                <div className="absolute -bottom-24 -left-24 w-80 h-80 bg-gold-accent/10 rounded-full blur-[100px] pointer-events-none"></div>
+                
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center relative z-10">
+                  {/* Left Column: Heading, Subtitle, CTA Pill Button & Slider Dots */}
+                  <div className="lg:col-span-7 space-y-6 text-left">
+                    {/* Category / OCOP Badge */}
+                    <div className="inline-flex items-center gap-2 font-mono text-[10px] sm:text-xs tracking-[0.25em] text-gold uppercase bg-gold/10 border border-gold/25 px-3.5 py-1.5 rounded-full">
+                      <span className="w-1.5 h-1.5 rounded-full bg-gold animate-ping"></span>
+                      <span>{activeSlide.tag}</span>
+                    </div>
+
+                    {/* Big Langfarm-style Headline in Ocopia Font */}
+                    <div className="space-y-1">
+                      <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-[64px] text-white font-light uppercase tracking-tight leading-[1.08]">
+                        {activeSlide.titleMain}
+                      </h1>
+                      <div className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-[54px] gold-gradient-text italic font-normal tracking-wide">
+                        {activeSlide.titleAccent}
+                      </div>
+                    </div>
+
+                    {/* Slogan */}
+                    <p className="font-sans text-base sm:text-lg md:text-xl text-[#eaeaea]/85 font-normal leading-relaxed max-w-xl">
+                      {activeSlide.subtitle}
+                    </p>
+
+                    {/* Secondary Desc */}
+                    <p className="font-sans text-xs sm:text-sm text-[#eaeaea]/60 font-light leading-relaxed max-w-lg hidden sm:block">
+                      {activeSlide.desc}
+                    </p>
+
+                    {/* CTA Button + Price */}
+                    <div className="pt-2 flex flex-wrap items-center gap-4 sm:gap-6">
+                      <button
+                        onClick={() => {
+                          const prod = products.find((p) => p.id === activeSlide.productId) || products[0];
+                          if (prod) handleOpenDetail(prod);
+                        }}
+                        className="inline-flex items-center gap-2 bg-gold text-dark-bg font-serif font-bold text-xs sm:text-sm tracking-[0.15em] px-8 sm:px-10 py-3.5 sm:py-4 rounded-full hover:bg-gold-light hover:shadow-xl hover:shadow-gold/25 transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer uppercase shadow-lg shadow-gold/10"
+                      >
+                        <span>{t.heroCta || "Khám phá ngay >>>"}</span>
+                      </button>
+
+                      <div className="flex flex-col">
+                        <span className="text-[10px] font-mono text-[#eaeaea]/40 uppercase tracking-widest">{t.unitPrice}</span>
+                        <span className="font-serif text-xl sm:text-2xl text-gold font-bold">{activeSlide.price}</span>
+                      </div>
+                    </div>
+
+                    {/* Slider Pagination Dots (Langfarm style) */}
+                    <div className="pt-4 flex items-center gap-2.5">
+                      {heroSlides.map((slide, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => setCurrentSlide(idx)}
+                          className={`transition-all duration-300 rounded-full h-2 ${
+                            currentSlide === idx
+                              ? "w-8 bg-gold"
+                              : "w-2.5 bg-gold/30 hover:bg-gold/60"
+                          }`}
+                          aria-label={`Go to slide ${idx + 1}`}
+                        />
+                      ))}
+                      <span className="font-mono text-[10px] text-[#eaeaea]/40 ml-2 tracking-widest">
+                        0{currentSlide + 1} / 0{heroSlides.length}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Right Column: Visual Composition (Main Package + Accompaniment Plate like Langfarm) */}
+                  <div className="lg:col-span-5 relative flex items-center justify-center py-4">
+                    {/* Decorative Circular Backdrop */}
+                    <div className="absolute w-72 sm:w-80 md:w-96 aspect-square rounded-full border border-gold/15 bg-gold/[0.02] pointer-events-none"></div>
+
+                    {/* Main Packaging Image */}
+                    <div
+                      onClick={() => {
+                        const prod = products.find((p) => p.id === activeSlide.productId) || products[0];
+                        if (prod) handleOpenDetail(prod);
+                      }}
+                      className="relative z-20 w-56 sm:w-64 md:w-72 aspect-[3/4] rounded-2xl overflow-hidden glass-panel border-2 border-gold/40 shadow-2xl shadow-black/60 transform hover:scale-103 transition-transform duration-500 cursor-pointer group"
+                    >
+                      <img
+                        src={activeSlide.imgMain}
+                        alt={activeSlide.titleMain}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-dark-bg/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                        <span className="font-serif text-xs text-gold tracking-widest uppercase font-bold">
+                          {t.viewMore} →
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Secondary Accompaniment Plate (Basket/Tray style like Langfarm) */}
+                    <div className="absolute -bottom-2 -right-1 sm:-bottom-4 sm:-right-4 md:-bottom-6 md:right-2 z-30 w-32 sm:w-36 md:w-44 aspect-square rounded-full overflow-hidden border-2 border-gold/60 shadow-2xl glass-panel transform rotate-6 hover:rotate-0 transition-transform duration-500 pointer-events-none">
+                      <img
+                        src={activeSlide.imgSub}
+                        alt="Lifestyle pairing"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+
+                    {/* Star Rating Badge */}
+                    <div className="absolute top-2 left-2 sm:top-4 sm:left-4 z-30 bg-gold text-dark-bg font-mono font-bold text-[10px] tracking-widest uppercase px-3 py-1.5 rounded-full shadow-lg border border-gold-light/40 flex items-center gap-1">
+                      <span>★</span>
+                      <span>{activeSlide.tag.includes("4") ? "4 SAO" : "3 SAO"}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          );
+        })()}
+
+        {/* Heritage Origin Story Section (preserves the startup story from previous layout) */}
+        <section id="story" className="max-w-5xl mx-auto px-6 py-10">
+          <div className="glass-panel border border-gold/25 rounded-2xl p-8 md:p-10 relative overflow-hidden shadow-2xl bg-dark-surface/40">
+            <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-gold/40 via-gold-accent to-gold/40"></div>
+            <div className="flex flex-col md:flex-row gap-6 md:gap-10 items-center">
+              <div className="w-20 h-20 md:w-24 md:h-24 shrink-0 rounded-full overflow-hidden border border-gold/40 shadow-lg p-1 bg-dark-bg/50">
+                <img src="/background.jpg" alt="Ocopia" className="w-full h-full object-cover rounded-full" />
+              </div>
+              <div className="space-y-3 flex-grow text-center md:text-left">
+                <div className="flex items-center justify-center md:justify-start gap-2">
+                  <span className="text-[10px] font-mono tracking-[0.3em] text-gold uppercase block">
+                    {t.heroStoryLabel}
+                  </span>
+                  <span className="text-[10px] font-mono text-gold-accent/50">•</span>
+                  <span className="text-[10px] font-mono text-gold-accent/70 uppercase tracking-widest">
+                    {t.heroStoryFooter}
+                  </span>
+                </div>
+                <h3 className="font-serif text-2xl md:text-3xl text-white font-light tracking-wider">
                   {t.heroStoryTitle}
                 </h3>
-              </div>
-              
-              <p className="font-sans text-xs text-[#eaeaea]/70 leading-relaxed font-light">
-                {t.heroStoryDesc}
-              </p>
-              
-              <div className="border-t border-white/5 pt-4 flex items-center justify-between">
-                <span className="text-[9px] font-mono text-gold-accent/40 uppercase tracking-widest">{t.heroStoryFooter}</span>
-                <div className="w-2 h-2 rounded-full bg-gold/60 animate-pulse"></div>
+                <p className="font-sans text-xs md:text-sm text-[#eaeaea]/70 leading-relaxed font-light">
+                  {t.heroStoryDesc}
+                </p>
               </div>
             </div>
           </div>
