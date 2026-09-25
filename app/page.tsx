@@ -461,6 +461,7 @@ export default function Home({ initialView = "home" }: { initialView?: "home" | 
         .join(", ");
 
       const primaryProductId = itemsList[0]?.product?.id || null;
+      const vnNow = new Date(Date.now() + 7 * 60 * 60 * 1000).toISOString().replace("T", " ").replace("Z", "");
 
       const orderPayload: Record<string, any> = {
         customer_name: formData.customerName,
@@ -471,6 +472,8 @@ export default function Home({ initialView = "home" }: { initialView?: "home" | 
         status: orderStatus,
         product_id: primaryProductId,
         items: itemsSummary,
+        created_at: vnNow,
+        updated_at: vnNow,
       };
 
       let insertResult = await supabase.from("orders").insert(orderPayload).select();
@@ -529,6 +532,7 @@ export default function Home({ initialView = "home" }: { initialView?: "home" | 
           payment_method: "COD",
           status: "COD_CONFIRMED",
           items: itemsSummary,
+          created_at: vnNow,
         };
 
         let compRes = await supabase.from("completed_orders").insert(completedPayload);

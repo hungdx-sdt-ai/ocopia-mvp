@@ -33,11 +33,13 @@ export async function POST(req: NextRequest) {
     // Kiểm tra trạng thái từ PayOS: code '00' = thành công, còn lại = hủy/thất bại
     const isPaid = payosCode === "00";
 
+    const vnNow = new Date(Date.now() + 7 * 60 * 60 * 1000).toISOString().replace("T", " ").replace("Z", "");
+
     if (isPaid) {
       // Cập nhật trạng thái thành Paid
       const { data, error } = await supabase
         .from("orders")
-        .update({ status: "Paid" })
+        .update({ status: "Paid", updated_at: vnNow })
         .eq("id", orderId)
         .select();
 
@@ -60,6 +62,7 @@ export async function POST(req: NextRequest) {
           total_price: order.total_price,
           payment_method: order.payment_method,
           status: "Paid",
+          created_at: vnNow,
           ...(order.items ? { items: order.items } : {}),
         };
 
@@ -85,7 +88,7 @@ export async function POST(req: NextRequest) {
       // PayOS gửi webhook hủy (code != '00') → cập nhật trạng thái thành Cancelled
       const { error } = await supabase
         .from("orders")
-        .update({ status: "Cancelled" })
+        .update({ status: "Cancelled", updated_at: vnNow })
         .eq("id", orderId);
 
       if (error) {
