@@ -39,3 +39,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# raw source product folders
+/banhdauxanh/
+/banhdauxanhthit/
+/banhduagao/
+/banhduame/
+/banhduanuong/
+/banhduanuong2/
+/mitsay/
+/ngucoc/
+

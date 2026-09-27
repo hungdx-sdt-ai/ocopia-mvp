@@ -238,8 +238,8 @@ export default function Home({ initialView = "home" }: { initialView?: "home" | 
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev === 0 ? 1 : 0));
-    }, 6000);
+      setCurrentSlide((prev) => (prev + 1) % 4);
+    }, 5000);
     return () => clearInterval(timer);
   }, []);
 
@@ -348,42 +348,456 @@ export default function Home({ initialView = "home" }: { initialView?: "home" | 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bankingQR?.orderId]);
 
-  // Static fallback products - hiển thị khi DB rỗng hoặc offline
+  // Product detailed metadata for all 8 products
+  const PRODUCT_METADATA: Record<number, {
+    packaging: string;
+    rating: string;
+    badge: string;
+    tagline: { vi: string; en: string };
+    gallery: string[];
+    highlights: { vi: string[]; en: string[] };
+    specs: { vi: { label: string; value: string }[]; en: { label: string; value: string }[] };
+  }> = {
+    1: {
+      packaging: "Hộp 180g",
+      rating: "OCOP 4★",
+      badge: "Đặc sản Quảng Nam",
+      tagline: {
+        vi: "Bánh giòn rụm thanh ngọt, hòa quyện vị bùi béo dừa tươi, gạo lứt và đậu xanh xứ Quảng",
+        en: "Crispy and fragrant baked coconut cake with brown rice and mung beans from Quang Nam",
+      },
+      gallery: ["/products/p1_main.png", "/products/p1_front.png", "/products/p1_back.png", "/products/cert_ocop.jpg", "/products/cert_atvstp.png"],
+      highlights: {
+        vi: [
+          "Chắt chiu từ 60% cơm dừa tươi nguyên chất kết hợp bột nếp dẻo thơm, gạo lứt bổ dưỡng và đậu xanh bùi bùi.",
+          "Nướng giòn rụm đặc trưng, vị ngọt thanh tự nhiên từ đường mía, bơ và thoảng hương vani quyến rũ.",
+          "Chứng nhận OCOP tỉnh Quảng Nam và chứng nhận An toàn vệ sinh thực phẩm (ATVSTP).",
+          "Bao bì hộp sang trọng, thanh nhã, món quà quê giản dị đượm tình trao gửi người thân, bạn bè.",
+        ],
+        en: [
+          "Crafted with 60% pure fresh coconut, fragrant glutinous rice, wholesome brown rice, and rich mung beans.",
+          "Distinctive crispy texture with gentle natural sweetness from cane sugar, butter, and fragrant vanilla aroma.",
+          "Certified OCOP specialty of Quang Nam province and certified food safety and hygiene.",
+          "Elegant box packaging, an authentic gift expressing warmth and heritage after every journey.",
+        ],
+      },
+      specs: {
+        vi: [
+          { label: "Tên sản phẩm", value: "Bánh dừa gạo lứt đậu xanh Bảo Linh 180g" },
+          { label: "Thương hiệu", value: "Bảo Linh (Ocopia Heritage phân phối)" },
+          { label: "Quy cách đóng gói", value: "Hộp 180g" },
+          { label: "Hạn sử dụng", value: "12 tháng kể từ ngày sản xuất" },
+          { label: "Thành phần", value: "Dừa (60%), đường, bột nếp, bột gạo lứt (6%), đậu xanh (6%), bơ, vani" },
+          { label: "Hướng dẫn sử dụng", value: "Ăn ngay khi mở bao. Ngon nhất khi thưởng thức cùng tách trà ấm" },
+          { label: "Hướng dẫn bảo quản", value: "Để nơi khô ráo và thoáng mát, tránh ánh nắng trực tiếp" },
+          { label: "Thông tin cảnh báo", value: "Không dùng khi sản phẩm bị mốc hoặc sản phẩm hết hạn sử dụng" },
+          { label: "Số công bố", value: "02/HIEUBANHBAOLINH/2023" },
+          { label: "Tiêu chuẩn chất lượng", value: "Chứng nhận OCOP tỉnh Quảng Nam, Chứng nhận ATVSTP" },
+        ],
+        en: [
+          { label: "Product Name", value: "Bao Linh Coconut Cake with Brown Rice & Mung Bean 180g" },
+          { label: "Brand", value: "Bao Linh (Distributed by Ocopia Heritage)" },
+          { label: "Packaging", value: "180g Box" },
+          { label: "Shelf Life", value: "12 months from manufacture date" },
+          { label: "Ingredients", value: "Coconut (60%), sugar, glutinous rice flour, brown rice flour (6%), mung bean (6%), butter, vanilla" },
+          { label: "Usage Instructions", value: "Ready to eat directly upon opening. Best paired with warm tea" },
+          { label: "Storage", value: "Store in a cool, dry place away from direct sunlight" },
+          { label: "Standard", value: "Quang Nam OCOP Certified, Food Hygiene Safety Certificate" },
+        ],
+      },
+    },
+    2: {
+      packaging: "Hộp 180g",
+      rating: "OCOP 4★",
+      badge: "Đặc sản Quảng Nam",
+      tagline: {
+        vi: "Hương mè rang thơm lừng quyện cùng dừa tươi béo ngậy và gạo lứt giòn tan khó cưỡng",
+        en: "Fragrant wood-roasted sesame blended with creamy fresh coconut and crispy brown rice",
+      },
+      gallery: ["/products/p2_main.png", "/products/p2_front.png", "/products/p2_back.png", "/products/cert_ocop.jpg", "/products/cert_atvstp.png"],
+      highlights: {
+        vi: [
+          "Sự kết hợp hoàn hảo giữa 60% dừa tươi nướng giòn và mè vàng rang củi thơm lừng, bổ dưỡng.",
+          "Hạt gạo lứt lành tính tăng cường chất xơ, bùi bùi giòn rụm, ngọt dịu thanh nhẹ đầu lưỡi.",
+          "Đạt chuẩn OCOP Quảng Nam và giấy chứng nhận An toàn vệ sinh thực phẩm.",
+          "Đóng hộp chỉn chu, thích hợp thưởng thức cùng trà nóng hoặc làm quà biếu du lịch ý nghĩa.",
+        ],
+        en: [
+          "Perfect harmony of 60% toasted fresh coconut and fragrant firewood-roasted golden sesame seeds.",
+          "Wholesome brown rice providing natural dietary fiber, crispy bite, and delicate sweetness.",
+          "Certified Quang Nam OCOP specialty and food safety standards.",
+          "Sophisticated box packaging, perfect for pairing with hot tea or as a cultural souvenir.",
+        ],
+      },
+      specs: {
+        vi: [
+          { label: "Tên sản phẩm", value: "Bánh dừa gạo lứt mè Bảo Linh 180g" },
+          { label: "Thương hiệu", value: "Bảo Linh (Ocopia Heritage phân phối)" },
+          { label: "Quy cách đóng gói", value: "Hộp 180g" },
+          { label: "Hạn sử dụng", value: "12 tháng kể từ ngày sản xuất" },
+          { label: "Thành phần", value: "Dừa (60%), đường, bột nếp, bột gạo lứt (6%), mè (6%), bơ, vani" },
+          { label: "Hướng dẫn sử dụng", value: "Ăn ngay khi mở bao. Dùng kèm trà xanh hoặc cà phê" },
+          { label: "Hướng dẫn bảo quản", value: "Để nơi khô ráo và thoáng mát, tránh ánh nắng trực tiếp" },
+          { label: "Thông tin cảnh báo", value: "Không dùng khi sản phẩm bị mốc hoặc sản phẩm hết hạn sử dụng" },
+          { label: "Số công bố", value: "01/HIEUBANHBAOLINH/2023" },
+          { label: "Tiêu chuẩn chất lượng", value: "Chứng nhận OCOP tỉnh Quảng Nam, Chứng nhận ATVSTP" },
+        ],
+        en: [
+          { label: "Product Name", value: "Bao Linh Coconut Cake with Brown Rice & Sesame 180g" },
+          { label: "Brand", value: "Bao Linh (Distributed by Ocopia Heritage)" },
+          { label: "Packaging", value: "180g Box" },
+          { label: "Shelf Life", value: "12 months from manufacture date" },
+          { label: "Ingredients", value: "Coconut (60%), sugar, glutinous rice flour, brown rice flour (6%), sesame (6%), butter, vanilla" },
+          { label: "Usage Instructions", value: "Ready to eat directly upon opening. Excellent with green tea or coffee" },
+          { label: "Standard", value: "Quang Nam OCOP Certified, Food Hygiene Safety Certificate" },
+        ],
+      },
+    },
+    3: {
+      packaging: "Hộp 250g",
+      rating: "OCOP 4★",
+      badge: "Bán chạy nhất",
+      tagline: {
+        vi: "Đặc sản xứ Quảng nức tiếng - 100% nguyên liệu tự nhiên, giòn rụm béo bùi chuẩn vị truyền thống",
+        en: "Famous Quang Nam specialty - 100% natural ingredients, authentic crispy coconut crunch",
+      },
+      gallery: ["/products/p3_main.png", "/products/p3_detail.png", "/products/cert_ocop.jpg", "/products/cert_atvstp.png"],
+      highlights: {
+        vi: [
+          "100% nguyên liệu tự nhiên: Bột nếp hảo hạng, dừa tươi, đường trắng, vani tự nhiên.",
+          "Tuyệt đối không hóa chất bảo quản hay phẩm màu phụ gia, an toàn sức khỏe tuyệt đối.",
+          "Đã được chứng nhận OCOP tỉnh Quảng Nam và chứng nhận an toàn thực phẩm ATVSTP.",
+          "Quy cách đóng hộp 250g trang nhã, sang trọng, thích hợp làm quà tặng đặc sản và thưởng trà.",
+        ],
+        en: [
+          "100% all-natural ingredients: Premium sticky rice, fresh coconut meat, cane sugar, natural vanilla.",
+          "Zero artificial preservatives or colorants, ensuring total wholesome goodness.",
+          "Certified OCOP specialty of Quang Nam and full food hygiene certification.",
+          "Elegant 250g box presentation, ideal for gifting and tea-time enjoyment.",
+        ],
+      },
+      specs: {
+        vi: [
+          { label: "Tên sản phẩm", value: "Bánh dừa nướng Bảo Linh hộp 250g" },
+          { label: "Thương hiệu", value: "Bảo Linh (Ocopia Heritage phân phối)" },
+          { label: "Quy cách đóng gói", value: "Hộp 250g" },
+          { label: "Hạn sử dụng", value: "18 tháng kể từ ngày sản xuất" },
+          { label: "Thành phần", value: "Bột nếp, dừa tươi, đường trắng, vani tự nhiên" },
+          { label: "Hướng dẫn sử dụng", value: "Dùng làm quà biếu, ăn vặt, nhâm nhi cùng trà ấm" },
+          { label: "Hướng dẫn bảo quản", value: "Bảo quản nơi khô ráo, thoáng mát" },
+          { label: "Nơi sản xuất", value: "Tam Kỳ, Quảng Nam" },
+          { label: "Tiêu chuẩn chất lượng", value: "Chứng nhận OCOP tỉnh Quảng Nam, Chứng nhận ATVSTP" },
+        ],
+        en: [
+          { label: "Product Name", value: "Bao Linh Baked Coconut Cake Box 250g" },
+          { label: "Brand", value: "Bao Linh (Distributed by Ocopia Heritage)" },
+          { label: "Packaging", value: "250g Box" },
+          { label: "Shelf Life", value: "18 months from manufacture date" },
+          { label: "Ingredients", value: "Glutinous rice flour, fresh coconut, cane sugar, vanilla" },
+          { label: "Usage Instructions", value: "Enjoy directly as a delicious tea snack or gift" },
+          { label: "Standard", value: "Quang Nam OCOP Certified, Food Hygiene Safety Certificate" },
+        ],
+      },
+    },
+    4: {
+      packaging: "Gói 150g",
+      rating: "OCOP 3★",
+      badge: "12 gói tiện lợi",
+      tagline: {
+        vi: "Quy cách 12 gói nhỏ tiện lợi, giòn tan đậm đà vị ngọt bùi của dừa tươi miền nhiệt đới",
+        en: "Convenient 12-pack bag, crunchy and rich with tropical sweet coconut flavors",
+      },
+      gallery: ["/products/p4_main.png", "/products/p4_detail.png", "/products/cert_ocop.jpg", "/products/cert_atvstp.png"],
+      highlights: {
+        vi: [
+          "Quy cách túi gồm 12 gói nhỏ bên trong, cực kỳ tiện lợi khi bảo quản, đem theo đi học, đi làm.",
+          "Thành phần thuần khiết từ cùi dừa tươi chọn lọc, bột nếp và hương vani thoang thoảng.",
+          "Đạt chứng nhận OCOP tỉnh Quảng Nam và chứng nhận an toàn thực phẩm.",
+          "Hạn sử dụng dài 18 tháng, món ăn vặt giòn tan mỗi ngày cho gia đình và văn phòng.",
+        ],
+        en: [
+          "Handy bag containing 12 individual snack packs, convenient for work, school, and travel.",
+          "Pure recipe from selected coconut meat, glutinous rice flour, and subtle vanilla.",
+          "Certified Quang Nam OCOP specialty and food safety accredited.",
+          "Long 18-month shelf life, an everyday wholesome crunchy snack.",
+        ],
+      },
+      specs: {
+        vi: [
+          { label: "Tên sản phẩm", value: "Bánh dừa nướng Bảo Linh gói 150g" },
+          { label: "Thương hiệu", value: "Bảo Linh (Ocopia Heritage phân phối)" },
+          { label: "Quy cách đóng gói", value: "Gói 150g (12 gói nhỏ/gói)" },
+          { label: "Hạn sử dụng", value: "18 tháng kể từ ngày sản xuất" },
+          { label: "Thành phần", value: "Dừa tươi, bột nếp, đường trắng, vani" },
+          { label: "Hướng dẫn sử dụng", value: "Mở gói dùng trực tiếp, thích hợp cho giờ giải lao" },
+          { label: "Hướng dẫn bảo quản", value: "Nơi khô ráo, thoáng mát" },
+          { label: "Nơi sản xuất", value: "Tam Kỳ, Quảng Nam" },
+          { label: "Tiêu chuẩn chất lượng", value: "Chứng nhận OCOP tỉnh Quảng Nam, Chứng nhận ATVSTP" },
+        ],
+        en: [
+          { label: "Product Name", value: "Bao Linh Baked Coconut Cake Bag 150g (12 packs)" },
+          { label: "Brand", value: "Bao Linh (Distributed by Ocopia Heritage)" },
+          { label: "Packaging", value: "150g Bag (12 individual sachets)" },
+          { label: "Shelf Life", value: "18 months from manufacture date" },
+          { label: "Ingredients", value: "Fresh coconut, sticky rice flour, cane sugar, vanilla" },
+          { label: "Usage Instructions", value: "Open and enjoy directly anytime, anywhere" },
+          { label: "Standard", value: "Quang Nam OCOP Certified, Food Hygiene Safety Certificate" },
+        ],
+      },
+    },
+    5: {
+      packaging: "Hộp 150g",
+      rating: "OCOP 4★",
+      badge: "100% Thuần Chay",
+      tagline: {
+        vi: "Thơm bùi vị đồng quê từ hạt đậu xanh ruột vàng nướng giòn rụm, 100% thuần chay thanh khiết",
+        en: "Fragrant countryside flavor from golden mung beans, 100% vegetarian crispy baked cake",
+      },
+      gallery: ["/products/p5_main.png", "/products/p5_detail.png", "/products/cert_ocop.jpg", "/products/cert_atvstp.png"],
+      highlights: {
+        vi: [
+          "Nguyên liệu chọn lọc: Đậu xanh ta hạt nhỏ ruột vàng ngọt bùi đậm đà, đường mía, bột vani.",
+          "Hoàn toàn không phụ gia, không chất bảo quản – đặc biệt thích hợp cho người ăn chay.",
+          "Làng nghề truyền thống Khánh Mỹ trứ danh đất Tam Thành (Phú Ninh, Quảng Nam).",
+          "Vị bánh giòn rụm, ngọt bùi tao nhã, hòa quyện tuyệt vời cùng tách trà ấm ban mai.",
+        ],
+        en: [
+          "Selected local ingredients: Golden sweet mung beans, pure cane sugar, and natural vanilla aroma.",
+          "100% vegetarian, zero additives, zero chemical preservatives.",
+          "Crafted in historic Khanh My craft village, Tam Thanh, Phu Ninh, Quang Nam.",
+          "Crunchy texture with delicate nutty sweetness, wonderful with hot morning tea.",
+        ],
+      },
+      specs: {
+        vi: [
+          { label: "Tên sản phẩm", value: "Bánh đậu xanh chay Mỹ Khánh Bảo Linh 150g" },
+          { label: "Thương hiệu", value: "Mỹ Khánh - Bảo Linh (Ocopia Heritage phân phối)" },
+          { label: "Quy cách đóng gói", value: "Hộp 150g" },
+          { label: "Hạn sử dụng", value: "45 ngày (bảo quản ngăn mát tủ lạnh: 60 ngày)" },
+          { label: "Thành phần", value: "Đường, đậu xanh ta ruột vàng, bột vani (100% thuần chay)" },
+          { label: "Hướng dẫn sử dụng", value: "Dùng liền sau khi mở nắp, ngon nhất khi nhâm nhi cùng trà ấm hoặc cà phê" },
+          { label: "Hướng dẫn bảo quản", value: "Để nơi khô ráo, thoáng mát" },
+          { label: "Nơi sản xuất", value: "Làng nghề Khánh Mỹ, Tam Thành, Phú Ninh, Quảng Nam" },
+          { label: "Tiêu chuẩn chất lượng", value: "Chứng nhận OCOP tỉnh Quảng Nam, Chứng nhận ATVSTP" },
+        ],
+        en: [
+          { label: "Product Name", value: "My Khanh Vegetarian Mung Bean Cake 150g" },
+          { label: "Brand", value: "My Khanh - Bao Linh (Distributed by Ocopia Heritage)" },
+          { label: "Packaging", value: "150g Box" },
+          { label: "Shelf Life", value: "45 days (60 days refrigerated)" },
+          { label: "Ingredients", value: "Sugar, golden mung beans, vanilla (100% vegetarian)" },
+          { label: "Usage Instructions", value: "Consume immediately after opening, best with hot tea" },
+          { label: "Standard", value: "Quang Nam OCOP Certified, Food Hygiene Safety Certificate" },
+        ],
+      },
+    },
+    6: {
+      packaging: "Hộp 150g",
+      rating: "OCOP 4★",
+      badge: "Nhân thịt heo quê",
+      tagline: {
+        vi: "Mặn ngọt hài hòa nhân thịt heo quê đậm đà bọc trong lớp vỏ đậu xanh giòn tan nức tiếng",
+        en: "Savory-sweet harmony of local seasoned pork filling encased in crispy mung bean crust",
+      },
+      gallery: ["/products/p6_main.png", "/products/p6_detail.png", "/products/cert_ocop.jpg", "/products/cert_atvstp.png"],
+      highlights: {
+        vi: [
+          "Nhân thịt heo quê ướp gia vị đậm đà, mặn ngọt hài hòa bọc trong lớp vỏ đậu xanh nướng giòn rụm.",
+          "Nguyên liệu tuyển chọn từ nông sản địa phương, không hóa chất độc hại, không phụ gia.",
+          "Đặc sản truyền thống làng nghề Khánh Mỹ - biểu tượng ẩm thực tinh tế xứ Quảng.",
+          "Bao bì hộp quà tinh tế, trang trọng, món quà gửi trọn nghĩa tình quê hương.",
+        ],
+        en: [
+          "Savory pork filling delicately seasoned, enveloped by crunchy golden mung bean cake.",
+          "Selected local agricultural ingredients, zero harmful chemicals or preservatives.",
+          "Celebrated heritage craft of Khanh My village, a Quang Nam culinary treasure.",
+          "Refined gift box, expressing the warm spirit and generosity of Central Vietnam.",
+        ],
+      },
+      specs: {
+        vi: [
+          { label: "Tên sản phẩm", value: "Bánh đậu xanh thịt Mỹ Khánh Bảo Linh 150g" },
+          { label: "Thương hiệu", value: "Mỹ Khánh - Bảo Linh (Ocopia Heritage phân phối)" },
+          { label: "Quy cách đóng gói", value: "Hộp 150g" },
+          { label: "Hạn sử dụng", value: "45 ngày (bảo quản ngăn mát tủ lạnh: 60 ngày)" },
+          { label: "Thành phần", value: "Đường, đậu xanh ta ruột vàng, thịt heo quê chọn lọc, bột vani" },
+          { label: "Hướng dẫn sử dụng", value: "Ăn liền sau khi mở gói, dùng cùng trà nóng hoặc cà phê" },
+          { label: "Hướng dẫn bảo quản", value: "Để nơi khô ráo, thoáng mát" },
+          { label: "Nơi sản xuất", value: "Làng nghề Khánh Mỹ, Tam Thành, Phú Ninh, Quảng Nam" },
+          { label: "Tiêu chuẩn chất lượng", value: "Chứng nhận OCOP tỉnh Quảng Nam, Chứng nhận ATVSTP" },
+        ],
+        en: [
+          { label: "Product Name", value: "My Khanh Savory Pork Mung Bean Cake 150g" },
+          { label: "Brand", value: "My Khanh - Bao Linh (Distributed by Ocopia Heritage)" },
+          { label: "Packaging", value: "150g Box" },
+          { label: "Shelf Life", value: "45 days (60 days refrigerated)" },
+          { label: "Ingredients", value: "Sugar, golden mung beans, selected pork, vanilla" },
+          { label: "Usage Instructions", value: "Ready to eat upon opening, superb with warm tea" },
+          { label: "Standard", value: "Quang Nam OCOP Certified, Food Hygiene Safety Certificate" },
+        ],
+      },
+    },
+    7: {
+      packaging: "Túi 150g",
+      rating: "OCOP 4★",
+      badge: "Mít rừng sấy lạnh",
+      tagline: {
+        vi: "100% mít rừng Tiên Ngọc Tiên Phước sấy lạnh, giòn rụm giữ nguyên hương vị ngọt ngào tự nhiên",
+        en: "100% wild jackfruit from Tien Ngoc freeze-dried, naturally crunchy and deliciously sweet",
+      },
+      gallery: ["/products/p7_main.png", "/products/p7_front.png", "/products/p7_back.png"],
+      highlights: {
+        vi: [
+          "100% mít rừng Tiên Ngọc (Tiên Phước, Quảng Nam) chín cây tự nhiên tuyển chọn kỹ càng.",
+          "Công nghệ sấy lạnh ở nhiệt độ thấp (độ ẩm dưới 40%) giữ trọn màu vàng tươi, chất xơ và vitamin quý giá.",
+          "Không tẩm vị đường, không chất tạo màu, không chất bảo quản, an toàn lành mạnh cho cả trẻ nhỏ.",
+          "Túi zip 150g tiện lợi, khóa kín sau khi dùng, dễ dàng mang theo khi đi làm, đi chơi du lịch.",
+        ],
+        en: [
+          "100% wild jackfruit from Tien Ngoc, Tien Phuoc, Quang Nam, tree-ripened and hand-selected.",
+          "Low-temperature freeze-drying technology preserving bright golden color, fiber, and vitamins.",
+          "Zero added sugar, zero artificial colors, zero preservatives, safe and healthy for children.",
+          "Convenient 150g resealable zipper pouch, easy to carry for work, study, or travel.",
+        ],
+      },
+      specs: {
+        vi: [
+          { label: "Tên sản phẩm", value: "Mít sấy giòn QNA Farm 150g" },
+          { label: "Thương hiệu", value: "QNA Farm (Ocopia Heritage phân phối)" },
+          { label: "Quy cách đóng gói", value: "Túi zip 150g" },
+          { label: "Hạn sử dụng", value: "12 tháng kể từ ngày sản xuất" },
+          { label: "Thành phần", value: "100% mít rừng Tiên Ngọc sấy lạnh" },
+          { label: "Hướng dẫn sử dụng", value: "Dùng ăn liền trực tiếp. Khóa kín miệng túi zip sau mỗi lần dùng" },
+          { label: "Hướng dẫn bảo quản", value: "Để nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp" },
+          { label: "Nơi sản xuất", value: "HTX QNA Farm, Tiên Phước, Quảng Nam" },
+          { label: "Tiêu chuẩn chất lượng", value: "Chứng nhận OCOP tỉnh Quảng Nam, Chứng nhận ATVSTP" },
+        ],
+        en: [
+          { label: "Product Name", value: "QNA Farm Crispy Dried Jackfruit 150g" },
+          { label: "Brand", value: "QNA Farm (Distributed by Ocopia Heritage)" },
+          { label: "Packaging", value: "150g Resealable Bag" },
+          { label: "Shelf Life", value: "12 months from manufacture date" },
+          { label: "Ingredients", value: "100% wild Tien Ngoc jackfruit, low-temperature freeze dried" },
+          { label: "Usage Instructions", value: "Ready to eat. Reseal zipper pouch tightly after opening" },
+          { label: "Standard", value: "Quang Nam OCOP Certified, Food Hygiene Safety Certificate" },
+        ],
+      },
+    },
+    8: {
+      packaging: "Túi 125g",
+      rating: "OCOP 4★",
+      badge: "ISO 22000:2018",
+      tagline: {
+        vi: "Bữa phụ lành mạnh từ 6 loại hạt quê kết hợp chuối xanh Tiên Phước, xốp giòn giàu dinh dưỡng",
+        en: "Nutritious snack crafted from 6 native grains and green bananas from Tien Phuoc",
+      },
+      gallery: ["/products/p8_main.png", "/products/p8_detail.png"],
+      highlights: {
+        vi: [
+          "Kết hợp 6 loại hạt quê bổ dưỡng: Gạo nguyên cám, đậu xanh, chuối xanh, ngô nếp, yến mạch, đậu đỏ và đường mía hữu cơ.",
+          "Không chiên dầu, không chất bảo quản, không hương liệu hóa học, không phẩm màu nhân tạo.",
+          "Giàu chất xơ và đạm thực vật, hỗ trợ tiêu hóa tốt cho trẻ em, người ăn kiêng, tập luyện và người lớn tuổi.",
+          "Sản xuất tại cơ sở đạt tiêu chuẩn an toàn thực phẩm quốc tế ISO 22000:2018.",
+        ],
+        en: [
+          "Wholesome blend of 6 local grains: Wholegrain rice, mung bean, green banana, sticky corn, oats, red bean, organic cane sugar.",
+          "Non-fried, zero preservatives, zero artificial flavorings, zero synthetic food colors.",
+          "Rich in dietary fiber and plant proteins, supporting healthy digestion for all ages.",
+          "Produced in an international ISO 22000:2018 food safety certified facility.",
+        ],
+      },
+      specs: {
+        vi: [
+          { label: "Tên sản phẩm", value: "Viên ngũ cốc chuối xanh QNA Farm 125g" },
+          { label: "Thương hiệu", value: "QNA Farm (Ocopia Heritage phân phối)" },
+          { label: "Quy cách đóng gói", value: "Túi 125g (chia nhỏ 40g/gói tiện lợi)" },
+          { label: "Hạn sử dụng", value: "3 tháng kể từ ngày sản xuất (dùng trong 5 ngày sau khi mở)" },
+          { label: "Thành phần", value: "Gạo nguyên cám, đậu xanh, chuối xanh, ngô nếp, yến mạch, đậu đỏ, đường mía hữu cơ" },
+          { label: "Hướng dẫn sử dụng", value: "Dùng ăn liền hoặc kết hợp cùng sữa chua, sữa hạt, trái cây tươi" },
+          { label: "Hướng dẫn bảo quản", value: "Bảo quản nơi khô ráo hoặc ngăn mát tủ lạnh" },
+          { label: "Nơi sản xuất", value: "HTX QNA Farm, Tiên Phước, Quảng Nam (Đạt chuẩn ISO 22000:2018)" },
+          { label: "Tiêu chuẩn chất lượng", value: "Chứng nhận OCOP tỉnh Quảng Nam, Chứng nhận ISO 22000:2018" },
+        ],
+        en: [
+          { label: "Product Name", value: "QNA Farm Green Banana Multigrain Bites 125g" },
+          { label: "Brand", value: "QNA Farm (Distributed by Ocopia Heritage)" },
+          { label: "Packaging", value: "125g Bag (40g sachets)" },
+          { label: "Shelf Life", value: "3 months from manufacture date" },
+          { label: "Ingredients", value: "Wholegrain rice, mung bean, green banana, sticky corn, oats, red bean, organic cane sugar" },
+          { label: "Usage Instructions", value: "Eat directly or pair with yogurt, plant milk, fresh fruits" },
+          { label: "Standard", value: "Quang Nam OCOP Certified, ISO 22000:2018 Certified" },
+        ],
+      },
+    },
+  };
+
+  // Static products list - 8 new products
   const STATIC_PRODUCTS: Product[] = [
     {
       id: 1,
-      name: "Bánh Khô Mè Cẩm Lệ",
-      price: 75000,
-      image_url: "/kho_me.jpg",
-      story: `Không phải ngẫu nhiên mà Bánh khô mè Cẩm Lệ từng là thức quà quý dâng lên bậc vương giả. Nằm ép mình bên bờ sông Cẩm Lệ êm đềm, những nghệ nhân làng nghề vẫn ngày đêm giữ lửa mẻ nướng, tráng từng lớp nếp thơm, phủ lên lớp áo mè vàng óng ánh như tơ. Người thợ già trong làng thường bảo: "Làm bánh khô mè là đang tu tâm". Để ra được một chiếc bánh xốp giòn, vỡ tan trong miệng, hạt nếp phải được rang trên cát mịn lấy từ dòng sông quê, tắm qua lớp đường mía ngọt thanh và áo một lớp mè rang củi thơm lừng. Bẻ một miếng bánh, nhấp một ngụm trà xanh, bạn không chỉ nếm được vị ngọt bùi, mà còn nghe thấy cả tiếng thời gian đọng lại trong từng lớp nếp nướng.`,
+      name: "Bánh dừa gạo lứt đậu xanh Bảo Linh",
+      price: 39000,
+      image_url: "/products/p1_main.png",
+      story: `Kế thừa trọn vẹn tinh túy của làng nghề đặc sản xứ Quảng, Bánh Dừa Nướng Gạo Lứt Đậu Xanh Bảo Linh là sự giao thoa hoàn hảo giữa công thức truyền thống lâu đời và những sản vật mộc mạc từ thiên nhiên. Từng chiếc bánh được chắt chiu từ cơm dừa tươi nguyên chất béo ngậy, bột nếp dẻo thơm, kết hợp cùng gạo lứt bổ dưỡng, vị bùi thanh của đậu xanh và những hạt mè vàng thơm lừng. Qua ngọn lửa nướng vừa độ, bánh đạt tới độ giòn rụm đặc trưng. Cắn một miếng, vị ngọt bùi của dừa và đậu xanh hòa cùng hương thơm thanh nhã của gạo lứt và mè rang ngay lập tức lan tỏa, gợi thức trọn vẹn hương vị mặn mòi, ấm áp của đất và người miền Trung.`,
     },
     {
       id: 2,
-      name: "Mực Rim Me Đà Nẵng",
-      price: 85000,
-      image_url: "/muc_rim.jpg",
-      story: `Vị mặn mòi của nắng gió miền Trung, hòa quyện cùng lớp xốt me chua ngọt sánh mịn, điểm xuyết chút ớt xào cay tê... Chỉ cần mở nắp hộp, hương thơm lừng lẫy đã đủ sức đánh gục mọi tín đồ sành ăn nhất. Những mẻ mực lá tươi rói vừa cập bến cảng Thọ Quang lúc hừng đông được các dì, các mẹ chọn lọc kỹ càng, đem phơi đúng "một nắng" gắt để giữ trọn độ dai giòn, ngọt thịt. Linh hồn của món ăn nằm ở chảo xốt me kẹo lại trên bếp lửa liu riu suốt 4 giờ đồng hồ. Mực quyện xốt, xốt bám mực, đỏ au, bóng bẩy. Không cần sơn hào hải vị, một hộp mực rim me nhâm nhi cùng bạn bè những chiều tan tầm là đủ để gói gọn cả nhịp sống sôi động của phố biển Đà Nẵng.`,
+      name: "Bánh dừa gạo lứt mè Bảo Linh",
+      price: 39000,
+      image_url: "/products/p2_main.png",
+      story: `Từ mảnh đất Quảng Nam dạt dào nắng gió, Bánh Dừa Nướng Gạo Lứt Mè Bảo Linh kế thừa trọn vẹn nét đẹp của công thức truyền thống lâu đời, biến những sản vật mộc mạc quê nhà thành thức quà tinh tế, giòn tan. Sự kết hợp hoàn hảo giữa cơm dừa tươi nguyên chất béo bùi, bột nếp dẻo thơm cùng hạt gạo lứt bổ dưỡng và những hạt mè vàng ươm đã tạo nên nét chấm phá đầy khác biệt. Qua bàn tay chăm chút của người thợ và ngọn lửa nướng vừa độ, từng chiếc bánh ra đời mang hương thơm lừng quyến rũ. Cắn nhẹ một miếng, tiếng giòn rụm vang lên vui tai, lập tức lan tỏa vị ngọt thanh tự nhiên của dừa tươi, vị béo bùi đậm đà của mè rang.`,
+    },
+    {
+      id: 3,
+      name: "Bánh dừa nướng Bảo Linh hộp 250g",
+      price: 39000,
+      image_url: "/products/p3_main.png",
+      story: `Từ những rặng dừa xanh mướt ngập tràn ánh nắng nhiệt đới, câu chuyện của Bánh dừa Bảo Linh bắt đầu khi nét dân dã ấy dừng chân tại xứ Quảng. Bằng sự tỉ mỉ và tình yêu sản vật quê nhà, Bảo Linh đã biến những cùi dừa tươi quen thuộc thành món bánh nướng giòn tan, chinh phục trọn vẹn cả những thực khách khó tính nhất. Mỗi chiếc bánh là sự kết tinh hoàn toàn từ thiên nhiên: cơm dừa tươi béo ngậy, bột nếp thơm lừng, chút đường ngọt đậm và hương vani thoang thoảng. Không hóa chất, không phụ gia, quy trình chế biến an toàn tuyệt đối giúp giữ trọn nét thuần khiết của nguyên liệu.`,
+    },
+    {
+      id: 4,
+      name: "Bánh dừa nướng Bảo Linh gói 150g",
+      price: 28000,
+      image_url: "/products/p4_main.png",
+      story: `Khoác lên mình chiếc áo màu xanh mát – biểu tượng mộc mạc của những tà lá dừa quê hương, Bánh dừa gói Bảo Linh mang vẻ đẹp giản dị, gần gũi. Gọn nhẹ, dễ bảo quản và đượm tình, đây không chỉ là món ăn vặt vui tai vui miệng mà còn là món quà du lịch tinh tế, gửi trao trọn vẹn sự chân thành và ký ức ngọt ngào sau mỗi chuyến đi xa. Bằng sự tỉ mỉ và tình yêu sản vật quê nhà, Bảo Linh đã biến những cùi dừa tươi quen thuộc thành món bánh nướng giòn tan, chinh phục trọn vẹn cả những thực khách khó tính nhất.`,
+    },
+    {
+      id: 5,
+      name: "Bánh đậu xanh chay Mỹ Khánh Bảo Linh",
+      price: 39000,
+      image_url: "/products/p5_main.png",
+      story: `Bên dòng Suối Dừng hiền hòa của vùng đất Tam Thành (Phú Ninh, Quảng Nam), Bánh đậu xanh hộp Mỹ Khánh ra đời như một thức quà chắt chiu từ tình đất và lòng người xứ Quảng. Từ những hạt đậu xanh ta hạt nhỏ ruột vàng ngọt bùi, người thợ lành nghề đã tỉ mỉ nướng nên từng chiếc bánh giòn tan đặc trưng. Mọi công đoạn đều giữ trọn sự mộc mạc, sạch lành, tuyệt đối không chất bảo quản hay phụ gia hóa chất. Cắn một miếng bánh Mỹ Khánh giòn rụm bên tách trà ấm hay ly cà phê sáng, vị bùi ngọt hòa quyện lan tỏa ngay đầu lưỡi.`,
+    },
+    {
+      id: 6,
+      name: "Bánh đậu xanh thịt Mỹ Khánh Bảo Linh",
+      price: 39000,
+      image_url: "/products/p6_main.png",
+      story: `Sinh ra từ bãi bồi Khánh Mỹ và dòng Suối Dừng trong lành thuộc đất Tam Thành (Phú Ninh, Quảng Nam), Bánh đậu xanh hộp Mỹ Khánh không chỉ là một thức quà dân dã, mà là sự chắt chiu tinh túy của đất trời và lòng người xứ Quảng. Từ những hạt đậu xanh ta ruột vàng ươm, bùi ngọt tự nhiên kết hợp cùng nhân thịt heo quê đậm đà, chút mặn mòi của biển và ngọn lửa nướng giòn tan, từng chiếc bánh nhỏ nhắn ra đời mang theo trọn vẹn hương đồng gió nội. Không hóa chất, không chất bảo quản, mỗi chiếc bánh Mỹ Khánh là sự tôn trọng tuyệt đối dành cho sức khỏe người thưởng thức.`,
+    },
+    {
+      id: 7,
+      name: "Mít sấy giòn QNA Farm",
+      price: 50000,
+      image_url: "/products/p7_main.png",
+      story: `Từ những vườn mít rừng Tiên Ngọc bạt ngàn nắng gió Tiên Phước, bà con HTX QNA Farm tỉ mỉ chọn từng múi mít chín cây, sấy lạnh giữ nguyên vị ngọt quê. Món quà vặt mộc mạc ấy mang theo cả hơi thở núi rừng xứ Quảng đến với mọi nhà, dù xa quê vẫn ấm lòng khi nếm thử. Mít chín tự nhiên sấy lạnh ở nhiệt độ thấp, giữ trọn độ giòn xốp và dưỡng chất quý giá, tuyệt đối không chất bảo quản hay tẩm ướp phụ gia.`,
+    },
+    {
+      id: 8,
+      name: "Viên ngũ cốc chuối xanh QNA Farm",
+      price: 50000,
+      image_url: "/products/p8_main.png",
+      story: `Thấu hiểu nỗi lo của các mẹ khi con thích ăn vặt mà sợ đồ nhiều dầu mỡ, bà con HTX QNA Farm ở Tiên Phước dày công nghiên cứu, kết hợp 6 loại hạt quê rang thủ công cùng chuối xanh. Từng viên ngũ cốc xốp giòn, ngọt dịu là tấm lòng "sạch – lành – thuận tự nhiên" gửi đến từng gia đình. Không chiên dầu, không chất bảo quản, không hương liệu nhân tạo, thích hợp dùng làm bữa phụ giàu dinh dưỡng cho cả gia đình.`,
     },
   ];
 
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const { data, error } = await supabase
-          .from("products")
-          .select("*")
-          .order("id", { ascending: true });
-
-        if (error) throw error;
-        // Nếu DB rỗng (bị pause/restore), dùng static data làm fallback
-        if (!data || data.length === 0) {
-          setProducts(STATIC_PRODUCTS);
-        } else {
-          setProducts(data);
-        }
+        // Nạp danh sách 8 sản phẩm mới
+        setProducts(STATIC_PRODUCTS);
       } catch (err: any) {
         console.error(err);
-        // Lỗi kết nối → vẫn hiển thị sản phẩm từ static data
         setProducts(STATIC_PRODUCTS);
       } finally {
         setLoading(false);
@@ -1035,109 +1449,20 @@ export default function Home({ initialView = "home" }: { initialView?: "home" | 
 
   if (activeDetailProduct) {
     const localizedProduct = t.products?.[String(activeDetailProduct.id)];
-    const isCamLe = activeDetailProduct.id === 1;
+    const meta = PRODUCT_METADATA[activeDetailProduct.id];
 
     // Gallery images
-    const galleryImages = isCamLe
-      ? ["/kho_me.jpg", "/g_banh_me_tea.jpg", "/g_nep_huong.jpg", "/g_me_rang.jpg"]
-      : ["/muc_rim.jpg", "/muc_close_up.jpg", "/g_muc_rim_lifestyle.jpg", "/g_muc_kho.jpg"];
-
+    const galleryImages = meta?.gallery || [activeDetailProduct.image_url];
     const currentImg = selectedDetailImage || activeDetailProduct.image_url;
 
     // Tagline (under title)
-    const productTagline = isCamLe
-      ? (lang === "vi"
-          ? "Bánh to xốp giòn, thơm nức mè rang củi, 1 bánh cho 1 tách trà chuẩn vị cung đình"
-          : "Crispy imperial sesame cake, wood-roasted sesame aroma, crafted for royal tea ceremonies")
-      : (lang === "vi"
-          ? "Mực ống tươi dày thịt quyện sốt me cốt chua cay đậm đà, chuẩn vị biển miền Trung"
-          : "Fresh thick Da Nang squid glazed in tangy sweet-and-sour tamarind sauce");
+    const productTagline = meta?.tagline?.[lang] || activeDetailProduct.story.slice(0, 120);
 
     // Key Highlights (Image 2: Đặc tính nổi bật)
-    const highlights = isCamLe
-      ? (lang === "vi"
-          ? [
-              "Bánh khô mè Cẩm Lệ Ocopia được chế biến từ nguyên liệu nguồn gốc nông sản tự nhiên, thơm ngon, đậm đà phong vị Đà thành.",
-              "Bánh to xốp giòn, thơm nức mè rang củi, 1 bánh cho 1 tách trà ấm với sự hòa quyện giữa mật mía ngọt thanh và gừng cay ấm.",
-              "Nhà xưởng đạt chuẩn an toàn vệ sinh thực phẩm, gìn giữ công thức ẩm thực truyền thống danh tiếng từng tiến vua triều Nguyễn.",
-              "Bao bì hộp quà trang trọng, chỉn chu, thích hợp tiêu dùng hàng ngày hoặc làm quà biếu đặc sản ý nghĩa.",
-            ]
-          : [
-              "Ocopia Cam Le Sesame Cake is crafted from authentic local ingredients: fragrant sticky rice, wood-roasted sesame, and ginger.",
-              "Crispy, light and aromatic, perfectly paired with a hot cup of Vietnamese green tea.",
-              "Certified food safety production, preserving the centuries-old royal recipe once presented to the Nguyen Dynasty court.",
-              "Elegant packaging, perfect for daily enjoyment or gifting authentic Vietnamese heritage.",
-            ])
-      : (lang === "vi"
-          ? [
-              "Mực rim me Đà Nẵng Ocopia sử dụng 100% mực ống tươi vùng biển Đà Nẵng, thịt dày, dai giòn tự nhiên.",
-              "Sốt me chín cô đặc rim nhỏ lửa suốt 4 giờ cùng ớt xiêm cay nồng và tỏi thơm, mang lại vị chua cay mặn ngọt bùng nổ giác quan.",
-              "Cơ sở chế biến đạt chứng nhận OCOP 3 sao và chuẩn an toàn vệ sinh thực phẩm, không phẩm màu độc hại.",
-              "Đóng hũ PET nắp nhôm màng seal kín hiện đại, thẩm mỹ, sạch sẽ, bảo quản tối ưu độ tươi giòn của mực.",
-            ]
-          : [
-              "Crafted with 100% fresh squid harvested from Da Nang waters, naturally chewy and savory.",
-              "Simmered slowly for 4 hours in pure tamarind glaze, chili and local garlic for a burst of sweet-sour-spicy flavor.",
-              "OCOP 3-star certified production facility meeting strict food safety and hygiene regulations.",
-              "Convenient PET jar with hermetic seal preserving crisp freshness and flavor.",
-            ]);
+    const highlights = meta?.highlights?.[lang] || [];
 
     // Specifications (Image 2: Thông tin sản phẩm)
-    const specs = isCamLe
-      ? (lang === "vi"
-          ? [
-              { label: "Tên sản phẩm", value: "Bánh khô mè Cẩm Lệ, 250g, hộp, đặc sản Ocopia Heritage" },
-              { label: "Thương hiệu", value: "Ocopia Heritage" },
-              { label: "Mã vạch / Mã chứng nhận", value: "OCOP-4STAR-DN-2026" },
-              { label: "Khối lượng tịnh / Thể tích thực", value: "250g" },
-              { label: "Hạn sử dụng", value: "6 tháng kể từ ngày sản xuất" },
-              { label: "Thành phần", value: "Nếp hương Bầu (45%), mè trắng rang củi (25%), mật mía Điện Bàn (20%), gừng sẻ tươi (8%), đường cát, muối tinh." },
-              { label: "Hướng dẫn sử dụng", value: "Thực phẩm ăn liền không qua chế biến. Sử dụng ngay sau khi mở bao bì, ngon nhất khi thưởng thức cùng trà ấm." },
-              { label: "Hướng dẫn bảo quản", value: "Bảo quản nơi khô ráo, thoáng mát, đậy kín sau khi mở, tránh xa ánh nắng trực tiếp." },
-              { label: "Thông tin cảnh báo", value: "Không sử dụng khi có hiện tượng ẩm mốc, mùi vị lạ. Sản phẩm có chứa gói hút oxy bên trong." },
-              { label: "Chất gây dị ứng", value: "Sản phẩm có chứa mè (vừng) và nếp." },
-              { label: "Tiêu chuẩn chất lượng", value: "Chứng nhận OCOP 4 Sao TP. Đà Nẵng, Giấy chứng nhận ATVSTP số 08/2024/ATTP-ĐN" },
-            ]
-          : [
-              { label: "Product Name", value: "Cam Le Crispy Sesame Cake, 250g box, Ocopia Heritage" },
-              { label: "Brand", value: "Ocopia Heritage" },
-              { label: "Barcode / Certification", value: "OCOP-4STAR-DN-2026" },
-              { label: "Net Weight", value: "250g" },
-              { label: "Shelf Life", value: "6 months from manufacture date" },
-              { label: "Ingredients", value: "Fragrant sticky rice (45%), wood-roasted sesame (25%), cane sugar (20%), fresh ginger (8%), salt." },
-              { label: "Usage Instructions", value: "Ready to eat. Consume immediately after opening, best paired with warm tea." },
-              { label: "Storage", value: "Store in a cool, dry place away from direct sunlight. Reseal tightly after opening." },
-              { label: "Warning", value: "Do not use if moldy or past expiration date. Do not eat the desiccant packet." },
-              { label: "Allergen Info", value: "Contains sesame and glutinous rice." },
-              { label: "Certification", value: "Da Nang OCOP 4-Star Certified, Food Hygiene Safety Certificate." },
-            ])
-      : (lang === "vi"
-          ? [
-              { label: "Tên sản phẩm", value: "Mực rim me chua cay Đà Nẵng, 250g, hũ, đặc sản Ocopia Heritage" },
-              { label: "Thương hiệu", value: "Ocopia Heritage" },
-              { label: "Mã vạch / Mã chứng nhận", value: "OCOP-3STAR-DN-2026" },
-              { label: "Khối lượng tịnh / Thể tích thực", value: "250g" },
-              { label: "Hạn sử dụng", value: "6 tháng kể từ ngày sản xuất" },
-              { label: "Thành phần", value: "Mực ống phơi khô (65%), xốt me chín tự nhiên (20%), đường mía (8%), ớt tươi cay nồng, tỏi Lý Sơn, nước mắm truyền thống, dầu thực vật." },
-              { label: "Hướng dẫn sử dụng", value: "Thực phẩm ăn liền không qua chế biến. Dùng ngay sau khi mở nắp, thích hợp làm món ăn vặt hoặc nhắm cùng tri kỷ." },
-              { label: "Hướng dẫn bảo quản", value: "Bảo quản nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp. Đậy kín nắp sau khi mở (bảo quản ngăn mát tủ lạnh để mực giữ độ giòn ngon nhất)." },
-              { label: "Thông tin cảnh báo", value: "Không sử dụng khi có hiện tượng mốc hoặc đổi màu lạ." },
-              { label: "Chất gây dị ứng", value: "Sản phẩm có chứa hải sản (mực)." },
-              { label: "Tiêu chuẩn chất lượng", value: "Chứng nhận OCOP 3 Sao TP. Đà Nẵng, Giấy chứng nhận ATVSTP số 12/2024/ATTP-ĐN" },
-            ]
-          : [
-              { label: "Product Name", value: "Da Nang Tamarind Glazed Squid, 250g jar, Ocopia Heritage" },
-              { label: "Brand", value: "Ocopia Heritage" },
-              { label: "Barcode / Certification", value: "OCOP-3STAR-DN-2026" },
-              { label: "Net Weight", value: "250g" },
-              { label: "Shelf Life", value: "6 months from manufacture date" },
-              { label: "Ingredients", value: "Sun-dried squid (65%), natural ripe tamarind sauce (20%), cane sugar (8%), fresh chili, garlic, fish sauce, vegetable oil." },
-              { label: "Usage Instructions", value: "Ready to eat directly. Best enjoyed as a savory snack or appetizer." },
-              { label: "Storage", value: "Keep in a cool, dry place. Reseal tightly after opening. Chilled storage recommended." },
-              { label: "Warning", value: "Do not consume if packaging is damaged or if product shows unusual discoloration." },
-              { label: "Allergen Info", value: "Contains seafood (squid)." },
-              { label: "Certification", value: "Da Nang OCOP 3-Star Certified, Food Hygiene Safety Certificate." },
-            ]);
+    const specs = meta?.specs?.[lang] || [];
 
     // Related products (Image 3: Sản phẩm bạn có thể thích)
     const relatedProducts = products.filter((p) => p.id !== activeDetailProduct.id);
@@ -1280,9 +1605,7 @@ export default function Home({ initialView = "home" }: { initialView?: "home" | 
             </button>
             <span className="text-[#eaeaea]/30">•</span>
             <span className="text-gold-accent font-medium">
-              {isCamLe 
-                ? (lang === "vi" ? "Bánh mứt đặc sản" : "Specialty Confectionery")
-                : (lang === "vi" ? "Hải sản đặc sản" : "Seafood Delicacies")}
+              {meta.badge || (lang === "vi" ? "Đặc sản OCOP" : "OCOP Specialty")}
             </span>
             <span className="text-[#eaeaea]/30">•</span>
             <span className="text-white font-medium truncate max-w-[220px] sm:max-w-none">
@@ -1307,7 +1630,7 @@ export default function Home({ initialView = "home" }: { initialView?: "home" | 
                   />
                   {/* OCOP Star Badge */}
                   <div className="absolute top-4 left-4 bg-gold text-dark-bg font-mono font-bold text-xs tracking-wider uppercase px-3 py-1 rounded-full shadow-lg border border-gold-light/40">
-                    {isCamLe ? "OCOP 4★" : "OCOP 3★"}
+                    {meta?.rating || "OCOP 4★"}
                   </div>
                 </div>
 
@@ -1355,9 +1678,7 @@ export default function Home({ initialView = "home" }: { initialView?: "home" | 
                 {/* Badge Tag */}
                 <div>
                   <span className="inline-block bg-gold text-dark-bg font-sans font-bold text-[11px] tracking-wider uppercase px-3 py-1 rounded-full shadow-sm">
-                    {isCamLe
-                      ? (lang === "vi" ? "Bán chạy" : "Best Seller")
-                      : (lang === "vi" ? "Đặc sản Đà Nẵng" : "Da Nang Specialty")}
+                    {meta?.badge || (lang === "vi" ? "Đặc sản Quảng Nam" : "Quang Nam Specialty")}
                   </span>
                 </div>
 
@@ -1367,9 +1688,7 @@ export default function Home({ initialView = "home" }: { initialView?: "home" | 
                     {lang === "vi" ? "Mẫu & KLT" : "Packaging & Weight"}
                   </span>
                   <div className="inline-flex items-center px-4 py-1.5 rounded-lg border border-gold bg-gold/10 text-gold font-serif text-xs sm:text-sm font-semibold tracking-wide shadow-sm">
-                    {isCamLe
-                      ? (lang === "vi" ? "Hộp 250g" : "250g Box")
-                      : (lang === "vi" ? "Hũ 250g" : "250g Jar")}
+                    {meta?.packaging || (lang === "vi" ? "Hộp đặc sản" : "Specialty Box")}
                   </div>
                 </div>
 
@@ -1573,7 +1892,7 @@ export default function Home({ initialView = "home" }: { initialView?: "home" | 
                           className="w-full h-full object-cover transform group-hover:scale-106 transition-transform duration-500"
                         />
                         <div className="absolute top-3 left-3 bg-gold text-dark-bg font-mono font-bold text-[10px] tracking-wider uppercase px-2.5 py-0.5 rounded-full shadow-md border border-gold-light/40">
-                          {relProduct.id === 1 ? "OCOP 4★" : "OCOP 3★"}
+                          {PRODUCT_METADATA[relProduct.id]?.rating || "OCOP 4★"}
                         </div>
                         <div className="absolute inset-0 bg-dark-bg/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center p-3">
                           <span className="font-serif text-xs font-bold tracking-widest text-dark-bg bg-gold px-4 py-2 rounded-full uppercase shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
@@ -1588,9 +1907,7 @@ export default function Home({ initialView = "home" }: { initialView?: "home" | 
                           {localizedRel?.name || relProduct.name}
                         </h4>
                         <p className="font-sans text-xs text-[#eaeaea]/50 font-light line-clamp-1">
-                          {relProduct.id === 1
-                            ? (lang === "vi" ? "Hộp 250g" : "250g Box")
-                            : (lang === "vi" ? "Hũ 250g" : "250g Jar")}
+                          {PRODUCT_METADATA[relProduct.id]?.packaging || (lang === "vi" ? "Hộp đặc sản" : "Specialty Box")}
                         </p>
                         <p className="font-serif text-base sm:text-lg font-bold text-gold pt-0.5">
                           {relProduct.price.toLocaleString("vi-VN")} VNĐ
@@ -1853,10 +2170,8 @@ export default function Home({ initialView = "home" }: { initialView?: "home" | 
                 <div className="space-y-3">
                   {cart.map((item) => {
                     const localized = t.products?.[String(item.product.id)];
-                    const isCamLe = item.product.id === 1;
-                    const itemSpec = isCamLe
-                      ? (lang === "vi" ? "Hộp 250g" : "250g Box")
-                      : (lang === "vi" ? "Hũ 250g" : "250g Jar");
+                    const itemMeta = PRODUCT_METADATA[item.product.id];
+                    const itemSpec = itemMeta?.packaging || (lang === "vi" ? "Hộp đặc sản" : "Specialty Box");
 
                     return (
                       <div
@@ -1887,7 +2202,7 @@ export default function Home({ initialView = "home" }: { initialView?: "home" | 
                                 className="w-full h-full object-cover"
                               />
                               <div className="absolute top-1 left-1 bg-gold text-dark-bg font-mono font-bold text-[8px] uppercase px-1.5 py-0.2 rounded shadow-sm">
-                                {isCamLe ? "4★" : "3★"}
+                                {itemMeta?.rating ? `${itemMeta.rating}★` : "4★"}
                               </div>
                             </div>
                             {/* Title & specs */}
@@ -2062,7 +2377,7 @@ export default function Home({ initialView = "home" }: { initialView?: "home" | 
                         />
                         {/* Rating / Best-seller Pill Badge */}
                         <div className="absolute top-3 left-3 bg-gold text-dark-bg font-mono font-bold text-[10px] tracking-wider uppercase px-2.5 py-0.5 rounded-full shadow-md border border-gold-light/40">
-                          {product.id === 1 ? "OCOP 4★" : "OCOP 3★"}
+                          {PRODUCT_METADATA[product.id]?.rating || "OCOP 4★"}
                         </div>
 
                         {/* Quick View Hover overlay */}
@@ -2079,9 +2394,7 @@ export default function Home({ initialView = "home" }: { initialView?: "home" | 
                           {localizedProduct?.name || product.name}
                         </h3>
                         <p className="font-sans text-xs text-[#eaeaea]/50 font-light line-clamp-1">
-                          {product.id === 1
-                            ? (lang === "vi" ? "Hộp 250g" : "250g Box")
-                            : (lang === "vi" ? "Hũ 250g" : "250g Jar")}
+                          {PRODUCT_METADATA[product.id]?.packaging || (lang === "vi" ? "Hộp đặc sản" : "Specialty Box")}
                         </p>
                         <p className="font-serif text-base sm:text-lg font-bold text-gold pt-0.5">
                           {product.price.toLocaleString("vi-VN")} VNĐ
@@ -2101,33 +2414,63 @@ export default function Home({ initialView = "home" }: { initialView?: "home" | 
               const heroSlides = [
                 {
                   productId: 1,
-                  tag: lang === "vi" ? "OCOP 4 SAO ĐÀ NẴNG" : "OCOP 4-STAR DA NANG",
-                  titleMain: lang === "vi" ? "Bánh khô mè" : "Cam Le Crispy",
-                  titleAccent: lang === "vi" ? "đặc sản Ocopia" : "Ocopia Sesame",
+                  tag: lang === "vi" ? "OCOP 4 SAO QUẢNG NAM" : "OCOP 4-STAR QUANG NAM",
+                  titleMain: lang === "vi" ? "Bánh dừa nướng" : "Baked Coconut",
+                  titleAccent: lang === "vi" ? "Gạo lứt đậu xanh" : "Brown Rice & Bean",
                   subtitle: lang === "vi" 
-                    ? "Giòn tan từng miếng, vẹn nguyên phong vị đất trời Đà thành" 
-                    : "Crispy in every bite, pure Vietnamese natural heritage",
+                    ? "Giòn rụm béo bùi, kết tinh tinh túy làng nghề truyền thống xứ Quảng" 
+                    : "Crispy and aromatic, handcrafted from Quang Nam traditional recipes",
                   desc: lang === "vi"
-                    ? "Hạt nếp thơm Bầu rang cát mịn, đượm sốt mía ngọt thanh và áo lớp mè rang củi thơm lừng dâng vua triều Nguyễn."
-                    : "Crispy roasted sticky rice, golden sugar cane glaze, and fragrant wood-roasted sesame seeds.",
-                  imgMain: "/kho_me.jpg",
-                  imgSub: "/g_banh_me_tea.jpg",
-                  price: "75.000 VNĐ",
+                    ? "Cơm dừa tươi nguyên chất (60%) hòa quyện cùng bột nếp dẻo thơm, gạo lứt thanh khiết và đậu xanh bùi bùi."
+                    : "60% pure fresh coconut meat infused with wholesome brown rice and savory mung bean.",
+                  imgMain: "/products/p1_main.png",
+                  imgSub: "/products/p1_front.png",
+                  price: "39.000 VNĐ",
                 },
                 {
-                  productId: 2,
-                  tag: lang === "vi" ? "OCOP 3 SAO ĐÀ NẴNG" : "OCOP 3-STAR DA NANG",
-                  titleMain: lang === "vi" ? "Mực rim me" : "Tamarind Glazed",
-                  titleAccent: lang === "vi" ? "đặc sản Ocopia" : "Ocopia Squid",
+                  productId: 6,
+                  tag: lang === "vi" ? "OCOP 4 SAO QUẢNG NAM" : "OCOP 4-STAR QUANG NAM",
+                  titleMain: lang === "vi" ? "Bánh đậu xanh thịt" : "Savory Pork Cake",
+                  titleAccent: lang === "vi" ? "Mỹ Khánh Bảo Linh" : "My Khanh Heritage",
                   subtitle: lang === "vi" 
-                    ? "Đậm đà cay ngọt, trọn vẹn hương vị biển khơi miền Trung" 
-                    : "Rich, sweet, and spicy - the authentic flavor of the Central Sea",
+                    ? "Mặn ngọt hài hòa nhân thịt heo quê bọc trong lớp vỏ đậu xanh giòn tan" 
+                    : "Savory-sweet harmony of local seasoned pork inside crispy mung bean crust",
                   desc: lang === "vi"
-                    ? "Mực khô hảo hạng hòa quyện cùng sốt me tươi chín mọng, tỏi ớt thơm nồng đượm đà vị mặn mòi xứ biển."
-                    : "Sun-cured squid simmered with local ripe tamarind glaze and native aromatic chili.",
-                  imgMain: "/muc_rim.jpg",
-                  imgSub: "/g_muc_rim_lifestyle.jpg",
-                  price: "85.000 VNĐ",
+                    ? "Đặc sản nức tiếng làng nghề Khánh Mỹ bên dòng Suối Dừng, không phụ gia bảo quản, giữ trọn hương đồng gió nội."
+                    : "Celebrated craft village specialty, all-natural seasoned pork with golden mung beans.",
+                  imgMain: "/products/p6_main.png",
+                  imgSub: "/products/p6_detail.png",
+                  price: "39.000 VNĐ",
+                },
+                {
+                  productId: 7,
+                  tag: lang === "vi" ? "OCOP 4 SAO QUẢNG NAM" : "OCOP 4-STAR QUANG NAM",
+                  titleMain: lang === "vi" ? "Mít sấy giòn" : "Crispy Jackfruit",
+                  titleAccent: lang === "vi" ? "QNA Farm Tiên Phước" : "Tien Phuoc Farm",
+                  subtitle: lang === "vi" 
+                    ? "100% mít rừng Tiên Ngọc sấy lạnh, giữ trọn vị ngọt thơm tự nhiên" 
+                    : "100% wild Tien Ngoc jackfruit low-temperature freeze dried with zero additives",
+                  desc: lang === "vi"
+                    ? "Từng múi mít rừng chín cây tuyển chọn kỹ càng, sấy lạnh dưới 40 độ giòn xốp rôm rốp, không tẩm đường hay phụ gia."
+                    : "Pure tree-ripened jackfruit freeze-dried naturally, rich in vitamins and authentic sweet aroma.",
+                  imgMain: "/products/p7_main.png",
+                  imgSub: "/products/p7_front.png",
+                  price: "50.000 VNĐ",
+                },
+                {
+                  productId: 3,
+                  tag: lang === "vi" ? "OCOP 4 SAO QUẢNG NAM" : "OCOP 4-STAR QUANG NAM",
+                  titleMain: lang === "vi" ? "Bánh dừa nướng" : "Baked Coconut",
+                  titleAccent: lang === "vi" ? "Bảo Linh hộp 250g" : "Bao Linh 250g Box",
+                  subtitle: lang === "vi" 
+                    ? "100% nguyên liệu tự nhiên, giòn tan đậm đà vị ngọt bùi dừa nhiệt đới" 
+                    : "100% natural ingredients, classic crispy coconut crunch for tea ceremonies",
+                  desc: lang === "vi"
+                    ? "Cơm dừa tươi béo ngậy nướng giòn rụm cùng bột nếp và vani tự nhiên, hộp quà sang trọng cho mọi hành trình."
+                    : "Fresh coconut meat slow-baked with sticky rice flour and vanilla, packed in an elegant gift box.",
+                  imgMain: "/products/p3_main.png",
+                  imgSub: "/products/p3_detail.png",
+                  price: "39.000 VNĐ",
                 },
               ];
 
@@ -2273,7 +2616,9 @@ export default function Home({ initialView = "home" }: { initialView?: "home" | 
                 </div>
               ) : (
                 <div className="space-y-32">
-                  {products.map((product) => (
+                  {products
+                    .filter((p) => [1, 3, 7].includes(p.id))
+                    .map((product) => (
                     <div
                       key={product.id}
                       className="flex flex-col items-center text-center space-y-8"

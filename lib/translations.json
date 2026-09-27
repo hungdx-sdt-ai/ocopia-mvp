@@ -103,62 +103,36 @@
     "redirectCancelledDesc3": "Nếu có sai sót, vui lòng thực hiện lại đơn hàng hoặc liên hệ bộ phận hỗ trợ Ocopia.",
     "products": {
       "1": {
-        "name": "Bánh Khô Mè Cẩm Lệ",
-        "story": "Không phải ngẫu nhiên mà Bánh khô mè Cẩm Lệ từng là thức quà quý dâng lên bậc vương giả. Nằm ép mình bên bờ sông Cẩm Lệ êm đềm, những nghệ nhân làng nghề vẫn ngày đêm giữ lửa mẻ nướng, tráng từng lớp nếp thơm, phủ lên lớp áo mè vàng óng ánh như tơ. Người thợ già trong làng thường bảo: \"Làm bánh khô mè là đang tu tâm\". Để ra được một chiếc bánh xốp giòn, vỡ tan trong miệng, hạt nếp phải được rang trên cát mịn lấy từ dòng sông quê, tắm qua lớp đường mía ngọt thanh và áo một lớp mè rang củi thơm lừng. Bẻ một miếng bánh, nhấp một ngụm trà xanh, bạn không chỉ nếm được vị ngọt bùi, mà còn nghe thấy cả tiếng thời gian đọng lại trong từng lớp nếp nướng.",
-        "ingredients": [
-          {
-            "name": "Nếp Hương Bầu",
-            "desc": "Gạo nếp dẻo thơm hảo hạng ngâm đãi sạch, xay nhuyễn và tráng khuôn mỏng tráng chín bằng hơi nước, sấy giòn xốp."
-          },
-          {
-            "name": "Đường Mía Điện Bàn",
-            "desc": "Mật mía Điện Bàn nguyên chất thắng chín dẻo quánh tơ óng vàng như tơ tằm, chất keo ngọt kết dính hạt bánh."
-          },
-          {
-            "name": "Mè Mẩy Rang Củi",
-            "desc": "Lớp mè hảo hạng đãi sạch vỏ ngoài, rang thủ công trên bếp củi thơm lừng, tạo lớp áo giòn rụm béo ngậy."
-          },
-          {
-            "name": "Gừng Sẻ Cay Nồng",
-            "desc": "Gừng ré bản địa tươi giòn thái mỏng cay nồng ấm áp, hòa vị ngọt bùi đẩy hương vị lên chuẩn mực trọn vẹn."
-          }
-        ],
-        "lifestyle": {
-          "title": "Thưởng thức đượm tình quê",
-          "desc": "Không gì sánh bằng đĩa bánh khô mè Cẩm Lệ rắc mè thơm rụm ăn cùng chén trà xanh ấm nồng những chiều yên ả. Vị chát thanh dịu của trà ôm trọn lấy cái ngọt bùi béo ngậy của mật mía đường và gừng cay, mở ra một không gian hoài niệm xưa cũ bên dòng sông quê ấm áp nghĩa tình."
-        },
-        "trustPoints": [
-          "100% nguyên liệu thuần nông: Nếp Hương, Mè mẩy, Gừng sẻ tươi",
-          "Quy trình 7 bước thủ công truyền thống ròng rã suốt 3 ngày",
-          "Đạt chuẩn OCOP 4 Sao Đà Nẵng, không chất bảo quản"
-        ]
+        "name": "Bánh dừa gạo lứt đậu xanh Bảo Linh",
+        "story": "Kế thừa trọn vẹn tinh túy của làng nghề đặc sản xứ Quảng, Bánh Dừa Nướng Gạo Lứt Đậu Xanh Bảo Linh là sự giao thoa hoàn hảo giữa công thức truyền thống lâu đời và những sản vật mộc mạc từ thiên nhiên. Từng chiếc bánh được chắt chiu từ cơm dừa tươi nguyên chất béo ngậy, bột nếp dẻo thơm, kết hợp cùng gạo lứt bổ dưỡng, vị bùi thanh của đậu xanh và những hạt mè vàng thơm lừng. Qua ngọn lửa nướng vừa độ, bánh đạt tới độ giòn rụm đặc trưng. Cắn một miếng, vị ngọt bùi của dừa và đậu xanh hòa cùng hương thơm thanh nhã của gạo lứt và mè rang ngay lập tức lan tỏa, gợi thức trọn vẹn hương vị mặn mòi, ấm áp của đất và người miền Trung."
       },
       "2": {
-        "name": "Mực Rim Me Đà Nẵng",
-        "story": "Vị mặn mòi của nắng gió miền Trung, hòa quyện cùng lớp xốt me chua ngọt sánh mịn, điểm xuyết chút ớt xào cay tê... Chỉ cần mở nắp hộp, hương thơm lừng lẫy đã đủ sức đánh gục mọi tín đồ sành ăn nhất. Những mẻ mực lá tươi rói vừa cập bến cảng Thọ Quang lúc hừng đông được các dì, các mẹ chọn lọc kỹ càng, đem phơi đúng \"một nắng\" gắt để giữ trọn độ dai giòn, ngọt thịt. Linh hồn của món ăn nằm ở chảo xốt me kẹo lại trên bếp lửa liu riu suốt 4 giờ đồng hồ. Mực quyện xốt, xốt bám mực, đỏ au, bóng bẩy. Không cần sơn hào hải vị, một hộp mực rim me nhâm nhi cùng bạn bè những chiều tan tầm là đủ để gói gọn cả nhịp sống sôi động của phố biển Đà Nẵng.",
-        "ingredients": [
-          {
-            "name": "Mực Khô Hảo Hạng",
-            "desc": "Mực ống tươi xanh đánh bắt từ biển khơi miền Trung, làm sạch và phơi nắng giòn dai, giữ nguyên vị ngọt mặn tự nhiên đặc trưng."
-          },
-          {
-            "name": "Me Chín Tự Nhiên",
-            "desc": "Lọc tách hạt từ những quả me chín nguyên chất, đun kẹo liu riu thắng đường mật để tạo nước xốt chua ngọt sánh bóng hoàn mỹ."
-          },
-          {
-            "name": "Ớt & Tỏi Bản Địa",
-            "desc": "Ớt sừng chỉ thiên cay nồng giòn giã quyện cùng những củ tỏi thơm nồng, tạo vị cay tê đậm đà đánh thức mọi giác quan."
-          }
-        ],
-        "lifestyle": {
-          "title": "Nhâm nhi cùng tri kỷ",
-          "desc": "Mực quyện xốt, xốt bám mực, đỏ au, bóng bẩy. Không cần sơn hào hải vị, một hộp mực rim me nhâm nhi cùng bạn bè những chiều tan tầm là đủ để gói gọn cả nhịp sống sôi động của phố biển Đà Nẵng."
-        },
-        "trustPoints": [
-          "Mực ống tươi 100% đánh bắt tự nhiên tại vùng biển Đà Nẵng",
-          "Xốt me gia truyền màu tự nhiên, tuyệt đối không chất bảo quản",
-          "Đóng lon PET nắp nhôm xé màng seal hiện đại, đảm bảo vệ sinh"
-        ]
+        "name": "Bánh dừa gạo lứt mè Bảo Linh",
+        "story": "Từ mảnh đất Quảng Nam dạt dào nắng gió, Bánh Dừa Nướng Gạo Lứt Mè Bảo Linh kế thừa trọn vẹn nét đẹp của công thức truyền thống lâu đời, biến những sản vật mộc mạc quê nhà thành thức quà tinh tế, giòn tan. Sự kết hợp hoàn hảo giữa cơm dừa tươi nguyên chất béo bùi, bột nếp dẻo thơm cùng hạt gạo lứt bổ dưỡng và những hạt mè vàng ươm đã tạo nên nét chấm phá đầy khác biệt. Qua bàn tay chăm chút của người thợ và ngọn lửa nướng vừa độ, từng chiếc bánh ra đời mang hương thơm lừng quyến rũ. Cắn nhẹ một miếng, tiếng giòn rụm vang lên vui tai, lập tức lan tỏa vị ngọt thanh tự nhiên của dừa tươi, vị béo bùi đậm đà của mè rang."
+      },
+      "3": {
+        "name": "Bánh dừa nướng Bảo Linh hộp 250g",
+        "story": "Từ những rặng dừa xanh mướt ngập tràn ánh nắng nhiệt đới, câu chuyện của Bánh dừa Bảo Linh bắt đầu khi nét dân dã ấy dừng chân tại xứ Quảng. Bằng sự tỉ mỉ và tình yêu sản vật quê nhà, Bảo Linh đã biến những cùi dừa tươi quen thuộc thành món bánh nướng giòn tan, chinh phục trọn vẹn cả những thực khách khó tính nhất. Mỗi chiếc bánh là sự kết tinh hoàn toàn từ thiên nhiên: cơm dừa tươi béo ngậy, bột nếp thơm lừng, chút đường ngọt đậm và hương vani thoang thoảng. Không hóa chất, không phụ gia, quy trình chế biến an toàn tuyệt đối giúp giữ trọn nét thuần khiết của nguyên liệu."
+      },
+      "4": {
+        "name": "Bánh dừa nướng Bảo Linh gói 150g",
+        "story": "Khoác lên mình chiếc áo màu xanh mát – biểu tượng mộc mạc của những tà lá dừa quê hương, Bánh dừa gói Bảo Linh mang vẻ đẹp giản dị, gần gũi. Gọn nhẹ, dễ bảo quản và đượm tình, đây không chỉ là món ăn vặt vui tai vui miệng mà còn là món quà du lịch tinh tế, gửi trao trọn vẹn sự chân thành và ký ức ngọt ngào sau mỗi chuyến đi xa. Bằng sự tỉ mỉ và tình yêu sản vật quê nhà, Bảo Linh đã biến những cùi dừa tươi quen thuộc thành món bánh nướng giòn tan, chinh phục trọn vẹn cả những thực khách khó tính nhất."
+      },
+      "5": {
+        "name": "Bánh đậu xanh chay Mỹ Khánh Bảo Linh",
+        "story": "Bên dòng Suối Dừng hiền hòa của vùng đất Tam Thành (Phú Ninh, Quảng Nam), Bánh đậu xanh hộp Mỹ Khánh ra đời như một thức quà chắt chiu từ tình đất và lòng người xứ Quảng. Từ những hạt đậu xanh ta hạt nhỏ ruột vàng ngọt bùi, người thợ lành nghề đã tỉ mỉ nướng nên từng chiếc bánh giòn tan đặc trưng. Mọi công đoạn đều giữ trọn sự mộc mạc, sạch lành, tuyệt đối không chất bảo quản hay phụ gia hóa chất. Cắn một miếng bánh Mỹ Khánh giòn rụm bên tách trà ấm hay ly cà phê sáng, vị bùi ngọt hòa quyện lan tỏa ngay đầu lưỡi."
+      },
+      "6": {
+        "name": "Bánh đậu xanh thịt Mỹ Khánh Bảo Linh",
+        "story": "Sinh ra từ bãi bồi Khánh Mỹ và dòng Suối Dừng trong lành thuộc đất Tam Thành (Phú Ninh, Quảng Nam), Bánh đậu xanh hộp Mỹ Khánh không chỉ là một thức quà dân dã, mà là sự chắt chiu tinh túy của đất trời và lòng người xứ Quảng. Từ những hạt đậu xanh ta ruột vàng ươm, bùi ngọt tự nhiên kết hợp cùng nhân thịt heo quê đậm đà, chút mặn mòi của biển và ngọn lửa nướng giòn tan, từng chiếc bánh nhỏ nhắn ra đời mang theo trọn vẹn hương đồng gió nội. Không hóa chất, không chất bảo quản, mỗi chiếc bánh Mỹ Khánh là sự tôn trọng tuyệt đối dành cho sức khỏe người thưởng thức."
+      },
+      "7": {
+        "name": "Mít sấy giòn QNA Farm",
+        "story": "Từ những vườn mít rừng Tiên Ngọc bạt ngàn nắng gió Tiên Phước, bà con HTX QNA Farm tỉ mỉ chọn từng múi mít chín cây, sấy lạnh giữ nguyên vị ngọt quê. Món quà vặt mộc mạc ấy mang theo cả hơi thở núi rừng xứ Quảng đến với mọi nhà, dù xa quê vẫn ấm lòng khi nếm thử. Mít chín tự nhiên sấy lạnh ở nhiệt độ thấp, giữ trọn độ giòn xốp và dưỡng chất quý giá, tuyệt đối không chất bảo quản hay tẩm ướp phụ gia."
+      },
+      "8": {
+        "name": "Viên ngũ cốc chuối xanh QNA Farm",
+        "story": "Thấu hiểu nỗi lo của các mẹ khi con thích ăn vặt mà sợ đồ nhiều dầu mỡ, bà con HTX QNA Farm ở Tiên Phước dày công nghiên cứu, kết hợp 6 loại hạt quê rang thủ công cùng chuối xanh. Từng viên ngũ cốc xốp giòn, ngọt dịu là tấm lòng 'sạch – lành – thuận tự nhiên' gửi đến từng gia đình. Không chiên dầu, không chất bảo quản, không hương liệu nhân tạo, thích hợp dùng làm bữa phụ giàu dinh dưỡng cho cả gia đình."
       }
     }
   },
@@ -266,63 +240,36 @@
     "redirectCancelledDesc3": "If this is a mistake, please place your order again or contact Ocopia support.",
     "products": {
       "1": {
-        "name": "Cam Le Sesame Dry Cake",
-        "story": "It is no coincidence that Cam Le sesame dry cake was once a precious gift presented to royalty. Snuggled along the peaceful Cam Le River, the village artisans still keep the hearth fires burning day and night, steaming thin sheets of fragrant sticky rice and coating them with sesame seeds that glisten like gold silk. The village elders often say: 'Making sesame dry cake is a practice of the mind.' To produce a cake that is crispy, melting in your mouth, the sticky rice must be toasted on fine sand from the hometown river, bathed in sweet cane sugar syrup, and wrapped in a layer of sesame seeds roasted over wood fires. Breaking a piece of cake and taking a sip of hot green tea, you do not just taste the rich sweetness, but also hear the sound of time resting in each layer of toasted rice.",
-        "ingredients": [
-          {
-            "name": "Huong Bau Sticky Rice",
-            "desc": "Premium fragrant sticky rice washed clean, ground and steamed in thin molds, then dried to a crispy, airy texture."
-          },
-          {
-            "name": "Dien Ban Cane Sugar",
-            "desc": "Pure Dien Ban sugarcane juice boiled down to a golden syrup like silk, acting as the sweet glue to bind the cake."
-          },
-          {
-            "name": "Firewood-roasted Sesame",
-            "desc": "Premium sesame seeds peeled, washed, and hand-roasted over firewood, forming a nutty, crispy outer coat."
-          },
-          {
-            "name": "Zesty Native Ginger",
-            "desc": "Fresh local ginger finely sliced, bringing a warm spicy notes that elevate the rich sweet flavors to perfection."
-          }
-        ],
-        "lifestyle": {
-          "title": "Savor the Warmth of Hometown",
-          "desc": "Nothing compares to a plate of Cam Le sesame dry cakes paired with a cup of hot green tea on a quiet afternoon. The gentle bitterness of the tea embraces the rich, sweet flavor of cane sugar and warm ginger, opening a nostalgic space of old memories by the warm, sentimental hometown river."
-        },
-        "trustPoints": [
-          "100% local agricultural ingredients: Huong sticky rice, plump sesame, fresh ginger",
-          "Traditional 7-step handmade process spanning over 3 days",
-          "Da Nang 4-Star OCOP standard, no artificial preservatives"
-        ]
+        "name": "Bao Linh Coconut Cake with Brown Rice & Mung Bean",
+        "story": "Inheriting the essence of Quang Nam's traditional craft village, Bao Linh Baked Coconut Cake with Brown Rice and Mung Beans is a harmonious blend of time-honored recipes and rustic natural ingredients. Each crispy cake is crafted from rich fresh coconut meat, fragrant sticky rice flour, wholesome brown rice, and savory golden sesame seeds."
       },
       "2": {
-        "name": "Da Nang Squid with Tamarind Sauce",
-        "story": "The savory flavor of Central Vietnam's sun and wind, blended with a sweet and sour tamarind sauce, dotted with spicy chili paste... Just opening the lid, the aroma is enough to captivate the most discerning foodies. Fresh squid caught at Tho Quang port at dawn is carefully selected by local mothers, dried in the hot sun to maintain its chewiness and natural sweetness. The soul of the dish lies in the tamarind sauce simmered over a low fire for 4 hours. The squid is perfectly coated, glossy and reddish-brown. No need for delicacies, a jar of squid rimmed with tamarind to share with friends after work is enough to encapsulate the vibrant coastal life of Da Nang.",
-        "ingredients": [
-          {
-            "name": "Premium Dried Squid",
-            "desc": "100% natural wild-caught squid from the waters of Da Nang, cleaned and sun-dried to keep its natural sweet-savory flavor."
-          },
-          {
-            "name": "Natural Ripe Tamarind",
-            "desc": "Seeds removed from fresh ripe tamarind, slow-cooked with sugar syrup to create a shiny, perfect sweet and sour sauce."
-          },
-          {
-            "name": "Native Chili & Garlic",
-            "desc": "Spicy bird's eye chili crushed with fragrant local garlic, creating a bold, pungent flavor that awakens all senses."
-          }
-        ],
-        "lifestyle": {
-          "title": "A Shared Delight with Friends",
-          "desc": "Squid coated in rich sauce, reddish and glossy. No need for luxury dishes, a jar of squid rimmed with tamarind to share with friends after work is enough to capture the vibrant coastal life of Da Nang.",
-          "img": "/g_muc_rim_lifestyle.jpg"
-        },
-        "trustPoints": [
-          "100% natural wild-caught squid from the coastal waters of Da Nang",
-          "Heritage family recipe tamarind sauce, absolutely no preservatives",
-          "Modern PET can packaging with aluminum tear seal, ensuring hygiene"
-        ]
+        "name": "Bao Linh Coconut Cake with Brown Rice & Sesame",
+        "story": "Born in sunny and windy Quang Nam, Bao Linh Coconut Cake with Brown Rice and Sesame preserves traditional confectionery craftsmanship, transforming local harvest into crispy, aromatic delicacies. The rich toasted coconut is combined with nutty firewood-roasted sesame seeds and nutritious brown rice."
+      },
+      "3": {
+        "name": "Bao Linh Baked Coconut Cake Box 250g",
+        "story": "From tropical green coconut groves, Bao Linh brings authentic baked coconut crunch to life. Made with 100% natural ingredients—fresh coconut meat, sticky rice, cane sugar, and vanilla—without artificial preservatives. Enjoyed alongside hot tea for a timeless treat."
+      },
+      "4": {
+        "name": "Bao Linh Baked Coconut Cake Bag 150g",
+        "story": "Wrapped in a fresh green package inspired by hometown coconut palms, Bao Linh Coconut Cake Bag contains 12 individual snack packs, convenient for sharing, traveling, and daily tea-time enjoyment."
+      },
+      "5": {
+        "name": "My Khanh Vegetarian Mung Bean Cake 150g",
+        "story": "Originating beside Suoi Dung stream in Tam Thanh, Phu Ninh, Quang Nam, My Khanh Mung Bean Cake is an artisanal vegetarian delicacy made with golden mung beans, cane sugar, and pure vanilla without any chemical additives."
+      },
+      "6": {
+        "name": "My Khanh Savory Pork Mung Bean Cake 150g",
+        "story": "A famous heritage specialty of Khanh My craft village, featuring seasoned local pork encased inside a crispy golden mung bean crust. The delicate harmony of sweet and savory notes creates an unforgettable taste of Central Vietnam."
+      },
+      "7": {
+        "name": "QNA Farm Crispy Dried Jackfruit 150g",
+        "story": "Handpicked from wild jackfruit gardens in Tien Ngoc, Tien Phuoc, Quang Nam, dried with low-temperature freeze-drying technology to preserve natural golden color, fiber, vitamins, and sweet aroma with zero additives."
+      },
+      "8": {
+        "name": "QNA Farm Green Banana Multigrain Bites 125g",
+        "story": "Wholesome snack combining 6 local roasted grains with native green bananas from Tien Phuoc. Non-fried, rich in natural fiber and plant nutrients, certified to international ISO 22000:2018 food safety standards."
       }
     }
   }
