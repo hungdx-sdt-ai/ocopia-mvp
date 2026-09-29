@@ -104,7 +104,7 @@ export default function Home({ initialView = "home" }: { initialView?: "home" | 
   const handleOpenDetail = (product: Product) => {
     setSavedScrollPosition(window.scrollY);
     setActiveDetailProduct(product);
-    setSelectedDetailImage(product.image_url);
+    setSelectedDetailImage(null);
     setDetailQuantity(1);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -231,17 +231,9 @@ export default function Home({ initialView = "home" }: { initialView?: "home" | 
     orderId: string;
   } | null>(null);
 
-  // Hero Slider & Navbar State (Langfarm Style)
-  const [currentSlide, setCurrentSlide] = useState(0);
+  // Navbar & Search State
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % 4);
-    }, 5000);
-    return () => clearInterval(timer);
-  }, []);
 
   // Handle PayOS redirect parameters on mount + back button detection via pageshow
   useEffect(() => {
@@ -354,9 +346,11 @@ export default function Home({ initialView = "home" }: { initialView?: "home" | 
     rating: string;
     badge: string;
     tagline: { vi: string; en: string };
+    lifestyleImage: string;
     gallery: string[];
     highlights: { vi: string[]; en: string[] };
     specs: { vi: { label: string; value: string }[]; en: { label: string; value: string }[] };
+    story: { vi: string[]; en: string[] };
   }> = {
     1: {
       packaging: "Hộp 180g",
@@ -366,7 +360,13 @@ export default function Home({ initialView = "home" }: { initialView?: "home" | 
         vi: "Bánh giòn rụm thanh ngọt, hòa quyện vị bùi béo dừa tươi, gạo lứt và đậu xanh xứ Quảng",
         en: "Crispy and fragrant baked coconut cake with brown rice and mung beans from Quang Nam",
       },
-      gallery: ["/products/p1_main.png", "/products/p1_front.png", "/products/p1_back.png", "/products/cert_ocop.jpg", "/products/cert_atvstp.png"],
+      lifestyleImage: "/products/p1_main.png",
+      gallery: [
+        "/products/p1_front.png",
+        "/products/p1_back.png",
+        "/products/cert_ocop.jpg",
+        "/products/cert_atvstp.png",
+      ],
       highlights: {
         vi: [
           "Chắt chiu từ 60% cơm dừa tươi nguyên chất kết hợp bột nếp dẻo thơm, gạo lứt bổ dưỡng và đậu xanh bùi bùi.",
@@ -405,6 +405,18 @@ export default function Home({ initialView = "home" }: { initialView?: "home" | 
           { label: "Standard", value: "Quang Nam OCOP Certified, Food Hygiene Safety Certificate" },
         ],
       },
+      story: {
+        vi: [
+          "Kế thừa trọn vẹn tinh túy của làng nghề đặc sản xứ Quảng, Bánh Dừa Nướng Gạo Lứt Đậu Xanh Bảo Linh là sự giao thoa hoàn hảo giữa công thức truyền thống lâu đời và những sản vật mộc mạc từ thiên nhiên.",
+          "Từng chiếc bánh được chắt chiu từ cơm dừa tươi nguyên chất béo ngậy, bột nếp dẻo thơm, kết hợp cùng gạo lứt bổ dưỡng, vị bùi thanh của đậu xanh và những hạt mè vàng thơm lừng. Qua ngọn lửa nướng vừa độ, bánh đạt tới độ giòn rụm đặc trưng. Cắn một miếng, vị ngọt bùi của dừa và đậu xanh hòa cùng hương thơm thanh nhã của gạo lứt và mè rang ngay lập tức lan tỏa, gợi thức trọn vẹn hương vị mặn mòi, ấm áp của đất và người miền Trung.",
+          "Không chỉ là thức quà ăn vặt giòn tan, vui miệng bên tách trà chiều, Bánh Dừa Nướng Gạo Lứt Đậu Xanh Bảo Linh còn là gói trọn sự tử tế, chân thành của người thợ xứ Quảng – món quà quê giản dị nhưng đượm tình để gửi trao người thân, bạn bè sau mỗi chuyến đi xa.",
+        ],
+        en: [
+          "Inheriting the essence of Quang Nam's traditional craft village, Bao Linh Baked Coconut Cake with Brown Rice & Mung Bean is a harmonious fusion of time-honored recipes and rustic natural ingredients.",
+          "Each piece is carefully crafted from rich fresh coconut meat, fragrant glutinous rice, wholesome brown rice, delicate nutty mung beans, and golden toasted sesame seeds. Baked to perfection over gentle heat, it attains an iconic crispy crunch. With each bite, the nutty sweetness of coconut and mung beans mingles with the fragrant elegance of roasted sesame and brown rice.",
+          "More than just a delightful tea snack, it carries the heartfelt warmth and sincerity of Quang Nam artisans – a thoughtful heritage gift to share with loved ones after every journey.",
+        ],
+      },
     },
     2: {
       packaging: "Hộp 180g",
@@ -414,7 +426,13 @@ export default function Home({ initialView = "home" }: { initialView?: "home" | 
         vi: "Hương mè rang thơm lừng quyện cùng dừa tươi béo ngậy và gạo lứt giòn tan khó cưỡng",
         en: "Fragrant wood-roasted sesame blended with creamy fresh coconut and crispy brown rice",
       },
-      gallery: ["/products/p2_main.png", "/products/p2_front.png", "/products/p2_back.png", "/products/cert_ocop.jpg", "/products/cert_atvstp.png"],
+      lifestyleImage: "/products/p2_main.png",
+      gallery: [
+        "/products/p2_front.png",
+        "/products/p2_back.png",
+        "/products/cert_ocop.jpg",
+        "/products/cert_atvstp.png",
+      ],
       highlights: {
         vi: [
           "Sự kết hợp hoàn hảo giữa 60% dừa tươi nướng giòn và mè vàng rang củi thơm lừng, bổ dưỡng.",
@@ -452,6 +470,18 @@ export default function Home({ initialView = "home" }: { initialView?: "home" | 
           { label: "Standard", value: "Quang Nam OCOP Certified, Food Hygiene Safety Certificate" },
         ],
       },
+      story: {
+        vi: [
+          "Từ mảnh đất Quảng Nam dạt dào nắng gió, Bánh Dừa Nướng Gạo Lứt Mè Bảo Linh kế thừa trọn vẹn nét đẹp của công thức truyền thống lâu đời, biến những sản vật mộc mạc quê nhà thành thức quà tinh tế, giòn tan.",
+          "Sự kết hợp hoàn hảo giữa cơm dừa tươi nguyên chất béo bùi, bột nếp dẻo thơm cùng hạt gạo lứt bổ dưỡng và những hạt mè vàng ươm đã tạo nên nét chấm phá đầy khác biệt. Qua bàn tay chăm chút của người thợ và ngọn lửa nướng vừa độ, từng chiếc bánh ra đời mang hương thơm lừng quyến rũ. Cắn nhẹ một miếng, tiếng giòn rụm vang lên vui tai, lập tức lan tỏa vị ngọt thanh tự nhiên của dừa tươi, vị béo bùi đậm đà của mè rang hòa cùng hương vị mộc mạc, lành tính của gạo lứt.",
+          "Không chỉ dừng lại ở một món ăn vặt tròn vị bên tách trà nóng, Bánh Dừa Nướng Gạo Lứt Mè Bảo Linh còn gói trọn cả nét văn hóa ẩm thực xứ Quảng – chân thành, mộc mạc nhưng đượm tình, là món quà du lịch trọn vẹn ý nghĩa dành tặng người thân và bạn bè.",
+        ],
+        en: [
+          "From the sun-drenched, breezy land of Quang Nam, Bao Linh Coconut Cake with Brown Rice & Sesame preserves the charm of time-honored recipes, turning rustic hometown ingredients into an exquisite, crispy delicacy.",
+          "The perfect blend of rich fresh coconut, fragrant sticky rice, wholesome brown rice, and golden sesame seeds creates a unique culinary character. Meticulously baked to perfection, each cake offers a delightful crunch, releasing the gentle sweetness of coconut and the rich savory aroma of roasted sesame.",
+          "A complete treat alongside a warm cup of tea, it encapsulates Central Vietnam's culinary soul – sincere, rustic, and profoundly heartwarming, serving as a meaningful gift for friends and family.",
+        ],
+      },
     },
     3: {
       packaging: "Hộp 250g",
@@ -461,7 +491,12 @@ export default function Home({ initialView = "home" }: { initialView?: "home" | 
         vi: "Đặc sản xứ Quảng nức tiếng - 100% nguyên liệu tự nhiên, giòn rụm béo bùi chuẩn vị truyền thống",
         en: "Famous Quang Nam specialty - 100% natural ingredients, authentic crispy coconut crunch",
       },
-      gallery: ["/products/p3_main.png", "/products/p3_detail.png", "/products/cert_ocop.jpg", "/products/cert_atvstp.png"],
+      lifestyleImage: "/products/p3_main.png",
+      gallery: [
+        "/products/p3_detail.png",
+        "/products/cert_ocop.jpg",
+        "/products/cert_atvstp.png",
+      ],
       highlights: {
         vi: [
           "100% nguyên liệu tự nhiên: Bột nếp hảo hạng, dừa tươi, đường trắng, vani tự nhiên.",
@@ -498,6 +533,18 @@ export default function Home({ initialView = "home" }: { initialView?: "home" | 
           { label: "Standard", value: "Quang Nam OCOP Certified, Food Hygiene Safety Certificate" },
         ],
       },
+      story: {
+        vi: [
+          "Từ những rặng dừa xanh mướt ngập tràn ánh nắng nhiệt đới, câu chuyện của Bánh dừa Bảo Linh bắt đầu khi nét dân dã ấy dừng chân tại xứ Quảng. Bằng sự tỉ mỉ và tình yêu sản vật quê nhà, Bảo Linh đã biến những cùi dừa tươi quen thuộc thành món bánh nướng giòn tan, chinh phục trọn vẹn cả những thực khách khó tính nhất.",
+          "Mỗi chiếc bánh là sự kết tinh hoàn toàn từ thiên nhiên: cơm dừa tươi béo ngậy, bột nếp thơm lừng, chút đường ngọt đậm và hương vani thoang thoảng. Không hóa chất, không phụ gia, quy trình chế biến an toàn tuyệt đối giúp giữ trọn nét thuần khiết của nguyên liệu. Thưởng thức một miếng bánh giòn rụm, vị béo bùi lan tỏa ngay đầu lưỡi như mang cả hương vị trù phú của đất trời nhiệt đới đọng lại nơi vị giác.",
+          "Khoác lên mình chiếc áo màu xanh mát – biểu tượng mộc mạc của những tà lá dừa quê hương, Bánh dừa gói Bảo Linh mang vẻ đẹp giản dị, gần gũi. Gọn nhẹ, dễ bảo quản và đượm tình, đây không chỉ là món ăn vặt vui tai vui miệng mà còn là món quà du lịch tinh tế, gửi trao trọn vẹn sự chân thành và ký ức ngọt ngào sau mỗi chuyến đi xa.",
+        ],
+        en: [
+          "From the lush green coconut groves basking in tropical sunshine, the story of Bao Linh Coconut Cake began its journey in Quang Nam. With dedication and deep passion for native ingredients, Bao Linh transformed everyday fresh coconut into golden crispy baked cakes that delight the most discerning palates.",
+          "Every single cake is a pure crystallization of nature: rich fresh coconut meat, aromatic sticky rice, subtle cane sugar, and gentle vanilla. Crafted without preservatives or additives, each bite delivers a crunchy sensation and luscious coconut aroma echoing tropical richness.",
+          "Presented in an elegant green attire, Bao Linh Coconut Cake is not only an everyday wholesome snack, but also a meaningful gift carrying genuine affection after every journey.",
+        ],
+      },
     },
     4: {
       packaging: "Gói 150g",
@@ -507,7 +554,12 @@ export default function Home({ initialView = "home" }: { initialView?: "home" | 
         vi: "Quy cách 12 gói nhỏ tiện lợi, giòn tan đậm đà vị ngọt bùi của dừa tươi miền nhiệt đới",
         en: "Convenient 12-pack bag, crunchy and rich with tropical sweet coconut flavors",
       },
-      gallery: ["/products/p4_main.png", "/products/p4_detail.png", "/products/cert_ocop.jpg", "/products/cert_atvstp.png"],
+      lifestyleImage: "/products/p4_main.png",
+      gallery: [
+        "/products/p4_detail.png",
+        "/products/cert_ocop.jpg",
+        "/products/cert_atvstp.png",
+      ],
       highlights: {
         vi: [
           "Quy cách túi gồm 12 gói nhỏ bên trong, cực kỳ tiện lợi khi bảo quản, đem theo đi học, đi làm.",
@@ -544,6 +596,18 @@ export default function Home({ initialView = "home" }: { initialView?: "home" | 
           { label: "Standard", value: "Quang Nam OCOP Certified, Food Hygiene Safety Certificate" },
         ],
       },
+      story: {
+        vi: [
+          "Từ những rặng dừa xanh mướt ngập tràn ánh nắng nhiệt đới, câu chuyện của Bánh dừa Bảo Linh bắt đầu khi nét dân dã ấy dừng chân tại xứ Quảng. Bằng sự tỉ mỉ và tình yêu sản vật quê nhà, Bảo Linh đã biến những cùi dừa tươi quen thuộc thành món bánh nướng giòn tan, chinh phục trọn vẹn cả những thực khách khó tính nhất.",
+          "Mỗi chiếc bánh là sự kết tinh hoàn toàn từ thiên nhiên: cơm dừa tươi béo ngậy, bột nếp thơm lừng, chút đường ngọt đậm và hương vani thoang thoảng. Không hóa chất, không phụ gia, quy trình chế biến an toàn tuyệt đối giúp giữ trọn nét thuần khiết của nguyên liệu. Thưởng thức một miếng bánh giòn rụm, vị béo bùi lan tỏa ngay đầu lưỡi như mang cả hương vị trù phú của đất trời nhiệt đới đọng lại nơi vị giác.",
+          "Khoác lên mình chiếc áo màu xanh mát – biểu tượng mộc mạc của những tà lá dừa quê hương, Bánh dừa gói Bảo Linh mang vẻ đẹp giản dị, gần gũi. Gọn nhẹ, dễ bảo quản và đượm tình, đây không chỉ là món ăn vặt vui tai vui miệng mà còn là món quà du lịch tinh tế, gửi trao trọn vẹn sự chân thành và ký ức ngọt ngào sau mỗi chuyến đi xa.",
+        ],
+        en: [
+          "From lush tropical coconut palm groves to the heritage kitchens of Quang Nam, Bao Linh Baked Coconut Cake is lovingly crafted into crispy, aromatic delicacies.",
+          "With 100% natural ingredients including fresh coconut meat, glutinous rice flour, cane sugar, and fragrant vanilla, every bite is free of artificial additives or preservatives.",
+          "Packaged into 12 convenient individual sachets within a lightweight travel bag, it makes an ideal companion for work, school, and trips, sharing heartfelt hometown affection.",
+        ],
+      },
     },
     5: {
       packaging: "Hộp 150g",
@@ -553,7 +617,12 @@ export default function Home({ initialView = "home" }: { initialView?: "home" | 
         vi: "Thơm bùi vị đồng quê từ hạt đậu xanh ruột vàng nướng giòn rụm, 100% thuần chay thanh khiết",
         en: "Fragrant countryside flavor from golden mung beans, 100% vegetarian crispy baked cake",
       },
-      gallery: ["/products/p5_main.png", "/products/p5_detail.png", "/products/cert_ocop.jpg", "/products/cert_atvstp.png"],
+      lifestyleImage: "/products/p5_main.png",
+      gallery: [
+        "/products/p5_detail.png",
+        "/products/cert_ocop.jpg",
+        "/products/cert_atvstp.png",
+      ],
       highlights: {
         vi: [
           "Nguyên liệu chọn lọc: Đậu xanh ta hạt nhỏ ruột vàng ngọt bùi đậm đà, đường mía, bột vani.",
@@ -590,6 +659,18 @@ export default function Home({ initialView = "home" }: { initialView?: "home" | 
           { label: "Standard", value: "Quang Nam OCOP Certified, Food Hygiene Safety Certificate" },
         ],
       },
+      story: {
+        vi: [
+          "Bên dòng Suối Dừng hiền hòa của vùng đất Tam Thành (Phú Ninh, Quảng Nam), Bánh đậu xanh hộp Mỹ Khánh ra đời như một thức quà chắt chiu từ tình đất và lòng người xứ Quảng.",
+          "Từ những hạt đậu xanh ta hạt nhỏ ruột vàng ngọt bùi, người thợ lành nghề đã tỉ mỉ nướng nên từng chiếc bánh giòn tan đặc trưng. Mọi công đoạn đều giữ trọn sự mộc mạc, sạch lành, tuyệt đối không chất bảo quản hay phụ gia hóa chất.",
+          "Cắn một miếng bánh Mỹ Khánh giòn rụm bên tách trà ấm hay ly cà phê sáng, vị bùi ngọt hòa quyện lan tỏa ngay đầu lưỡi. Đó không chỉ là món đặc sản thơm ngon, mà còn là gói trọn hương đồng gió nội và tình quê ấm áp dành cho người xa xứ lẫn khách phương xa.",
+        ],
+        en: [
+          "By the peaceful Suoi Dung brook in Tam Thanh (Phu Ninh, Quang Nam), My Khanh Mung Bean Cake was born from the love of the land and people of Central Vietnam.",
+          "From premium local golden mung beans, skilled artisans delicately bake each crispy, fragrant cake. Every step adheres strictly to wholesome purity, free of chemical additives and preservatives – 100% vegetarian.",
+          "Enjoying a crispy My Khanh cake alongside a cup of warm tea or morning coffee releases a comforting nutty sweetness that brings warmth and nostalgic peace.",
+        ],
+      },
     },
     6: {
       packaging: "Hộp 150g",
@@ -599,7 +680,12 @@ export default function Home({ initialView = "home" }: { initialView?: "home" | 
         vi: "Mặn ngọt hài hòa nhân thịt heo quê đậm đà bọc trong lớp vỏ đậu xanh giòn tan nức tiếng",
         en: "Savory-sweet harmony of local seasoned pork filling encased in crispy mung bean crust",
       },
-      gallery: ["/products/p6_main.png", "/products/p6_detail.png", "/products/cert_ocop.jpg", "/products/cert_atvstp.png"],
+      lifestyleImage: "/products/p6_main.png",
+      gallery: [
+        "/products/p6_detail.png",
+        "/products/cert_ocop.jpg",
+        "/products/cert_atvstp.png",
+      ],
       highlights: {
         vi: [
           "Nhân thịt heo quê ướp gia vị đậm đà, mặn ngọt hài hòa bọc trong lớp vỏ đậu xanh nướng giòn rụm.",
@@ -636,6 +722,18 @@ export default function Home({ initialView = "home" }: { initialView?: "home" | 
           { label: "Standard", value: "Quang Nam OCOP Certified, Food Hygiene Safety Certificate" },
         ],
       },
+      story: {
+        vi: [
+          "Sinh ra từ bãi bồi Khánh Mỹ và dòng Suối Dừng trong lành thuộc đất Tam Thành (Phú Ninh, Quảng Nam), Bánh đậu xanh hộp Mỹ Khánh không chỉ là một thức quà dân dã, mà là sự chắt chiu tinh túy của đất trời và lòng người xứ Quảng. Từ những hạt đậu xanh ta ruột vàng ươm, bùi ngọt tự nhiên kết hợp cùng nhân thịt heo quê đậm đà, chút mặn mòi của biển và ngọn lửa nướng giòn tan, từng chiếc bánh nhỏ nhắn ra đời mang theo trọn vẹn hương đồng gió nội.",
+          "Không hóa chất, không chất bảo quản, mỗi chiếc bánh Mỹ Khánh là sự tôn trọng tuyệt đối dành cho sức khỏe người thưởng thức. Thả nhẹ một miếng bánh giòn rụm vào miệng bên tách trà nóng hay ly cà phê sáng, vị ngọt bùi hòa quyện cùng vị béo mặn tinh tế lan tỏa nơi đầu lưỡi, gợi thức bao ký ức bình yên về một vùng đất \"địa linh nhân kiệt\" thật thà, chất phác.",
+          "Dù là thức quà ấm áp mang theo của những người con xa xứ hay món quà tinh tế gửi tặng bạn bè quốc tế, Bánh đậu xanh hộp Mỹ Khánh vẫn luôn trọn vẹn vai trò kết nối: đượm tình quê hương, tròn vị chân thành.",
+        ],
+        en: [
+          "Originating from the fertile alluvial soil of Khanh My and the pure stream of Suoi Dung in Tam Thanh (Phu Ninh, Quang Nam), My Khanh Mung Bean Cake is a cherished culinary specialty of Central Vietnam.",
+          "Featuring golden sweet mung beans combined with flavorful local pork filling, a hint of sea salt, and traditional baking techniques, every cake delivers a savory-sweet harmony wrapped in a crunchy crust.",
+          "Free of artificial preservatives, it connects travelers and international friends to the authentic warmth and sincerity of Quang Nam heritage.",
+        ],
+      },
     },
     7: {
       packaging: "Túi 150g",
@@ -645,7 +743,13 @@ export default function Home({ initialView = "home" }: { initialView?: "home" | 
         vi: "100% mít rừng Tiên Ngọc Tiên Phước sấy lạnh, giòn rụm giữ nguyên hương vị ngọt ngào tự nhiên",
         en: "100% wild jackfruit from Tien Ngoc freeze-dried, naturally crunchy and deliciously sweet",
       },
-      gallery: ["/products/p7_main.png", "/products/p7_front.png", "/products/p7_back.png"],
+      lifestyleImage: "/products/p7_main.png",
+      gallery: [
+        "/products/p7_front.png",
+        "/products/p7_back.png",
+        "/products/cert_ocop.jpg",
+        "/products/cert_atvstp.png",
+      ],
       highlights: {
         vi: [
           "100% mít rừng Tiên Ngọc (Tiên Phước, Quảng Nam) chín cây tự nhiên tuyển chọn kỹ càng.",
@@ -682,6 +786,16 @@ export default function Home({ initialView = "home" }: { initialView?: "home" | 
           { label: "Standard", value: "Quang Nam OCOP Certified, Food Hygiene Safety Certificate" },
         ],
       },
+      story: {
+        vi: [
+          "Từ những vườn mít rừng Tiên Ngọc bạt ngàn nắng gió Tiên Phước, bà con HTX QNA Farm tỉ mỉ chọn từng múi mít chín cây, sấy lạnh giữ nguyên vị ngọt quê. Món quà vặt mộc mạc ấy mang theo cả hơi thở núi rừng xứ Quảng đến với mọi nhà, dù xa quê vẫn ấm lòng khi nếm thử.",
+          "Mít chín tự nhiên sấy lạnh ở nhiệt độ thấp, giữ trọn màu vàng tươi, độ giòn xốp và dưỡng chất quý giá, tuyệt đối không chất bảo quản hay tẩm ướp phụ gia.",
+        ],
+        en: [
+          "From the vast wild jackfruit orchards of Tien Ngoc in sunny Tien Phuoc, farmers of QNA Farm Cooperative carefully select tree-ripened jackfruits to freeze-dry into crispy, wholesome snacks.",
+          "Processed at low temperatures below 40°C, it preserves vibrant natural golden color, fiber, and precious vitamins without added sugar, artificial colorants, or preservatives – a heartwarming taste of Central Vietnamese mountains.",
+        ],
+      },
     },
     8: {
       packaging: "Túi 125g",
@@ -691,7 +805,12 @@ export default function Home({ initialView = "home" }: { initialView?: "home" | 
         vi: "Bữa phụ lành mạnh từ 6 loại hạt quê kết hợp chuối xanh Tiên Phước, xốp giòn giàu dinh dưỡng",
         en: "Nutritious snack crafted from 6 native grains and green bananas from Tien Phuoc",
       },
-      gallery: ["/products/p8_main.png", "/products/p8_detail.png"],
+      lifestyleImage: "/products/p8_main.png",
+      gallery: [
+        "/products/p8_detail.png",
+        "/products/cert_ocop.jpg",
+        "/products/cert_atvstp.png",
+      ],
       highlights: {
         vi: [
           "Kết hợp 6 loại hạt quê bổ dưỡng: Gạo nguyên cám, đậu xanh, chuối xanh, ngô nếp, yến mạch, đậu đỏ và đường mía hữu cơ.",
@@ -726,6 +845,16 @@ export default function Home({ initialView = "home" }: { initialView?: "home" | 
           { label: "Ingredients", value: "Wholegrain rice, mung bean, green banana, sticky corn, oats, red bean, organic cane sugar" },
           { label: "Usage Instructions", value: "Eat directly or pair with yogurt, plant milk, fresh fruits" },
           { label: "Standard", value: "Quang Nam OCOP Certified, ISO 22000:2018 Certified" },
+        ],
+      },
+      story: {
+        vi: [
+          "Thấu hiểu nỗi lo của các mẹ khi con thích ăn vặt mà sợ đồ nhiều dầu mỡ, bà con HTX QNA Farm ở Tiên Phước dày công nghiên cứu, kết hợp 6 loại hạt quê rang thủ công cùng chuối xanh. Từng viên ngũ cốc xốp giòn, ngọt dịu là tấm lòng \"sạch – lành – thuận tự nhiên\" gửi đến từng gia đình.",
+          "Bữa phụ tiện lợi giàu chất xơ và đạm thực vật, gắn kết tình thân gia đình qua từng bữa ăn nhẹ ngọt lành, an tâm cho sức khỏe người thân yêu.",
+        ],
+        en: [
+          "Understanding the concern of parents seeking wholesome, non-greasy snacks for their children, QNA Farm in Tien Phuoc developed this blend of 6 native grains hand-roasted with green bananas.",
+          "Each crispy, naturally sweet multigrain bite represents a 'clean, wholesome, natural' commitment, packed with dietary fiber and plant protein to nourish every family member.",
         ],
       },
     },
@@ -1451,20 +1580,23 @@ export default function Home({ initialView = "home" }: { initialView?: "home" | 
     const localizedProduct = t.products?.[String(activeDetailProduct.id)];
     const meta = PRODUCT_METADATA[activeDetailProduct.id];
 
-    // Gallery images
+    // Gallery images (excluding the 4:3 lifestyle photo)
     const galleryImages = meta?.gallery || [activeDetailProduct.image_url];
-    const currentImg = selectedDetailImage || activeDetailProduct.image_url;
+    const currentImg =
+      selectedDetailImage && galleryImages.includes(selectedDetailImage)
+        ? selectedDetailImage
+        : galleryImages[0] || activeDetailProduct.image_url;
 
     // Tagline (under title)
     const productTagline = meta?.tagline?.[lang] || activeDetailProduct.story.slice(0, 120);
 
-    // Key Highlights (Image 2: Đặc tính nổi bật)
-    const highlights = meta?.highlights?.[lang] || [];
-
-    // Specifications (Image 2: Thông tin sản phẩm)
+    // Specifications (Thông tin sản phẩm)
     const specs = meta?.specs?.[lang] || [];
 
-    // Related products (Image 3: Sản phẩm bạn có thể thích)
+    // Story paragraphs for the middle section (from Content SP.txt)
+    const productStoryParagraphs = meta?.story?.[lang] || [activeDetailProduct.story];
+
+    // Related products (Sản phẩm bạn có thể thích)
     const relatedProducts = products.filter((p) => p.id !== activeDetailProduct.id);
 
     return (
@@ -1824,38 +1956,13 @@ export default function Home({ initialView = "home" }: { initialView?: "home" | 
             </div>
           </section>
 
-          {/* IMAGE 2: PRODUCT HIGHLIGHTS & DETAILED SPECIFICATIONS */}
-          <section className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 py-12 md:py-16 border-t border-white/10 text-left space-y-12">
-            {/* Heading repeat */}
-            <div className="space-y-1 pb-2">
-              <h2 className="font-serif text-2xl sm:text-3xl text-white font-bold tracking-wide">
-                {localizedProduct?.name || activeDetailProduct.name}
-              </h2>
-              <p className="font-sans text-xs sm:text-sm text-[#eaeaea]/60 font-light">
-                {productTagline}
-              </p>
-            </div>
-
-            {/* Section 1: Đặc tính nổi bật */}
-            <div className="space-y-5">
-              <h3 className="font-serif text-xl sm:text-2xl text-white font-bold tracking-wide border-b border-white/10 pb-3">
-                {lang === "vi" ? "Đặc tính nổi bật" : "Key Highlights"}
-              </h3>
-              <ul className="space-y-3 font-sans text-xs sm:text-sm text-[#eaeaea]/85 font-light list-disc pl-5 leading-relaxed">
-                {highlights.map((item, idx) => (
-                  <li key={idx} className="pl-1">
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Section 2: Thông tin sản phẩm */}
-            <div className="space-y-5 pt-4">
-              <h3 className="font-serif text-xl sm:text-2xl text-white font-bold tracking-wide border-b border-white/10 pb-3">
+          {/* SECTION: THÔNG TIN SẢN PHẨM */}
+          <section className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 py-10 md:py-12 border-t border-white/10 text-left">
+            <div className="space-y-4 max-w-4xl">
+              <h3 className="font-serif text-xl sm:text-2xl text-white font-bold tracking-wide">
                 {lang === "vi" ? "Thông tin sản phẩm" : "Product Information"}
               </h3>
-              <ul className="space-y-3 font-sans text-xs sm:text-sm text-[#eaeaea]/85 font-light list-disc pl-5 leading-relaxed">
+              <ul className="space-y-2.5 font-sans text-xs sm:text-sm text-[#eaeaea]/85 font-light list-disc pl-5 leading-relaxed">
                 {specs.map((item, idx) => (
                   <li key={idx} className="pl-1">
                     <span className="text-white font-medium">{item.label}: </span>
@@ -1863,6 +1970,42 @@ export default function Home({ initialView = "home" }: { initialView?: "home" | 
                   </li>
                 ))}
               </ul>
+            </div>
+          </section>
+
+          {/* MIDDLE SECTION: 4:3 LIFESTYLE PHOTO + PRODUCT STORY + CTA BUTTON */}
+          <section className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 py-10 md:py-14 border-t border-white/10">
+            <div className="max-w-3xl mx-auto space-y-8">
+              {/* Centered 4:3 Lifestyle Image */}
+              {meta?.lifestyleImage && (
+                <div className="relative aspect-[4/3] w-full max-w-2xl sm:max-w-3xl mx-auto rounded-2xl overflow-hidden glass-panel border border-gold/30 shadow-2xl bg-white/[0.02]">
+                  <img
+                    src={meta.lifestyleImage}
+                    alt={localizedProduct?.name || activeDetailProduct.name}
+                    className="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.02]"
+                  />
+                </div>
+              )}
+
+              {/* Product Story Text from Content SP.txt */}
+              <div className="space-y-4 text-left font-sans text-xs sm:text-sm md:text-base text-[#eaeaea]/90 leading-relaxed px-2 sm:px-4">
+                {productStoryParagraphs.map((paragraph, idx) => (
+                  <p key={idx} className="leading-relaxed">
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
+
+              {/* Centered "ĐẶT MUA NGAY" CTA button */}
+              <div className="pt-2 flex justify-center">
+                <button
+                  type="button"
+                  onClick={() => openCheckout(activeDetailProduct, detailQuantity)}
+                  className="font-serif text-xs sm:text-sm tracking-widest uppercase bg-gold hover:bg-gold-light text-dark-bg font-bold py-3.5 px-10 rounded-lg shadow-xl shadow-gold/20 transition-all duration-300 transform hover:scale-105 active:scale-95 cursor-pointer flex items-center justify-center select-none"
+                >
+                  {lang === "vi" ? "ĐẶT MUA NGAY" : "ORDER NOW"}
+                </button>
+              </div>
             </div>
           </section>
 
@@ -2409,192 +2552,16 @@ export default function Home({ initialView = "home" }: { initialView?: "home" | 
         ) : (
           /* HOME VIEW */
           <>
-            {/* Hero Banner Carousel (Langfarm Layout with Ocopia Typography & Colors) */}
-            {(() => {
-              const heroSlides = [
-                {
-                  productId: 1,
-                  tag: lang === "vi" ? "OCOP 4 SAO QUẢNG NAM" : "OCOP 4-STAR QUANG NAM",
-                  titleMain: lang === "vi" ? "Bánh dừa nướng" : "Baked Coconut",
-                  titleAccent: lang === "vi" ? "Gạo lứt đậu xanh" : "Brown Rice & Bean",
-                  subtitle: lang === "vi" 
-                    ? "Giòn rụm béo bùi, kết tinh tinh túy làng nghề truyền thống xứ Quảng" 
-                    : "Crispy and aromatic, handcrafted from Quang Nam traditional recipes",
-                  desc: lang === "vi"
-                    ? "Cơm dừa tươi nguyên chất (60%) hòa quyện cùng bột nếp dẻo thơm, gạo lứt thanh khiết và đậu xanh bùi bùi."
-                    : "60% pure fresh coconut meat infused with wholesome brown rice and savory mung bean.",
-                  imgMain: "/products/p1_main.png",
-                  imgSub: "/products/p1_front.png",
-                  price: "39.000 VNĐ",
-                },
-                {
-                  productId: 6,
-                  tag: lang === "vi" ? "OCOP 4 SAO QUẢNG NAM" : "OCOP 4-STAR QUANG NAM",
-                  titleMain: lang === "vi" ? "Bánh đậu xanh thịt" : "Savory Pork Cake",
-                  titleAccent: lang === "vi" ? "Mỹ Khánh Bảo Linh" : "My Khanh Heritage",
-                  subtitle: lang === "vi" 
-                    ? "Mặn ngọt hài hòa nhân thịt heo quê bọc trong lớp vỏ đậu xanh giòn tan" 
-                    : "Savory-sweet harmony of local seasoned pork inside crispy mung bean crust",
-                  desc: lang === "vi"
-                    ? "Đặc sản nức tiếng làng nghề Khánh Mỹ bên dòng Suối Dừng, không phụ gia bảo quản, giữ trọn hương đồng gió nội."
-                    : "Celebrated craft village specialty, all-natural seasoned pork with golden mung beans.",
-                  imgMain: "/products/p6_main.png",
-                  imgSub: "/products/p6_detail.png",
-                  price: "39.000 VNĐ",
-                },
-                {
-                  productId: 7,
-                  tag: lang === "vi" ? "OCOP 4 SAO QUẢNG NAM" : "OCOP 4-STAR QUANG NAM",
-                  titleMain: lang === "vi" ? "Mít sấy giòn" : "Crispy Jackfruit",
-                  titleAccent: lang === "vi" ? "QNA Farm Tiên Phước" : "Tien Phuoc Farm",
-                  subtitle: lang === "vi" 
-                    ? "100% mít rừng Tiên Ngọc sấy lạnh, giữ trọn vị ngọt thơm tự nhiên" 
-                    : "100% wild Tien Ngoc jackfruit low-temperature freeze dried with zero additives",
-                  desc: lang === "vi"
-                    ? "Từng múi mít rừng chín cây tuyển chọn kỹ càng, sấy lạnh dưới 40 độ giòn xốp rôm rốp, không tẩm đường hay phụ gia."
-                    : "Pure tree-ripened jackfruit freeze-dried naturally, rich in vitamins and authentic sweet aroma.",
-                  imgMain: "/products/p7_main.png",
-                  imgSub: "/products/p7_front.png",
-                  price: "50.000 VNĐ",
-                },
-                {
-                  productId: 3,
-                  tag: lang === "vi" ? "OCOP 4 SAO QUẢNG NAM" : "OCOP 4-STAR QUANG NAM",
-                  titleMain: lang === "vi" ? "Bánh dừa nướng" : "Baked Coconut",
-                  titleAccent: lang === "vi" ? "Bảo Linh hộp 250g" : "Bao Linh 250g Box",
-                  subtitle: lang === "vi" 
-                    ? "100% nguyên liệu tự nhiên, giòn tan đậm đà vị ngọt bùi dừa nhiệt đới" 
-                    : "100% natural ingredients, classic crispy coconut crunch for tea ceremonies",
-                  desc: lang === "vi"
-                    ? "Cơm dừa tươi béo ngậy nướng giòn rụm cùng bột nếp và vani tự nhiên, hộp quà sang trọng cho mọi hành trình."
-                    : "Fresh coconut meat slow-baked with sticky rice flour and vanilla, packed in an elegant gift box.",
-                  imgMain: "/products/p3_main.png",
-                  imgSub: "/products/p3_detail.png",
-                  price: "39.000 VNĐ",
-                },
-              ];
-
-              const activeSlide = heroSlides[currentSlide] || heroSlides[0];
-
-              return (
-                <section className="relative px-4 sm:px-6 md:px-12 lg:px-16 pt-6 pb-10 max-w-7xl mx-auto w-full">
-                  <div className="relative rounded-2xl md:rounded-3xl overflow-hidden glass-panel border border-gold/25 shadow-2xl p-6 sm:p-10 md:p-14 lg:p-16 transition-all duration-700">
-                    {/* Background ambient lighting */}
-                    <div className="absolute -top-24 -right-24 w-96 h-96 bg-gold/15 rounded-full blur-[100px] pointer-events-none"></div>
-                    <div className="absolute -bottom-24 -left-24 w-80 h-80 bg-gold-accent/10 rounded-full blur-[100px] pointer-events-none"></div>
-                    
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center relative z-10">
-                      {/* Left Column: Heading, Subtitle, CTA Pill Button & Slider Dots */}
-                      <div className="lg:col-span-7 space-y-6 text-left">
-                        {/* Category / OCOP Badge */}
-                        <div className="inline-flex items-center gap-2 font-mono text-[10px] sm:text-xs tracking-[0.25em] text-gold uppercase bg-gold/10 border border-gold/25 px-3.5 py-1.5 rounded-full">
-                          <span className="w-1.5 h-1.5 rounded-full bg-gold animate-ping"></span>
-                          <span>{activeSlide.tag}</span>
-                        </div>
-
-                        {/* Big Langfarm-style Headline in Ocopia Font */}
-                        <div className="space-y-1">
-                          <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-[64px] text-white font-light uppercase tracking-tight leading-[1.08]">
-                            {activeSlide.titleMain}
-                          </h1>
-                          <div className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-[54px] gold-gradient-text italic font-normal tracking-wide">
-                            {activeSlide.titleAccent}
-                          </div>
-                        </div>
-
-                        {/* Slogan */}
-                        <p className="font-sans text-base sm:text-lg md:text-xl text-[#eaeaea]/85 font-normal leading-relaxed max-w-xl">
-                          {activeSlide.subtitle}
-                        </p>
-
-                        {/* Secondary Desc */}
-                        <p className="font-sans text-xs sm:text-sm text-[#eaeaea]/60 font-light leading-relaxed max-w-lg hidden sm:block">
-                          {activeSlide.desc}
-                        </p>
-
-                        {/* CTA Button + Price */}
-                        <div className="pt-2 flex flex-wrap items-center gap-4 sm:gap-6">
-                          <button
-                            onClick={() => {
-                              const prod = products.find((p) => p.id === activeSlide.productId) || products[0];
-                              if (prod) handleOpenDetail(prod);
-                            }}
-                            className="inline-flex items-center gap-2 bg-gold text-dark-bg font-serif font-bold text-xs sm:text-sm tracking-[0.15em] px-8 sm:px-10 py-3.5 sm:py-4 rounded-full hover:bg-gold-light hover:shadow-xl hover:shadow-gold/25 transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer uppercase shadow-lg shadow-gold/10"
-                          >
-                            <span>{t.heroCta || "Khám phá ngay >>>"}</span>
-                          </button>
-
-                          <div className="flex flex-col">
-                            <span className="text-[10px] font-mono text-[#eaeaea]/40 uppercase tracking-widest">{t.unitPrice}</span>
-                            <span className="font-serif text-xl sm:text-2xl text-gold font-bold">{activeSlide.price}</span>
-                          </div>
-                        </div>
-
-                        {/* Slider Pagination Dots (Langfarm style) */}
-                        <div className="pt-4 flex items-center gap-2.5">
-                          {heroSlides.map((slide, idx) => (
-                            <button
-                              key={idx}
-                              onClick={() => setCurrentSlide(idx)}
-                              className={`transition-all duration-300 rounded-full h-2 ${
-                                currentSlide === idx
-                                  ? "w-8 bg-gold"
-                                  : "w-2.5 bg-gold/30 hover:bg-gold/60"
-                              }`}
-                              aria-label={`Go to slide ${idx + 1}`}
-                            />
-                          ))}
-                          <span className="font-mono text-[10px] text-[#eaeaea]/40 ml-2 tracking-widest">
-                            0{currentSlide + 1} / 0{heroSlides.length}
-                          </span>
-                        </div>
-                      </div>
-
-                      {/* Right Column: Visual Composition (Main Package + Accompaniment Plate like Langfarm) */}
-                      <div className="lg:col-span-5 relative flex items-center justify-center py-4">
-                        {/* Decorative Circular Backdrop */}
-                        <div className="absolute w-72 sm:w-80 md:w-96 aspect-square rounded-full border border-gold/15 bg-gold/[0.02] pointer-events-none"></div>
-
-                        {/* Main Packaging Image */}
-                        <div
-                          onClick={() => {
-                            const prod = products.find((p) => p.id === activeSlide.productId) || products[0];
-                            if (prod) handleOpenDetail(prod);
-                          }}
-                          className="relative z-20 w-56 sm:w-64 md:w-72 aspect-[3/4] rounded-2xl overflow-hidden glass-panel border-2 border-gold/40 shadow-2xl shadow-black/60 transform hover:scale-103 transition-transform duration-500 cursor-pointer group"
-                        >
-                          <img
-                            src={activeSlide.imgMain}
-                            alt={activeSlide.titleMain}
-                            className="w-full h-full object-cover"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-dark-bg/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                            <span className="font-serif text-xs text-gold tracking-widest uppercase font-bold">
-                              {t.viewMore} →
-                            </span>
-                          </div>
-                        </div>
-
-                        {/* Secondary Accompaniment Plate (Basket/Tray style like Langfarm) */}
-                        <div className="absolute -bottom-2 -right-1 sm:-bottom-4 sm:-right-4 md:-bottom-6 md:right-2 z-30 w-32 sm:w-36 md:w-44 aspect-square rounded-full overflow-hidden border-2 border-gold/60 shadow-2xl glass-panel transform rotate-6 hover:rotate-0 transition-transform duration-500 pointer-events-none">
-                          <img
-                            src={activeSlide.imgSub}
-                            alt="Lifestyle pairing"
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-
-                        {/* Star Rating Badge */}
-                        <div className="absolute top-2 left-2 sm:top-4 sm:left-4 z-30 bg-gold text-dark-bg font-mono font-bold text-[10px] tracking-widest uppercase px-3 py-1.5 rounded-full shadow-lg border border-gold-light/40 flex items-center gap-1">
-                          <span>★</span>
-                          <span>{activeSlide.tag.includes("4") ? "4 SAO" : "3 SAO"}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </section>
-              );
-            })()}
+            {/* Hero Banner Image */}
+            <section className="relative px-4 sm:px-6 md:px-12 lg:px-16 pt-6 pb-6 max-w-7xl mx-auto w-full">
+              <div className="relative rounded-2xl md:rounded-3xl overflow-hidden glass-panel border border-gold/25 shadow-2xl transition-all duration-500">
+                <img
+                  src="/homepage-banner.png"
+                  alt="Hương quê hội tụ - Đặc sản trao tay"
+                  className="w-full h-auto object-cover block"
+                />
+              </div>
+            </section>
 
             {/* Product Showroom Stage */}
             <section id="showroom" className="max-w-4xl mx-auto px-6 py-24 space-y-36">

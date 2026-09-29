@@ -23,6 +23,7 @@
 # misc
 .DS_Store
 *.pem
+/homepage-banner.png
 
 # debug
 npm-debug.log*
